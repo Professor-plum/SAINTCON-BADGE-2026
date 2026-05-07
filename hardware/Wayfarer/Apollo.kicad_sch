@@ -1,0 +1,110 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "2d6dc0fd-a107-4172-919d-4fd101d8d77d")
+	(paper "A4")
+	(title_block
+		(title "Apollo")
+		(company "SAINTCON")
+	)
+	(lib_symbols)
+	(sheet
+		(at 124.46 64.77)
+		(size 12.7 15.24)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "b4195d13-9cae-47b3-bf32-e6f8fa421cf5")
+		(property "Sheetname" "MCU"
+			(at 124.46 64.0584 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 124.46 80.5946 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Apollo"
+				(path "/2d6dc0fd-a107-4172-919d-4fd101d8d77d"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 101.6 87.63)
+		(size 13.97 15.24)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "e7a7c040-c0e2-4719-b464-11f6729cad18")
+		(property "Sheetname" "I2C"
+			(at 101.6 86.9184 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "i2c.kicad_sch"
+			(at 101.6 103.4546 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Apollo"
+				(path "/2d6dc0fd-a107-4172-919d-4fd101d8d77d"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

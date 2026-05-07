@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "Grange") (type "KiCad") (uri "/Users/plum/Documents/KiCad/Grange.pretty") (options "") (descr ""))
+)
