@@ -61,6 +61,27 @@ inline void frame_draw_pixel(int16_t x, int16_t y, uint16_t color){
     framebuffer[y * LCD_WIDTH + x] = __builtin_bswap16(color); // Convert to big-endian format
 }
 
+inline void frame_draw_pixel_alpha(int16_t x, int16_t y, uint16_t color, uint8_t alpha) {
+    if (x >= LCD_WIDTH || y >= LCD_HEIGHT || x < 0 || y < 0) {
+        return; // Out of bounds
+    }
+    uint16_t existing_color = __builtin_bswap16(framebuffer[y * LCD_WIDTH + x]);
+    uint8_t r1 = (existing_color >> 11) & 0x1F;
+    uint8_t g1 = (existing_color >> 5) & 0x3F;
+    uint8_t b1 = existing_color & 0x1F;
+
+    uint8_t r2 = (color >> 11) & 0x1F;
+    uint8_t g2 = (color >> 5) & 0x3F;
+    uint8_t b2 = color & 0x1F;
+
+    // Simple alpha blending
+    uint8_t r_blend = (r1 * (255 - alpha) + r2 * alpha) / 255;
+    uint8_t g_blend = (g1 * (255 - alpha) + g2 * alpha) / 255;
+    uint8_t b_blend = (b1 * (255 - alpha) + b2 * alpha) / 255;
+
+    framebuffer[y * LCD_WIDTH + x] = __builtin_bswap16((r_blend << 11) | (g_blend << 5) | b_blend);
+}
+
 void frame_fill_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t color) {
     for (uint16_t j = 0; j < height; j++) {
         for (uint16_t i = 0; i < width; i++) {
@@ -69,7 +90,15 @@ void frame_fill_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint
     }
 }
 
-void frame_draw_char(int16_t x, int16_t y, char c, uint16_t color) {
+void frame_fill_rect_alpha(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t color, uint8_t alpha) {
+    for (uint16_t j = 0; j < height; j++) {
+        for (uint16_t i = 0; i < width; i++) {
+            frame_draw_pixel_alpha(x + i, y + j, color, alpha);
+        }
+    }
+}
+
+int frame_draw_char(int16_t x, int16_t y, char c, uint16_t color) {
     const GFXglyph* glyph = &font->glyph[c - font->first];
     const uint8_t* bitmap = &font->bitmap[glyph->bitmapOffset];
 
@@ -82,6 +111,11 @@ void frame_draw_char(int16_t x, int16_t y, char c, uint16_t color) {
             }
         }
     }
+    return glyph->xAdvance; // Return the advance for the next character
+}
+
+int frame_get_yadvance() {
+    return font->yAdvance;
 }
 
 void frame_draw_string(int16_t x, int16_t y, const char* str, uint16_t color) {
@@ -295,6 +329,17 @@ void frame_draw_image(int16_t x, int16_t y, const uint16_t* image_data, uint16_t
     }
 }
 
+void frame_draw_image_alpha(int16_t x, int16_t y, const uint16_t* image_data, uint16_t width, uint16_t height, uint8_t alpha) {
+    for (uint16_t j = 0; j < height; j++) {
+        for (uint16_t i = 0; i < width; i++) {
+            uint16_t color = image_data[j * width + i];
+            if (color != 0x0000) { // Assuming 0x0000 is the transparent color
+                frame_draw_pixel_alpha(x + i, y + j, color, alpha);
+            }
+        }
+    }
+}
+
 const double sqrt3 = 1.73205080757; // Pre-calculated value of sqrt(3)
 
 void frame_draw_hexagon(int16_t x, int16_t y, uint16_t size, uint16_t color) {
@@ -349,4 +394,74 @@ void frame_refresh() {
     };
     display_if->flush_dma(&area, framebuffer);
     framecounter++;
+}
+
+void frame_draw_rounded_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t color) {
+    uint16_t corner_radius = 10;  // Radius of the corner rounding
+    uint16_t stroke_width = 1;
+
+    // Draw horizontal edge segments
+    for (int16_t i = x + corner_radius; i < x + width - corner_radius; i++) {
+        frame_draw_pixel(i, y, color);
+        frame_draw_pixel(i, y + height - 1, color);
+    }
+
+    // Draw vertical edge segments
+    for (int16_t j = y + corner_radius; j < y + height - corner_radius; j++) {
+        frame_draw_pixel(x, j, color);
+        frame_draw_pixel(x + width - 1, j, color);
+    }
+
+    // Draw the rounded corners
+    for (int j = 0; j < corner_radius; j++) {
+        for (int i = 0; i < corner_radius; i++) {
+            if (i * i + j * j <= corner_radius * corner_radius) {
+                // Top-left corner
+                frame_draw_pixel(x + i, y + j, color);
+                // Top-right corner
+                frame_draw_pixel(x + width - 1 - i, y + j, color);
+                // Bottom-left corner
+                frame_draw_pixel(x + i, y + height - 1 - j, color);
+                // Bottom-right corner
+                frame_draw_pixel(x + width - 1 - i, y + height - 1 - j, color);
+            }
+        }
+    }
+}
+
+
+void frame_draw_glowing_rounded_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t color) {
+    uint16_t corner_radius = 10;  // Radius of the corner rounding
+    uint16_t stroke_width = 2;   // Width of the outline
+
+    // Draw the outline of the rounded rectangle
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            // Check if pixel is on the border
+            bool on_border = (i < stroke_width || i >= width - stroke_width || 
+                             j < stroke_width || j >= height - stroke_width);
+            
+            if (!on_border) {
+                continue; // Skip interior pixels
+            }
+            
+            int16_t px = x + i;
+            int16_t py = y + j;
+
+            // Check if the pixel is within the rounded corners
+            if ((i < corner_radius && j < corner_radius) || (i >= width - corner_radius && j < corner_radius) ||
+                (i < corner_radius && j >= height - corner_radius) || (i >= width - corner_radius && j >= height - corner_radius)) {
+                // Calculate distance from the corner
+                int16_t dx = (i < corner_radius) ? (corner_radius - i) : (i - (width - corner_radius - 1));
+                int16_t dy = (j < corner_radius) ? (corner_radius - j) : (j - (height - corner_radius - 1));
+                if (dx * dx + dy * dy <= corner_radius * corner_radius) {
+                    frame_draw_pixel(px, py, color); // Draw the main color
+                } else {
+                    frame_draw_pixel_alpha(px, py, color, 128); // Draw the glow color at corners
+                }
+            } else {
+                frame_draw_pixel(px, py, color); // Draw the main color
+            }
+        }
+    }
 }

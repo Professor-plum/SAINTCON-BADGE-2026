@@ -12,6 +12,7 @@
 #include "img/ui.h"
 #include <string.h>
 #include "bsp/config.h"
+#include "bsp/common.h"
 
 const int hex_size = 36;
 const int fuel_cost = 3; // fuel cost per unit
@@ -26,7 +27,6 @@ game_state_t state;
 
 int game_running = false;
 
-int g_seed = 0;
 Point screen_pos;
 
 extern const event_t random_events[];
@@ -37,16 +37,6 @@ static const uint16_t unavailable_color = RGB565(40, 40, 40);
 static const uint16_t title_color = RGB565(255, 255, 0);
 static const uint16_t description_color = RGB565(150, 150, 150);
 static const uint16_t option_color = RGB565(150, 150, 150);
-
-void pseudo_random_init(int seed) {
-    g_seed = seed;
-}
-
-int psuedo_random() {
-    // Simple linear congruential generator (LCG) for demonstration
-    g_seed = (g_seed * 1664525 + 1013904223) % 0xFFFFFFFF;
-    return g_seed;
-}
 
 uint16_t get_rand_skin_tone() {
     // Generate a random skin tone in RGB565 format

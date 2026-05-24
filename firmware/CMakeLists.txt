@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Wayfarer Wayfarer.c game.c generated_events.c ui.c unlocks.c)
+add_executable(Wayfarer Wayfarer.c game_map.c generated_events.c ui.c unlocks.c outpost_archive.c outpost_atmos.c outpost_bio.c outpost_comms.c outpost_core.c outpost_factory.c outpost_gate.c outpost_mine.c outpost_solar.c)
 
 target_include_directories(Wayfarer PUBLIC include)
 target_include_directories(Wayfarer PUBLIC bsp)

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "pico/stdio.h"
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
 #include "hardware/pio.h"
@@ -31,6 +32,17 @@ void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
     pio->txf[sm] = (125000000 / (2 * freq)) - 3;
 }
 
+const char boot_message[] = 
+"GARDEN INITIATIVE PROJECT\n"
+"AUTONOMOUS PREPARATION SYSTEM\n"
+"NODE STATUS: UNRESPONSIVE\n"
+"\n"
+"SEARCHING FOR ACTIVE RELAYS...\n"
+"1 RECOVERY UNIT DETECTED\n"
+"\n"
+"PROJECT REACTIVATION POSSIBLE\n";
+
+
 int main()
 {
     stdio_init_all();
@@ -57,6 +69,13 @@ int main()
     ws2812_init(pio0, 1, WS2812_PIN);
     
     frame_init();
+
+    show_console_ui(boot_message);
+    for (int i=0; i<10; ++i) {
+        frame_fill_rect_alpha(0, 0, LCD_WIDTH, LCD_HEIGHT, RGB565(0, 0, 0), 25);
+        frame_refresh();
+        sleep_ms(20);
+    }
     
     while (true) {
         //printf("Hello, world!\n");

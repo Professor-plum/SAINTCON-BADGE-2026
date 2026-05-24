@@ -5,6 +5,7 @@
 #include "pico/stdio_usb.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include "config.h"
 #include "pico/unique_id.h"
@@ -30,8 +31,8 @@ static void terminal_puts(const char *s);
 static void terminal_handle_char(int ch);
 static void terminal_poll_usb(void);
 
-extern int game_running;
 extern uint16_t pending_score;
+extern char* log_entries[12];
 
 static bool terminal_timer_callback(struct repeating_timer *t) {
     (void)t;
@@ -94,19 +95,23 @@ static void terminal_handle_command(char *command) {
         snprintf(response, sizeof(response), "ADDCREW: crew count=%d\r\n", terminal_crew_count);
         terminal_puts(response);
     } else if (strcmp(cmd, "REPORT") == 0) {
-        if (game_running) {
-            terminal_puts("REPORT: GAME IN PROGRESS\r\n");
-        }
-        else {
-            char response[96];
-            snprintf(response, sizeof(response), "REPORT: scored=%d crew=%d\r\n",
-                    pending_score,
-                    terminal_crew_count);
-            terminal_puts(response);
-            config_redeem_score();
-        }
+        char response[96];
+        snprintf(response, sizeof(response), "REPORT: scored=%d crew=%d\r\n",
+                pending_score,
+                terminal_crew_count);
+        terminal_puts(response);
+        config_redeem_score();
     } else if (strcmp(cmd, "HELP") == 0) {
         terminal_puts("Commands: ID, UNLOCK <code>, ADDCREW, REPORT, HELP, FLAG\r\n");
+    } else if (strcmp(cmd, "CLEAR") == 0) {
+        terminal_puts("\x1b[2J\x1b[H"); // ANSI escape code to clear screen and move cursor to home
+    } else if (strncmp(cmd, "ENTRY", 6) == 0) {
+        int idx = atoi(cmd + 6);
+        if (idx < 0 || idx >= 12) {
+            terminal_puts("ENTRY: invalid index\r\n");
+        } else {
+            terminal_puts(log_entries[idx]);
+            }
     } else if (strcmp(cmd, "FLAG") == 0) {
         terminal_puts("FLAG: FLAG{UART1_TERMINAL_ENABLED}\r\n");
     } else {
@@ -221,10 +226,10 @@ void terminal_init() {
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
 
     uart_set_irq_enables(UART_ID, true, false);
-    irq_set_exclusive_handler(UART1_IRQ, terminal_uart_irq);
-    irq_set_enabled(UART1_IRQ, true);
+    irq_set_exclusive_handler(UART0_IRQ, terminal_uart_irq);
+    irq_set_enabled(UART0_IRQ, true);
 
-    add_repeating_timer_ms(100, terminal_timer_callback, NULL, &terminal_timer);
+    add_repeating_timer_ms(10, terminal_timer_callback, NULL, &terminal_timer);
 
     terminal_puts("Wayfarer terminal ready. Type HELP for commands.\r\n");
     terminal_print_prompt();
