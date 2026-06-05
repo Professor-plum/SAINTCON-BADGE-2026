@@ -279,6 +279,7 @@ void game_show_outcome(const char* message, uint8_t effects_count, const event_e
             case EV_EFFECT_CARGO: effect_type = "Cargo"; break;
             case EV_EFFECT_REPUTATION: effect_type = "Reputation"; break;
             case EV_EFFECT_XP: effect_type = "XP"; break;
+            case EV_EFFECT_UNLOCK: effect_type = "Unlock"; break;
             default: effect_type = "Unknown"; break;
         }
         int color = effects[i].value > 0 ? RGB565(0, 255, 0) : RGB565(255, 0, 0); // Green for positive, Red for negative
@@ -381,6 +382,7 @@ void game_run_event(const event_t* event) {
             case EV_EFFECT_CARGO: state.cargo += selected_outcome->effects[i].value; break;
             case EV_EFFECT_REPUTATION: state.reputation += selected_outcome->effects[i].value; break;
             case EV_EFFECT_XP: state.xp += selected_outcome->effects[i].value; break;
+            case EV_EFFECT_UNLOCK: config_unlock(selected_outcome->effects[i].value + game_quota); break;
         }
     }
     //wait for player to press a button to continue
@@ -684,6 +686,7 @@ void game_run() {
                 while (buttons_get_and_clear() == 0) {
                     sleep_ms(100);
                 }
+                config_unlock(one_game);
                 return;
             } else if (state.cargo > 0) {
                 game_show_message("", "You are back at the space station. Sell some cargo to get more credits to complete your mission.");

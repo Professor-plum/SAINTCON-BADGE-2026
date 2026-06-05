@@ -103,6 +103,7 @@ void ws2812_pattern_update(void) {
 }
 
 void ws2812_show_alert(ws2812_rgb_t color) {
+    
     alert_color = color;
     alert=1;
     led_pattern_index=0;

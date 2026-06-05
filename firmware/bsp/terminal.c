@@ -79,7 +79,7 @@ static void terminal_handle_command(char *command) {
         terminal_puts(response);
     } else if (strncmp(cmd, "UNLOCK ", 7) == 0) {
         const char *unlock_code = cmd + 7;
-        int result = config_unlock(unlock_code);
+        int result = config_submit(unlock_code);
         if (result == 1) {
             terminal_puts("UNLOCK: OK\r\n");
         } else if (result == 0) {

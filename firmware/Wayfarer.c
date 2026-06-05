@@ -9,6 +9,7 @@
 #include "bsp/ws2812.h"
 #include "bsp/terminal.h"
 
+const char unlock_code[] = "SC_THRUST_LOSS";
 
 // I2C defines
 // This example will use I2C0 on GPIO8 (SDA) and GPIO9 (SCL) running at 400KHz.
@@ -47,24 +48,19 @@ int main()
 {
     stdio_init_all();
     terminal_init();
-    // I2C Initialisation. Using it at 400Khz.
-    i2c_init(I2C_PORT, 400*1000);
     
+    i2c_init(I2C_PORT, 400*1000); 
     gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);
     gpio_set_function(I2C_SCL, GPIO_FUNC_I2C);
     gpio_pull_up(I2C_SDA);
     gpio_pull_up(I2C_SCL);
-    // For more examples of I2C use see https://github.com/raspberrypi/pico-examples/tree/master/i2c
-
-    // PIO Blinking example
+    
     PIO pio = pio0;
     uint offset = pio_add_program(pio, &blink_program);
-    printf("Loaded program at %d\n", offset);
+    printf("Loaded program at %d %p", offset, unlock_code);
     
     blink_pin_forever(pio, 0, offset, MB_CLK_PIN, 1);
-    // For more pio examples see https://github.com/raspberrypi/pico-examples/tree/master/pio
-
-
+    
     buttons_init();
     ws2812_init(pio0, 1, WS2812_PIN);
     
