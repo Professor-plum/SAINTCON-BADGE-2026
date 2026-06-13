@@ -8,7 +8,7 @@ events:
           - name : "The officers nod approvingly and clear you for departure. Your professionalism earns their respect."
             chance: 60
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "Their scanners find discrepancies in your documentation. Valuable cargo gets impounded."
             chance: 40
             effects:
@@ -18,11 +18,12 @@ events:
           - name: "The bribe works perfectly. The lead officer pockets it discreetly and waves you through."
             chance: 60
             effects:
-              - Cargo: -1
+              - Credits: -50
           - name: "Internal affairs was monitoring. You're caught red-handed and face severe penalties."
             chance: 40
             effects:
                 - Cargo: -15
+                - Credits: -200
       - text: "Hide contraband"
         outcomes:
           - name: "Your contraband stays hidden. The inspection finds nothing suspicious."
@@ -32,6 +33,7 @@ events:
             chance: 30
             effects:
               - Cargo: -15
+              - Credits: -100
       - text: "Forge documents (Scientist)"
         requirement: "Scientist"
         requirement_count: 1
@@ -42,7 +44,8 @@ events:
           - name: "The military's cryptographic analysis exposes the fake documents immediately. Legal trouble ensues."
             chance: 20
             effects:
-              - Cargo: -8
+              - Cargo: -4
+              - Credits: -100
 
   - id: 2
     title: "Graveyard of Lost Starships"
@@ -72,11 +75,11 @@ events:
           - name: "A nearby pilot group intercepts your call and clears a path. You owe them a favor."
             chance: 60
             effects:
-              - Reputation: +10
-          - name: "They demand payment for the help in the form of precious cargo."
+              - Reputation: +100
+          - name: "They demand payment for the help. You pay up, but it hurts your bottom line."
             chance: 40
             effects:
-              - Cargo: -5
+              - Credits: -250
       - text: "Advanced navigation (Pilot)"
         requirement: "Pilot"
         requirement_count: 1
@@ -99,7 +102,7 @@ events:
           - name: "Your crew fights with desperate courage. The pirates flee, leaving their plunder behind."
             chance: 60
             effects:
-              - credits: +20
+              - credits: +300
           - name: "The engagement is fierce. Your hull takes punishing hits before they withdraw."
             chance: 40
             effects:
@@ -145,7 +148,7 @@ events:
           - name: "A collectors' market hungers for alien relics. You pocket a tidy sum."
             chance: 60
             effects:
-              - credits: +80
+              - credits: +800
           - name: "You sell it cheaply, realizing too late it was far more valuable intact."
             chance: 40
             effects:
@@ -155,7 +158,7 @@ events:
           - name: "The artifact remains yours. You sense it will bring unforeseen advantages later."
             chance: 70
             effects:
-              - credits: +80
+              - credits: +800
           - name: "The monolith takes up valuable space. Your cargo capacity is severely limited."
             chance: 30
             effects:
@@ -173,7 +176,7 @@ events:
           - name: "Your scientist's analysis reveals a way to harness its power safely. A breakthrough!"
             chance: 80
             effects:
-              - Upgrade: special
+              - Upgrade: 1
           - name: "As they study it, the artifact destabilizes violently. Energy floods the hold."
             chance: 20
             effects:
@@ -191,13 +194,13 @@ events:
             chance: 60
             effects:
               - Fuel: -3
-              - Credits: +15
-          - name: "They're so desperate they offer 30 credits. Easy money."
+              - Credits: +150
+          - name: "They're so desperate they offer 300 credits. Easy money."
             chance: 40
             effects:
               - Fuel: -3
-              - Credits: +30
-      - text: "Give them 5 Fuel"
+              - Credits: +300
+      - text: "Give them 3 Fuel"
         requirement: "Fuel"
         requirement_count: 3
         outcomes:
@@ -210,7 +213,7 @@ events:
             chance: 30
             effects:
               - Fuel: -3
-              - Xp: +20
+              - Xp: +200
       - text: "Leave them, you can't spare the fuel"
         outcomes:
           - name: "You accelerate away, but they make no hostile move. Just desperate silence."
@@ -229,7 +232,7 @@ events:
           - name: "Your calm mediation brings the crew to compromise. Unity restored and morale boosted."
             chance: 60
             effects:
-              - Xp: +20
+              - Xp: +200
           - name: "The debate drags on, but eventually tempers cool and the crew reaches compromise."
             chance: 40
       - text: "Ignore"
@@ -239,7 +242,7 @@ events:
           - name: "The dispute festers. Resentment spreads through the crew like poison."
             chance: 40
             effects:
-              - Xp: -20
+              - Xp: -200
       - text: "Pick a side"
         outcomes:
           - name: "One side feels vindicated. The issue is settled, though some harbor quiet resentment."
@@ -247,7 +250,7 @@ events:
           - name: "Those on the losing side feel slighted. Friction remains below the surface."
             chance: 40
             effects:
-              - Xp: -20
+              - Xp: -200
       - text: "Counsel crew (Medic)"
         requirement: "Medic"
         requirement_count: 1
@@ -255,7 +258,7 @@ events:
           - name: "Your medic's counseling brings clarity. The crew's spirits soar with newfound purpose."
             chance: 70
             effects:
-              - Xp: +20
+              - Xp: +200
           - name: "The session is intense and ultimately strengthens the crew's unity."
             chance: 30
 
@@ -280,7 +283,7 @@ events:
           - name: "Word spreads. Your reputation for cutting corners is now known across the sector."
             chance: 40
             effects:
-              - Reputation: -10
+              - Reputation: -100
       - text: "Quarantine it"
         outcomes:
           - name: "Isolation and careful handling preserve most of your cargo. A smart call pays off."
@@ -379,19 +382,19 @@ events:
     description: "A vessel of impossible geometry shimmers into view—a ship that shouldn't be able to exist within normal spacetime. Its pilot, a being of pulsing crystalline light, makes contact: 'I have goods no other civilization possesses. Interested in trade... friend?'"
     options:
       - text: "Accept trade"
-        requirement: "Cargo"
-        requirement_count: 8
+        requirement: "Credits"
+        requirement_count: 1000
         outcomes:
           - name: "The crystal being smiles—if such a thing is possible. The trade brings mutual benefit and profit."
             chance: 60
             effect:
-              - cargo: -8
-              - credits: +160
+              - cargo: +8
+              - credits: -1000
           - name: "The deal seems legitimate. Your instincts say something is off, but you accept anyway."
             chance: 40
             effect:
-              - cargo: -8
-              - credits: +120
+              - cargo: +4
+              - credits: -1000
       - text: "Decline"
         outcomes:
           - name: "You politely refuse. No complications or entanglements follow."
@@ -399,19 +402,19 @@ events:
           - name: "You decline, but the offer haunts you. What if you'd taken it?"
             chance: 40
       - text: "Negotiate"
-        requirement: "Cargo"
-        requirement_count: 8
+        requirement: "Credits"
+        requirement_count: 800
         outcomes:
           - name: "Your counteroffers are sharp. The merchant relents and gives you an even better price."
             chance: 60
             effect:
-              - cargo: -8
-              - credits: +240
+              - cargo: +8
+              - credits: -800
           - name: "They refuse to budge further. You take their original offer or walk away empty-handed."
             chance: 40
             effect:
-              - cargo: -8
-              - credits: +120
+              - cargo: +4
+              - credits: -800
 
   - id: 14
     title: "The Faulty Star Charts"
@@ -450,18 +453,18 @@ events:
     options:
       - text: "Buy"
         requirement: "Credits"
-        requirement_count: 50
+        requirement_count: 1000
         outcomes:
           - name: "The illegal goods are legitimate treasure. Your hold suddenly becomes far more valuable."
             chance: 60
             effects:
-              - credits: -50
-              - cargo: +10
+              - credits: -1000
+              - cargo: +5
           - name: "The goods turn out to be low-quality forgeries. You wasted money on garbage."
             chance: 40
             effects:
-              - credits: -50
-              - cargo: +5
+              - credits: -1000
+              - cargo: +2
       - text: "Ignore"
         outcomes:
           - name: "Wisdom prevails. You pass on the deal and sleep well that night."
@@ -471,7 +474,7 @@ events:
           - name: "Reporting the smuggler earns you a tidy bounty from the authorities."
             chance: 60
             effects:
-              - credits: +50
+              - credits: +500
           - name: "The bureaucratic process drags on. Your schedule crumbles."
             chance: 40
 
@@ -498,7 +501,7 @@ events:
         - name: "The drone's owner makes contact via hidden systems. A generous reward is transferred immediately."
           chance: 50
           effects:
-            - credits: +50
+            - credits: +500
         - name: "The drone is an advanced repair unit. Upon activation, it strengthens your hull integrity."
           chance: 50
           effects:
@@ -564,7 +567,7 @@ events:
         - name: "The new component is expensive. Your emergency credits take a hit."
           chance: 40
           effects:
-            - credits: -50
+            - credits: -500
       - text: "Ignore"
         outcomes:
         - name: "The component holds for now. You maintain speed and pressure as if nothing is wrong."
@@ -680,13 +683,13 @@ events:
           - name: "Your scientist captures live specimens for study, yielding valuable research data."
             chance: 80
             effects:
-              - Credits: +60
+              - Credits: +600
               - XP: +20
           - name: "During capture, a spider escapes and bites a crew member fatally."
             chance: 20
             effects:
               - Crew: -1
-              - Credits: +50
+              - Credits: +500
 
   - id: 23
     title: "Silence Across the Void"
@@ -725,14 +728,14 @@ events:
 
   - id: 25
     title: "Relics of the First Builders"
-    description: "Planetary sensors reveal something extraordinary: monumental structures beneath the world's crust. Architecture that predates any known species, with purpose and scale that makes your crew catch their breath. Could this be the legendary home of the First Builders? A discovery that could rewrite history itself."
+    description: "Planetary sensors reveal monumental structures beneath the world's crust. Architecture that predates any known species, with purpose and scale that makes crew catch their breath. Could this be the legendary home of the First Builders? A discovery that could rewrite history itself."
     options:
       - text: "Explore"
         outcomes:
           - name: "Your team discovers an underground chamber filled with priceless First Builder artifacts and technology."
             chance: 50
             effects:
-              - Credits: +60
+              - Credits: +600
           - name: "Exploration triggers ancient defense systems. Structures collapse around you."
             chance: 50
             effects:
@@ -758,7 +761,7 @@ events:
           - name: "Your scientist cracks the ancient code. A blueprint for advanced technology is revealed."
             chance: 80
             effects:
-              - Upgrade: special
+              - Upgrade: 0
           - name: "The analysis triggers dormant security protocols. Ancient weapons activate."
             chance: 20
             effects:
@@ -908,7 +911,7 @@ events:
           - name: "You trace the signal to an advanced alien probe containing unprecedented scientific data. Knowledge and reputation surge."
             chance: 60
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "The signal was a lure. Armed satellites activate and begin targeting you."
             chance: 40
             effects:
@@ -920,14 +923,14 @@ events:
           - name: "Later, you learn the signal contained investment opportunities worth millions. You missed them."
             chance: 40
             effects:
-              - Reputation: -10
+              - Reputation: -100
       - text: "Record it"
         outcomes:
           - name: "You capture the signal perfectly. The signal contained great investment opportunities"
             chance: 60
             effects:
               - Reputation: +5
-              - Credits: +50
+              - Credits: +500
           - name: "The recording is corrupted with noise and interference. Analysis yields nothing useful."
             chance: 40
       - text: "Decode (Scientist)"
@@ -962,7 +965,7 @@ events:
           - name: "Authorities investigate and recover most of your cargo. You're reimbursed significantly."
             chance: 60
             effects:
-              - Credits: +50
+              - Credits: +500
               - Cargo: -5
           - name: "The bureaucratic investigation is exhausting and progress halts."
             chance: 40
@@ -1055,7 +1058,7 @@ events:
           - name: "Your crew braves the crushing forces and emerges victorious. The experience hardens them."
             chance: 60
             effects:
-              - XP: +20
+              - XP: +200
           - name: "The gravity is more intense than anticipated. Your ship shudders and takes damage."
             chance: 40
             effects:
@@ -1089,7 +1092,7 @@ events:
           - name: "The authorities catch you. Severe penalties and complications follow."
             chance: 40
             effects:
-              - Reputation: -10
+              - Reputation: -100
               - Fuel: -2
       - text: "Decline"
         outcomes:
@@ -1178,7 +1181,7 @@ events:
           - name: "You play the honest trader. The inspectors leave grudgingly convinced and your reputation improves."
             chance: 60
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "Their over-zealous search finds contraband. They confiscate cargo and write a fine."
             chance: 40
             effects:
@@ -1204,15 +1207,17 @@ events:
             effects:
               - Hull: -2
       - text: "Bribe"
+        requirement: "Credits"
+        requirement_count: 250
         outcomes:
           - name: "A crisp envelope changes hands. They leave with a wink."
             chance: 60
             effects:
-              - Credits: -25
+              - Credits: -250
           - name: "They demand more and take cash anyway. You bleed funds."
             chance: 40
             effects:
-              - Credits: -50
+              - Credits: -500
 
   - id: 44
     title: "Broken Navigation Beacon"
@@ -1298,7 +1303,7 @@ events:
            - name: "You offer tribute and they accept. Peace is bought at a cost."
              chance: 60
              effects:
-              - Credits: -10
+              - Credits: -100
            - name: "The negotiations stall, and the enemy makes their move."
              chance: 40
              effects:
@@ -1484,7 +1489,7 @@ events:
           - name: "Your crew forms a fighting line and drives the invaders back with fire and steel."
             chance: 60
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "The door is breached and the cost is blood. You lose a team member."
             chance: 40
             effects:
@@ -1516,7 +1521,7 @@ events:
           - name: "Your security teams execute perfect countermeasures. Boarding is repelled cleanly."
             chance: 85
             effects:
-              - Reputation: +15
+              - Reputation: +150
           - name: "A panic moment causes one casualty, but the ship lives."
             chance: 15
             effects:
@@ -1562,7 +1567,7 @@ events:
           - name: "You broker a compromise. The crew calms and respect for your command is restored."
             chance: 60
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "Negotiations collapse into fistfights, and one crew member is lost."
             chance: 40
             effects:
@@ -1581,7 +1586,7 @@ events:
           - name: "You make difficult compromises. The crew cheers, but you spend resources to keep them content."
             chance: 80
             effects:
-              - Credits: -30
+              - Credits: -300
           - name: "Your concessions are seen as weakness; mutiny plots deepen."
             chance: 20
             effects:
@@ -1593,7 +1598,7 @@ events:
           - name: "A show of force and a firm command voice ends the uprising quickly."
             chance: 85
             effects:
-              - Reputation: +15
+              - Reputation: +150
           - name: "The tactic saves the ship, but one life is lost in the chaos."
             chance: 15
             effects:
@@ -1638,7 +1643,7 @@ events:
           - name: "A medic develops an antiparasitic regimen. The crew's faith in your leadership is renewed."
             chance: 80
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "The treatment is not enough. One life is still lost."
             chance: 20
             effects:
@@ -1674,7 +1679,7 @@ events:
           - name: "Your pilot's calculations are perfect. The move becomes a legend in your logbook."
             chance: 85
             effects:
-              - Reputation: +10
+              - Reputation: +100
               - Fuel: +1
           - name: "Even precision cannot account for a rogue rock. Minor hull damage occurs."
             chance: 15
@@ -1795,7 +1800,7 @@ events:
           - name: "Your security team catches the culprit and prevents further damage."
             chance: 80
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "The saboteur fights back. One systems engineer is lost in the crossfire."
             chance: 20
             effects:
@@ -1810,8 +1815,8 @@ events:
           - name: "You slip aboard and strip out the cargo, finding rare goods before attackers appear."
             chance: 60
             effects:
-              - Credits: +100
-          - name: "Pirates spring from the shadows and you’re ambushed mid-salvage."
+              - Credits: +1000
+          - name: "Pirates spring from the shadows and you're ambushed mid-salvage."
             chance: 40
             effects:
               - crew: -1
@@ -1822,14 +1827,13 @@ events:
             effects: []
           - name: "It was an ambush after all. You miss the trap but lose out on potential salvage."
             chance: 10
-            effects:
-              - hull: -2
+            effects: []
       - text: "Salvage quickly"
         outcomes:
           - name: "You rush in, grab the best salvage, and jump out before the trap snaps."
             chance: 50
             effects:
-              - Credits: +500
+              - Credits: +1500
           - name: "The trap triggers within seconds; one crew member is lost in the explosion."
             chance: 50
             effects:
@@ -1841,7 +1845,7 @@ events:
           - name: "Your scan reveals the hidden triggers and you deactivate them, securing high-value loot."
             chance: 85
             effects:
-              - Credits: +80
+              - Credits: +800
           - name: "You miss one trigger. A burst injures the boarding team."
             chance: 15
             effects:
@@ -1856,7 +1860,7 @@ events:
           - name: "Your team executes a flawless rescue. They return safely, bearing gratitude and loyalty."
             chance: 70
             effects:
-              - Reputation: +10
+              - Reputation: +100
           - name: "The rescue attempt takes a tragic turn. One of your rescuers doesn't come back."
             chance: 30
             effects:
@@ -1866,13 +1870,13 @@ events:
           - name: "You continue the mission, hardening your heart. Reputation suffers but the mission succeeds."
             chance: 90
             effects:
-              - Reputation: -10
+              - Reputation: -100
               - crew: -1
           - name: "The crew is devastated. Morale collapses as guilt consumes them. Your reputation becomes toxic."
             chance: 10
             effects:
               - Crew: -1
-              - Reputation: -20
+              - Reputation: -200
       - text: "Send drone"
         outcomes:
           - name: "Your drone works perfectly. The stranded crew member is retrieved without risk."
@@ -1889,7 +1893,7 @@ events:
           - name: "Your pilot orchestrates a textbook rescue. Your stranded crew member returns safely, forever grateful."
             chance: 85
             effects:
-              - Reputation: +15
+              - Reputation: +150
           - name: "A miscalculation in the rescue vector costs a life. Your crew member is lost anyway."
             chance: 15
             effects:
@@ -1897,7 +1901,7 @@ events:
 
   - id: 65
     title: "Experimental Tech Failure"
-    description: "Alarms shriek through engineering as the experimental quantum flux module overloads. Containment fields flicker erratically, casting eerie blue glows while sparks explode from consoles. The air reeks of burning circuits. This promised breakthrough has become a catastrophic threat."
+    description: "Alarms shriek through engineering as the experimental flux module overloads. Containment fields flicker, casting eerie blue glows while sparks explode from consoles. The air reeks of burning circuits. This promised breakthrough has become a catastrophic threat."
     options:
       - text: "Shut it down"
         outcomes:
@@ -1940,3 +1944,586 @@ events:
             chance: 15
             effects:
               - hull: -1
+  - id: 60
+    title: "Micrometeorite Shower"
+    description: "Your ship enters a debris field teeming with tiny, fast-moving fragments. Pings cascade across your hull like rain. Each impact alone is insignificant, but the collective bombardment could spell disaster if you don't act."
+    options:
+      - text: "Raise shields"
+        outcomes:
+          - name: "Your deflectors absorb the barrage. The impacts glance harmlessly away."
+            chance: 70
+            effects: []
+          - name: "Some fragments slip through the shield grid. Minor punctures scar your hull."
+            chance: 30
+            effects:
+              - Hull: -2
+      - text: "Navigate through"
+        outcomes:
+          - name: "Careful piloting threads between the fragments. You emerge unscathed."
+            chance: 50
+            effects: []
+          - name: "A shower of impacts pounds your forward plating. The damage accumulates quickly."
+            chance: 50
+            effects:
+              - Hull: -3
+      - text: "Reverse course"
+        outcomes:
+          - name: "You backtrack out of the field before serious damage occurs."
+            chance: 80
+            effects:
+              - Fuel: -1
+          - name: "Turning through the field exposes your side. Significant impacts rake your hull."
+            chance: 20
+            effects:
+              - Hull: -2
+
+  - id: 61
+    title: "Structural Fatigue Alert"
+    description: "Engineering reports concerning news: repeated stress from jumps and maneuvers has weakened the ship's frame. Hairline fractures spider across critical support beams. The structure is compromised."
+    options:
+      - text: "Emergency repairs"
+        outcomes:
+          - name: "Quick welding and bracing stabilize the most critical fractures."
+            chance: 60
+            effects:
+              - Hull: -1
+          - name: "The damage is more extensive than anticipated. Repairs are incomplete."
+            chance: 40
+            effects:
+              - Hull: -3
+      - text: "Reinforce hull"
+        outcomes:
+          - name: "Extra plating is welded to the vulnerable sections. The structure strengthens."
+            chance: 70
+            effects:
+              - Hull: -2
+          - name: "The reinforcement process is extensive and still leaves weak points."
+            chance: 30
+            effects:
+              - Hull: -2
+      - text: "Continue carefully"
+        outcomes:
+          - name: "You proceed with caution. No immediate failure occurs."
+            chance: 60
+            effects:
+              - Hull: -1
+          - name: "A sudden maneuver causes catastrophic failure. Large sections of hull rupture."
+            chance: 40
+            effects:
+              - Hull: -4
+
+  - id: 62
+    title: "Unstable Reactor Surge"
+    description: "The reactor core temperature spikes wildly, and warning alarms shriek. The magnetic containment field wavers dangerously. One more surge could breach the containment and unleash catastrophic energy."
+    options:
+      - text: "Emergency dump"
+        outcomes:
+          - name: "You dump excess coolant into the reactor. Temperature normalizes safely."
+            chance: 65
+            effects:
+              - Fuel: -1
+          - name: "The dump creates a thermal shock. Reactor casings crack and leak radiation."
+            chance: 35
+            effects:
+              - Hull: -2
+      - text: "Override safeties"
+        outcomes:
+          - name: "Manual control allows you to bleed off excess heat gradually. The crisis passes."
+            chance: 55
+            effects: []
+          - name: "The override triggers a safety cascade. The reactor explodes outward."
+            chance: 45
+            effects:
+              - Hull: -4
+      - text: "Eject reactor"
+        outcomes:
+          - name: "You cut the reactor loose. It tumbles into space, taking the danger with it."
+            chance: 70
+            effects:
+              - Fuel: -3
+              - Hull: -1
+          - name: "Reactor ejection triggers an electromagnetic pulse that damages your hull."
+            chance: 30
+            effects:
+              - Hull: -2
+
+  - id: 63
+    title: "Collision Course"
+    description: "Your navigation officer shouts a warning: a rogue asteroid, knocked free by a recent stellar explosion, is on a direct intercept vector. There's barely time to react."
+    options:
+      - text: "Emergency maneuver"
+        outcomes:
+          - name: "Your pilot executes a barrel roll. The asteroid misses by meters."
+            chance: 60
+            effects:
+              - Fuel: -1
+          - name: "The maneuver isn't quite enough. The asteroid clips your starboard wing."
+            chance: 40
+            effects:
+              - Hull: -2
+      - text: "Ram it"
+        outcomes:
+          - name: "You punch through the asteroid. The fragments scatter harmlessly."
+            chance: 40
+            effects:
+              - Hull: -2
+          - name: "The asteroid is denser than expected. The collision shatters your bow."
+            chance: 60
+            effects:
+              - Hull: -4
+      - text: "Jump to hyperspace"
+        outcomes:
+          - name: "You jump away just in time. Safe passage achieved."
+            chance: 75
+            effects:
+              - Fuel: -2
+          - name: "The jump initiates too late. You're clipped as hyperspace forms."
+            chance: 25
+            effects:
+              - Hull: -3
+              - Fuel: -2
+
+  - id: 64
+    title: "Pressure Vessel Leak"
+    description: "A hissing sound echoes through the corridors. Your ship's main pressurization system is leaking, and the slow depressurization is spreading through multiple compartments. If unchecked, the crew will suffocate."
+    options:
+      - text: "Seal compartments"
+        outcomes:
+          - name: "Strategic sealing contains the leak to a single section. The crew survives."
+            chance: 65
+            effects:
+              - Hull: -1
+          - name: "The leak spreads faster than your seals. Multiple sections are lost."
+            chance: 35
+            effects:
+              - Hull: -3
+      - text: "Locate and patch"
+        outcomes:
+          - name: "Your team finds the rupture and patches it quickly. Crisis averted."
+            chance: 60
+            effects:
+              - Hull: -1
+          - name: "The patch holds temporarily, but another rupture appears elsewhere."
+            chance: 40
+            effects:
+              - Hull: -2
+      - text: "Reinitialize systems"
+        outcomes:
+          - name: "A system reset stabilizes the pressurization. Normalcy returns."
+            chance: 55
+            effects: []
+          - name: "The reset backfires, causing explosive decompression in the engineering bay."
+            chance: 45
+            effects:
+              - Hull: -3
+
+  - id: 66
+    title: "Corrosive Spill"
+    description: "A containment vessel ruptures in the cargo hold, spilling highly corrosive material across the deck plates. The substance eats through metal with terrifying speed, spreading toward critical systems."
+    options:
+      - text: "Flood the hold"
+        outcomes:
+          - name: "Flooding neutralizes the corrosive with minimal damage to your ship."
+            chance: 65
+            effects:
+              - Hull: -1
+              - Cargo: -2
+          - name: "The flooding reaction is violent. Secondary explosions ripple through the hull."
+            chance: 35
+            effects:
+              - Hull: -3
+      - text: "Deploy foam sealant"
+        outcomes:
+          - name: "Specialized foam contains the corrosion quickly and safely."
+            chance: 70
+            effects:
+              - Hull: -1
+          - name: "The foam hardens incorrectly and cracks, allowing more corrosion."
+            chance: 30
+            effects:
+              - Hull: -2
+      - text: "Vent the hold"
+        outcomes:
+          - name: "Explosive decompression ejects the corrosive into space harmlessly."
+            chance: 60
+            effects:
+              - Hull: -2
+              - Cargo: -4
+          - name: "The venting process damages adjacent compartments severely."
+            chance: 40
+            effects:
+              - Hull: -4
+
+  - id: 67
+    title: "Solar Flare Impact"
+    description: "A massive solar flare erupts from the nearby star without warning. Radiation and charged particles slam into your unshielded side with tremendous force. Your ship shakes like a leaf in a hurricane."
+    options:
+      - text: "Rotate for protection"
+        outcomes:
+          - name: "Quick rotation positions a stronger section of hull toward the flare. Damage is mitigated."
+            chance: 65
+            effects:
+              - Hull: -1
+          - name: "The rotation is too slow. Your weakened hull takes the brunt of the impact."
+            chance: 35
+            effects:
+              - Hull: -3
+      - text: "Push engines"
+        outcomes:
+          - name: "Full throttle carries you out of the flare's path quickly."
+            chance: 60
+            effects:
+              - Fuel: -1
+          - name: "The acceleration destabilizes your hull already weakened by radiation."
+            chance: 40
+            effects:
+              - Hull: -2
+
+  - id: 68
+    title: "Impact from Space Debris"
+    description: "A chunk of ancient satellite tumbles silently through space on a collision course. Your sensors barely detect it before impact. There's no time for evasion."
+    options:
+      - text: "Brace for impact"
+        outcomes:
+          - name: "Your bracing procedures minimize the damage. You take a glancing blow."
+            chance: 65
+            effects:
+              - Hull: -2
+          - name: "The impact is more violent than anticipated. Structural damage is severe."
+            chance: 35
+            effects:
+              - Hull: -3
+      - text: "Evasive maneuvers"
+        outcomes:
+          - name: "Your quick reflexes allow you to dodge the worst of the debris, but a fragment still strikes your hull."
+            chance: 55
+            effects:
+              - Fuel: -1
+          - name: "your evasive action is too late. The debris hits a critical section of your ship."
+            chance: 45
+            effects:
+              - Hull: -2
+              - Fuel: -1
+
+  - id: 69
+    title: "Accelerated Hull Decay"
+    description: "A rare isotope in the local space somehow accelerates corrosion on your ship's exterior. Your scanners show surface degradation at an alarming rate. The hull is literally rotting around you."
+    options:
+      - text: "Apply protective coating"
+        outcomes:
+          - name: "Protective layers are applied rapidly, slowing the decay significantly."
+            chance: 60
+            effects:
+              - Hull: -1
+          - name: "The coating application is incomplete. Decay continues beneath the surface."
+            chance: 40
+            effects:
+              - Hull: -2
+      - text: "Leave the system"
+        outcomes:
+          - name: "You flee the corrupted space and the decay stops immediately."
+            chance: 75
+            effects:
+              - Hull: -1
+              - Fuel: -1
+          - name: "You depart, but not before significant structural damage accumulates."
+            chance: 25
+            effects:
+              - Hull: -3
+
+  - id: 70
+    title: "Tidal Forces Tear"
+    description: "Your ship enters a region where gravitational tidal forces are extraordinarily powerful. Your vessel is caught between two massive stellar objects, each pulling on different parts of your ship with devastating force."
+    options:
+      - text: "Reinforce internal structure"
+        outcomes:
+          - name: "Strategic bracing prevents rupture. You endure the forces."
+            chance: 60
+            effects:
+              - Hull: -2
+          - name: "The reinforcements are insufficient. The ship is torn partially."
+            chance: 40
+            effects:
+              - Hull: -4
+      - text: "Use full power to escape"
+        outcomes:
+          - name: "Maximum thrust breaks you free of the tidal forces."
+            chance: 65
+            effects:
+              - Fuel: -1
+              - Hull: -1
+          - name: "The escape attempt stresses the hull beyond tolerance."
+            chance: 35
+            effects:
+              - Hull: -3
+
+  - id: 71
+    title: "Luxury Goods Auction Disaster"
+    description: "You've secured a shipment of rare luxury goods for trade at the upcoming sector auction. But the merchant guild suddenly announces new tariffs on imported goods—50% tax on all non-essential items. Your profits evaporate instantly."
+    options:
+      - text: "Pay the tariff"
+        outcomes:
+          - name: "You grudgingly pay the new tariff and proceed with reduced margins."
+            chance: 60
+            effects:
+              - Credits: -150
+          - name: "The tariff is even higher than announced. You lose substantial revenue."
+            chance: 40
+            effects:
+              - Credits: -300
+      - text: "Sell before auction"
+        outcomes:
+          - name: "You quickly offload the goods to avoid tariffs, taking a small loss."
+            chance: 70
+            effects:
+              - Credits: -100
+          - name: "You sell in a panic. Buyers exploit your desperation for deep discounts."
+            chance: 30
+            effects:
+              - Credits: -200
+      - text: "Smuggle past customs"
+        outcomes:
+          - name: "Your contraband slips through without detection. Tariffs avoided completely."
+            chance: 50
+            effects: []
+          - name: "Authorities catch your smuggling operation. Fines and penalties are severe."
+            chance: 50
+            effects:
+              - Credits: -400
+
+  - id: 72
+    title: "Medical Emergency Supply Cost"
+    description: "One of your crew members suffers a severe allergic reaction to something in the ship's water system. The medical supplies needed to treat them properly are expensive, and the nearest medical facility charges exorbitant prices for emergency drugs."
+    options:
+      - text: "Buy the expensive drugs"
+        outcomes:
+          - name: "The treatment works perfectly. Your crew member makes a full recovery."
+            chance: 80
+            effects:
+              - Credits: -250
+              - Crew: 0
+          - name: "You purchase the drugs, but overcharging is rampant."
+            chance: 20
+            effects:
+              - Credits: -400
+      - text: "Use generic medicine"
+        outcomes:
+          - name: "The generic alternative works well enough. Your crew member recovers with minor complications."
+            chance: 60
+            effects:
+              - Credits: -50
+          - name: "The generic medicine is ineffective. You're forced to buy the expensive option anyway."
+            chance: 40
+            effects:
+              - Credits: -300
+
+  - id: 73
+    title: "Bribery Opportunity"
+    description: "A dockmaster demands payment to prioritize your docking request. Without it, you'll wait days. The unofficial 'expediting fee' is steep, but time is money in this business."
+    options:
+      - text: "Pay the bribe"
+        outcomes:
+          - name: "You grease the palm and dock immediately. Time and resources are saved."
+            chance: 80
+            effects:
+              - Credits: -200
+          - name: "The dockmaster demands additional payment after already receiving the bribe."
+            chance: 20
+            effects:
+              - Credits: -400
+      - text: "Wait your turn"
+        outcomes:
+          - name: "You wait patiently. Docking eventually happens, and you save the credits."
+            chance: 70
+            effects: []
+          - name: "The delay is more expensive than the bribe would have been. Penalties accrue."
+            chance: 30
+            effects:
+              - Credits: -150
+      - text: "Report corruption"
+        outcomes:
+          - name: "Authorities investigate and validate your report. No bribe needed."
+            chance: 60
+            effects:
+              - Reputation: +50
+          - name: "Your report angers the dockmaster. He charges you extra fees out of spite."
+            chance: 40
+            effects:
+              - Credits: -300
+
+  - id: 74
+    title: "Cargo Damage Compensation"
+    description: "One of your recent deliveries arrived damaged due to inadequate packaging during transport. The buyer is demanding full compensation for the loss, threatening legal action and public reputation damage."
+    options:
+      - text: "Settle generously"
+        outcomes:
+          - name: "You compensate them fairly. They retract complaints and leave positive feedback."
+            chance: 70
+            effects:
+              - Credits: -200
+              - Reputation: +50
+          - name: "You compensate them, but they still leave negative reviews."
+            chance: 30
+            effects:
+              - Credits: -200
+      - text: "Negotiate"
+        outcomes:
+          - name: "Your negotiation skills secure a partial settlement. Both sides compromise."
+            chance: 60
+            effects:
+              - Credits: -100
+          - name: "They refuse to negotiate. You're forced to pay full compensation plus penalties."
+            chance: 40
+            effects:
+              - Credits: -350
+
+  - id: 75
+    title: "Inflated Repair Bill"
+    description: "Your ship needed emergency repairs at a remote station. The repair crew submits a bill that seems astronomical—well above standard rates and with mysterious 'expert surcharge' fees."
+    options:
+      - text: "Pay in full"
+        outcomes:
+          - name: "You pay the exorbitant bill and leave without complaint. The ship is repaired properly."
+            chance: 80
+            effects:
+              - Credits: -500
+          - name: "You pay the bill, but the repairs prove inadequate. More work is needed."
+            chance: 20
+            effects:
+              - Credits: -600
+      - text: "Negotiate"
+        outcomes:
+          - name: "Your objections sway them to reduce the surcharge significantly."
+            chance: 60
+            effects:
+              - Credits: -300
+          - name: "They refuse to budge. The bill remains astronomically high."
+            chance: 40
+            effects:
+              - Credits: -500
+      - text: "Leave without paying"
+        outcomes:
+          - name: "You slip away before they can enforce collection. No payment made."
+            chance: 40
+            effects:
+              - Reputation: -100
+          - name: "They file a warrant. Legal fees and enforcement actions drain your accounts."
+            chance: 60
+            effects:
+              - Credits: -600
+
+  - id: 76
+    title: "Black Market Deal Gone Bad"
+    description: "An informant offers a lucrative black market deal—but the payment is demanded upfront and the goods aren't guaranteed. You send the credits, but the delivery never happens."
+    options:
+      - text: "Write it off"
+        outcomes:
+          - name: "You accept the loss philosophically. It's a harsh lesson in street justice."
+            chance: 100
+            effects:
+              - Credits: -400
+      - text: "Seek retaliation"
+        outcomes:
+          - name: "You find the scammer and recover some money through forceful negotiation."
+            chance: 50
+            effects:
+              - Credits: -200
+          - name: "Your retaliation attempt escalates. You lose more money paying off angry associates."
+            chance: 50
+            effects:
+              - Credits: -600
+
+  - id: 77
+    title: "Insurance Fraud Investigation"
+    description: "After filing an insurance claim for cargo loss, investigators suspect fraud. They freeze your claim while they conduct a lengthy inquiry, and you're forced to pay for the entire loss out of pocket."
+    options:
+      - text: "Cooperate fully"
+        outcomes:
+          - name: "Your cooperation satisfies them. The investigation clears you and the claim is paid."
+            chance: 70
+            effects:
+              - Credits: -100
+          - name: "Despite cooperation, they deny the claim citing insufficient evidence."
+            chance: 30
+            effects:
+              - Credits: -400
+      - text: "Hire legal representation"
+        outcomes:
+          - name: "Your lawyer fights the investigation and wins the claim back, though legal fees apply."
+            chance: 65
+            effects:
+              - Credits: -150
+          - name: "Legal battle drags on longer than expected. Fees accumulate significantly."
+            chance: 35
+            effects:
+              - Credits: -300
+
+  - id: 78
+    title: "Port Authority Inspection Fine"
+    description: "A routine port authority inspection finds minor violations in your cargo manifests. The fine is steep, but the alternative is impounding your entire shipment."
+    options:
+      - text: "Pay the fine"
+        outcomes:
+          - name: "You pay the fine promptly. Your cargo is released without further issues."
+            chance: 80
+            effects:
+              - Credits: -250
+          - name: "You pay the fine, but additional violations are discovered. More fines follow."
+            chance: 20
+            effects:
+              - Credits: -450
+      - text: "Contest it"
+        outcomes:
+          - name: "Your appeal is successful. The fine is reduced significantly."
+            chance: 50
+            effects:
+              - Credits: -80
+          - name: "The contest fails. You pay the full fine plus penalty surcharges."
+            chance: 50
+            effects:
+              - Credits: -400
+
+  - id: 79
+    title: "Unexpected Fuel Surcharge"
+    description: "A fuel station charges you a surprise surcharge for 'premium routing' through their controlled space. The fee is non-negotiable, and you're already committed to the purchase."
+    options:
+      - text: "Pay it"
+        outcomes:
+          - name: "You pay the surcharge. Your fuel is dispensed and you move on."
+            chance: 100
+            effects:
+              - Credits: -150
+      - text: "Refuse and seek alternative"
+        outcomes:
+          - name: "You refuse and find another fuel source at normal prices."
+            chance: 60
+            effects: []
+          - name: "No other fuel source is available nearby. You're forced to pay a higher price later."
+            chance: 40
+            effects:
+              - Credits: -200
+
+  - id: 80
+    title: "Crew Member Debt"
+    description: "One of your crew members confesses to accumulated gambling debts at the last port. Local creditors have tracked him to your ship and demand payment from the captain or they'll take matters into their own hands."
+    options:
+      - text: "Pay the debt"
+        outcomes:
+          - name: "You cover the debt to protect your crew and maintain peace aboard ship."
+            chance: 80
+            effects:
+              - Credits: -300
+              - Crew: 0
+          - name: "You pay the debt, but the creditor demands future 'insurance' payments."
+            chance: 20
+            effects:
+              - Credits: -500
+      - text: "Refuse and leave port"
+        outcomes:
+          - name: "You deny responsibility and depart quickly. The crew member is troubled but safe."
+            chance: 70
+            effects: []
+          - name: "Local authorities intercept you before departure. Fines and complications ensue."
+            chance: 30
+            effects:
+              - Credits: -250

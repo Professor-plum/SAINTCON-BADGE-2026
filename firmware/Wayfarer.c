@@ -8,6 +8,10 @@
 #include "bsp/buttons.h"
 #include "bsp/ws2812.h"
 #include "bsp/terminal.h"
+#include "ui.h"
+#include "img/icons.h"
+#include "bsp/config.h"
+#include "img/titlescreen.h"
 
 const char unlock_code[] = "SC_THRUST_LOSS";
 
@@ -19,6 +23,9 @@ const char unlock_code[] = "SC_THRUST_LOSS";
 #define I2C_SCL 5
 
 #define MB_CLK_PIN 6
+
+
+void run_achievement_screen();
 
 #include "blink.pio.h"
 
@@ -34,14 +41,15 @@ void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
 }
 
 const char boot_message[] = 
-"GARDEN INITIATIVE PROJECT\n"
-"AUTONOMOUS PREPARATION SYSTEM\n"
-"NODE STATUS: UNRESPONSIVE\n"
-"\n"
-"SEARCHING FOR ACTIVE RELAYS...\n"
-"1 RECOVERY UNIT DETECTED\n"
-"\n"
-"PROJECT REACTIVATION POSSIBLE\n";
+"Out there you'll find opportunity, adventure, and occasionally cargo that absolutely should not be opened during transit.\n"
+"Complete supply runs, support station construction, and help guide humanity's expansion into the stars.\n"
+"Remember: every great civilization started with someone willing to haul boxes.";
+
+const char intro2_message[] = 
+"After careful analysis of your profile, mission records, and several factors we are not at liberty to discuss, you will be assigned the roll of\n"
+"%s\n"
+"One final question before launch:\n"
+"What name should history remember you by?";
 
 
 int main()
@@ -66,16 +74,76 @@ int main()
     
     frame_init();
 
-    show_console_ui(boot_message);
-    for (int i=0; i<10; ++i) {
-        frame_fill_rect_alpha(0, 0, LCD_WIDTH, LCD_HEIGHT, RGB565(0, 0, 0), 25);
-        frame_refresh();
-        sleep_ms(20);
+    config_load();
+    if (false) { //Inital setup
+        gui_show_message("WELCOME TO PROJECT WAYFARER",boot_message);
+        char line[512];
+        snprintf(line, sizeof(line), intro2_message, config_get_class_name());
+        gui_show_message("", line);
+        char input_buffer[11] = {0};
+        gui_get_input("Enter user name:", input_buffer, sizeof(input_buffer));
+        config_set_handle(input_buffer);
+        for (int i=0; i<10; ++i) {
+            frame_fill_rect_alpha(0, 0, LCD_WIDTH, LCD_HEIGHT, RGB565(0, 0, 0), 25);
+            frame_refresh();
+            sleep_ms(20);
+        }
     }
     
     while (true) {
-        //printf("Hello, world!\n");
-        game_run();
-        //sleep_ms(500);
+        frame_clear();
+        frame_draw_image(0,0,title_image_data,360,360);
+        frame_refresh();
+        int buttons = buttons_get_and_clear();
+        if (buttons & BUTTON_A) {
+            game_run();
+        }
+        else if (buttons & BUTTON_PRESS) {
+            run_achievement_screen();
+        }
+        //sleep_ms(50);
+    }
+}
+
+static const uint16_t selected_color = RGB565(80, 80, 250);
+static const uint16_t unavailable_color = RGB565(40, 40, 40);
+static const uint16_t title_color = RGB565(255, 255, 0);
+static const uint16_t description_color = RGB565(150, 150, 150);
+static const uint16_t option_color = RGB565(150, 150, 150);
+
+void run_achievement_screen() {
+    int selected_index = 0;
+    while (true) {
+        uint32_t unlocks = config_get_achievements();
+        frame_clear();
+        frame_draw_text("Achievements", title_color, 30); // Yellow color
+        frame_draw_text(config_get_achievement_name(selected_index), description_color, 120); // White color
+        int sx = selected_index % 8;
+        int sy = selected_index / 8;
+        frame_fill_rect(36 + sx * 36, 140 + sy * 36, 36, 36, selected_color); // Highlight selected character
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 8; col++) {
+                const uint16_t* data = (unlocks & (1<<(row*8+col))) ? medal_image_data : locked_image_data;
+                frame_draw_image(38 + col * 36, 142 + row * 36, data, 32, 32);
+            }
+        }
+        frame_refresh();
+
+        uint32_t keys = buttons_get_and_clear();
+        if (keys & BUTTON_UP) {
+            selected_index = (selected_index - 8 + 32) % 32;
+        }
+        if (keys & BUTTON_DOWN) {
+            selected_index = (selected_index + 8) % 32;
+        }
+        if (keys & BUTTON_LEFT) {
+            selected_index = (selected_index - 1 + 32) % 32;
+        }
+        if (keys & BUTTON_RIGHT) {
+            selected_index = (selected_index + 1) % 32;
+        }
+        if (keys & BUTTON_B) {
+            break;
+        }
     }
 }

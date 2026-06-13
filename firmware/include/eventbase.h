@@ -8,7 +8,7 @@
 #define EV_EFFECT_CARGO 4
 #define EV_EFFECT_REPUTATION 5
 #define EV_EFFECT_XP 6
-#define EV_EFFECT_UNLOCK 7
+#define EV_EFFECT_UPGRADE 7
 
 #define EV_FLAG_REQUIRES_PILOT 1
 #define EV_FLAG_REQUIRES_ENGINEER 2
@@ -35,7 +35,7 @@ typedef struct event_outcome {
 typedef struct event_option {
     const char* description;
     uint8_t requirements;
-    uint8_t required_count;
+    uint16_t required_count;
     uint8_t outcome_count;
     event_outcome_t outcomes[4]; // Up to 4 outcomes per event
 } event_option_t;

@@ -12,5 +12,6 @@
 #define UART_RX_PIN 1
 
 void terminal_init(void);
+void console_init(void);
 
 #endif

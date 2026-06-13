@@ -5,12 +5,13 @@
 #include <string.h>
 #include "hardware/timer.h"
 #include "pico/time.h"
+#include "config.h"
 
 static PIO ws2812_pio;
 static uint ws2812_sm;
 static uint ws2812_offset;
 
-struct repeating_timer led_timer;
+struct repeating_timer led_timer = {0};
 
 ws2812_rgb_t led_pattern_buffer[WS2812_NUM_LEDS];
 uint8_t led_pattern_index = 0;
@@ -19,6 +20,18 @@ ws2812_rgb_t led_color;
 ws2812_rgb_t alert_color;
 int alert=0;
 
+extern char* achieve_str;
+
+bool ws2812_callback(__unused struct repeating_timer *t) {
+    ws2812_pattern_update();
+    return true; // Return true to repeat the alarm, false to cancel it
+}
+
+inline static void set_led_speed() {
+    int count = config_get_achievement_count();
+    cancel_repeating_timer(&led_timer);
+    add_repeating_timer_ms(-170 + count * 5, ws2812_callback, NULL, &led_timer);
+}
 // Convert RGB to GRB (WS2812 format)
 static uint32_t rgb_to_grb(uint8_t r, uint8_t g, uint8_t b) {
     return ((uint32_t)g << 16) | ((uint32_t)r << 8) | b;
@@ -35,11 +48,6 @@ static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
             (uint32_t) (b);
 }
 
-bool ws2812_callback(__unused struct repeating_timer *t) {
-    ws2812_pattern_update();
-    return true; // Return true to repeat the alarm, false to cancel it
-}
-
 void ws2812_init(PIO pio, uint sm, uint pin) {
     ws2812_pio = pio;
     ws2812_sm = sm;
@@ -50,7 +58,7 @@ void ws2812_init(PIO pio, uint sm, uint pin) {
     // Initialize the program
     ws2812_program_init(pio, sm, ws2812_offset, pin, 800000.0f, false);
 
-    add_repeating_timer_ms(-100, ws2812_callback, NULL, &led_timer);
+    set_led_speed();
 }
 
 void ws2812_show(const ws2812_rgb_t *colors, uint num_leds) {
@@ -79,11 +87,11 @@ void ws2812_clear(void) {
 void ws2812_pattern_update(void) {
     for (uint i = 0; i < WS2812_NUM_LEDS; i++) {
         if (alert) {
-            if ((led_pattern_index/5)%2) {
-                led_pattern_buffer[i] = alert_color;
+            if ((led_pattern_index)%2) {
+                led_pattern_buffer[i] = (ws2812_rgb_t){0, 0, 0};
             }
             else {
-                led_pattern_buffer[i] = (ws2812_rgb_t){0, 0, 0};
+                led_pattern_buffer[i] = alert_color;
             }
         }
         else {
@@ -96,14 +104,15 @@ void ws2812_pattern_update(void) {
     }
     ws2812_show(led_pattern_buffer, WS2812_NUM_LEDS);
     led_pattern_index++;
-    if (led_pattern_index > 30) {
+    if (led_pattern_index >= 5) {
         led_pattern_index = 0;
         alert=0;
+        achieve_str = NULL;
     }
 }
 
 void ws2812_show_alert(ws2812_rgb_t color) {
-    
+    set_led_speed();
     alert_color = color;
     alert=1;
     led_pattern_index=0;

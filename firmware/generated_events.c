@@ -21,7 +21,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -52,8 +52,8 @@ const event_t random_events[] = {
                         .effect_count = 1,
                         .effects = {
                             {
-                                .type = EV_EFFECT_CARGO,
-                                .value = -1,
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -50,
                             },
                         },
                     },
@@ -61,11 +61,15 @@ const event_t random_events[] = {
                         .description = "Internal affairs was monitoring. You're caught red-handed and face severe penalties.",
                         .name = "Internal affairs was monitoring. You're caught red-handed and face severe penalties.",
                         .chance = 40,
-                        .effect_count = 1,
+                        .effect_count = 2,
                         .effects = {
                             {
                                 .type = EV_EFFECT_CARGO,
                                 .value = -15,
+                            },
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
                             },
                         },
                     },
@@ -89,11 +93,15 @@ const event_t random_events[] = {
                         .description = "A routine secondary scan exposes your illegal goods. Confiscation is swift and total.",
                         .name = "A routine secondary scan exposes your illegal goods. Confiscation is swift and total.",
                         .chance = 30,
-                        .effect_count = 1,
+                        .effect_count = 2,
                         .effects = {
                             {
                                 .type = EV_EFFECT_CARGO,
                                 .value = -15,
+                            },
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -100,
                             },
                         },
                     },
@@ -117,11 +125,15 @@ const event_t random_events[] = {
                         .description = "The military's cryptographic analysis exposes the fake documents immediately. Legal trouble ensues.",
                         .name = "The military's cryptographic analysis exposes the fake documents immediately. Legal trouble ensues.",
                         .chance = 20,
-                        .effect_count = 1,
+                        .effect_count = 2,
                         .effects = {
                             {
                                 .type = EV_EFFECT_CARGO,
-                                .value = -8,
+                                .value = -4,
+                            },
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -100,
                             },
                         },
                     },
@@ -209,19 +221,19 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
                     {
-                        .description = "They demand payment for the help in the form of precious cargo.",
-                        .name = "They demand payment for the help in the form of precious cargo.",
+                        .description = "They demand payment for the help. You pay up, but it hurts your bottom line.",
+                        .name = "They demand payment for the help. You pay up, but it hurts your bottom line.",
                         .chance = 40,
                         .effect_count = 1,
                         .effects = {
                             {
-                                .type = EV_EFFECT_CARGO,
-                                .value = -5,
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -250,
                             },
                         },
                     },
@@ -281,7 +293,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 20,
+                                .value = 300,
                             },
                         },
                     },
@@ -413,7 +425,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 80,
+                                .value = 800,
                             },
                         },
                     },
@@ -445,7 +457,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 80,
+                                .value = 800,
                             },
                         },
                     },
@@ -497,8 +509,12 @@ const event_t random_events[] = {
                         .description = "Your scientist's analysis reveals a way to harness its power safely. A breakthrough!",
                         .name = "Your scientist's analysis reveals a way to harness its power safely. A breakthrough!",
                         .chance = 80,
-                        .effect_count = 0,
+                        .effect_count = 1,
                         .effects = {
+                            {
+                                .type = EV_EFFECT_UPGRADE,
+                                .value = 1,
+                            },
                         },
                     },
                     {
@@ -541,13 +557,13 @@ const event_t random_events[] = {
                             },
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 15,
+                                .value = 150,
                             },
                         },
                     },
                     {
-                        .description = "They're so desperate they offer 30 credits. Easy money.",
-                        .name = "They're so desperate they offer 30 credits. Easy money.",
+                        .description = "They're so desperate they offer 300 credits. Easy money.",
+                        .name = "They're so desperate they offer 300 credits. Easy money.",
                         .chance = 40,
                         .effect_count = 2,
                         .effects = {
@@ -557,14 +573,14 @@ const event_t random_events[] = {
                             },
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 30,
+                                .value = 300,
                             },
                         },
                     },
                 },
             },
             {
-                .description = "Give them 5 Fuel",
+                .description = "Give them 3 Fuel",
                 .requirements = EV_FLAG_REQUIRES_FUEL,
                 .required_count = 3,
                 .outcome_count = 2,
@@ -597,7 +613,7 @@ const event_t random_events[] = {
                             },
                             {
                                 .type = EV_EFFECT_XP,
-                                .value = 20,
+                                .value = 200,
                             },
                         },
                     },
@@ -653,7 +669,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_XP,
-                                .value = 20,
+                                .value = 200,
                             },
                         },
                     },
@@ -689,7 +705,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_XP,
-                                .value = -20,
+                                .value = -200,
                             },
                         },
                     },
@@ -717,7 +733,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_XP,
-                                .value = -20,
+                                .value = -200,
                             },
                         },
                     },
@@ -737,7 +753,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_XP,
-                                .value = 20,
+                                .value = 200,
                             },
                         },
                     },
@@ -813,7 +829,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = -10,
+                                .value = -100,
                             },
                         },
                     },
@@ -1097,8 +1113,8 @@ const event_t random_events[] = {
         .options = {
             {
                 .description = "Accept trade",
-                .requirements = EV_FLAG_REQUIRES_CARGO,
-                .required_count = 8,
+                .requirements = EV_FLAG_REQUIRES_CREDITS,
+                .required_count = 1000,
                 .outcome_count = 2,
                 .outcomes = {
                     {
@@ -1145,8 +1161,8 @@ const event_t random_events[] = {
             },
             {
                 .description = "Negotiate",
-                .requirements = EV_FLAG_REQUIRES_CARGO,
-                .required_count = 8,
+                .requirements = EV_FLAG_REQUIRES_CREDITS,
+                .required_count = 800,
                 .outcome_count = 2,
                 .outcomes = {
                     {
@@ -1270,7 +1286,7 @@ const event_t random_events[] = {
             {
                 .description = "Buy",
                 .requirements = EV_FLAG_REQUIRES_CREDITS,
-                .required_count = 50,
+                .required_count = 1000,
                 .outcome_count = 2,
                 .outcomes = {
                     {
@@ -1281,11 +1297,11 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -50,
+                                .value = -1000,
                             },
                             {
                                 .type = EV_EFFECT_CARGO,
-                                .value = 10,
+                                .value = 5,
                             },
                         },
                     },
@@ -1297,11 +1313,11 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -50,
+                                .value = -1000,
                             },
                             {
                                 .type = EV_EFFECT_CARGO,
-                                .value = 5,
+                                .value = 2,
                             },
                         },
                     },
@@ -1337,7 +1353,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 50,
+                                .value = 500,
                             },
                         },
                     },
@@ -1417,7 +1433,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 50,
+                                .value = 500,
                             },
                         },
                     },
@@ -1617,7 +1633,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -50,
+                                .value = -500,
                             },
                         },
                     },
@@ -1965,7 +1981,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 60,
+                                .value = 600,
                             },
                             {
                                 .type = EV_EFFECT_XP,
@@ -1985,7 +2001,7 @@ const event_t random_events[] = {
                             },
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 50,
+                                .value = 500,
                             },
                         },
                     },
@@ -2125,7 +2141,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 60,
+                                .value = 600,
                             },
                         },
                     },
@@ -2205,8 +2221,12 @@ const event_t random_events[] = {
                         .description = "Your scientist cracks the ancient code. A blueprint for advanced technology is revealed.",
                         .name = "Your scientist cracks the ancient code. A blueprint for advanced technology is revealed.",
                         .chance = 80,
-                        .effect_count = 0,
+                        .effect_count = 1,
                         .effects = {
+                            {
+                                .type = EV_EFFECT_UPGRADE,
+                                .value = 0,
+                            },
                         },
                     },
                     {
@@ -2649,7 +2669,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -2689,7 +2709,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = -10,
+                                .value = -100,
                             },
                         },
                     },
@@ -2713,7 +2733,7 @@ const event_t random_events[] = {
                             },
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 50,
+                                .value = 500,
                             },
                         },
                     },
@@ -2813,7 +2833,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 50,
+                                .value = 500,
                             },
                             {
                                 .type = EV_EFFECT_CARGO,
@@ -3093,7 +3113,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_XP,
-                                .value = 20,
+                                .value = 200,
                             },
                         },
                     },
@@ -3181,7 +3201,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = -10,
+                                .value = -100,
                             },
                             {
                                 .type = EV_EFFECT_FUEL,
@@ -3441,7 +3461,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -3525,8 +3545,8 @@ const event_t random_events[] = {
             },
             {
                 .description = "Bribe",
-                .requirements = 0,
-                .required_count = 0,
+                .requirements = EV_FLAG_REQUIRES_CREDITS,
+                .required_count = 250,
                 .outcome_count = 2,
                 .outcomes = {
                     {
@@ -3537,7 +3557,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -25,
+                                .value = -250,
                             },
                         },
                     },
@@ -3549,7 +3569,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -50,
+                                .value = -500,
                             },
                         },
                     },
@@ -3801,7 +3821,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -10,
+                                .value = -100,
                             },
                         },
                     },
@@ -4349,7 +4369,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -4445,7 +4465,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 15,
+                                .value = 150,
                             },
                         },
                     },
@@ -4577,7 +4597,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -4637,7 +4657,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = -30,
+                                .value = -300,
                             },
                         },
                     },
@@ -4669,7 +4689,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 15,
+                                .value = 150,
                             },
                         },
                     },
@@ -4797,7 +4817,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -4897,7 +4917,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                             {
                                 .type = EV_EFFECT_FUEL,
@@ -5249,7 +5269,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -5289,13 +5309,13 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 100,
+                                .value = 1000,
                             },
                         },
                     },
                     {
-                        .description = "Pirates spring from the shadows and youre ambushed mid-salvage.",
-                        .name = "Pirates spring from the shadows and youre ambushed mid-salvage.",
+                        .description = "Pirates spring from the shadows and you're ambushed mid-salvage.",
+                        .name = "Pirates spring from the shadows and you're ambushed mid-salvage.",
                         .chance = 40,
                         .effect_count = 1,
                         .effects = {
@@ -5325,12 +5345,8 @@ const event_t random_events[] = {
                         .description = "It was an ambush after all. You miss the trap but lose out on potential salvage.",
                         .name = "It was an ambush after all. You miss the trap but lose out on potential salvage.",
                         .chance = 10,
-                        .effect_count = 1,
+                        .effect_count = 0,
                         .effects = {
-                            {
-                                .type = EV_EFFECT_HULL,
-                                .value = -2,
-                            },
                         },
                     },
                 },
@@ -5349,7 +5365,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 500,
+                                .value = 1500,
                             },
                         },
                     },
@@ -5381,7 +5397,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_CREDITS,
-                                .value = 80,
+                                .value = 800,
                             },
                         },
                     },
@@ -5421,7 +5437,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 10,
+                                .value = 100,
                             },
                         },
                     },
@@ -5453,7 +5469,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = -10,
+                                .value = -100,
                             },
                             {
                                 .type = EV_EFFECT_CREW,
@@ -5473,7 +5489,7 @@ const event_t random_events[] = {
                             },
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = -20,
+                                .value = -200,
                             },
                         },
                     },
@@ -5521,7 +5537,7 @@ const event_t random_events[] = {
                         .effects = {
                             {
                                 .type = EV_EFFECT_REPUTATION,
-                                .value = 15,
+                                .value = 150,
                             },
                         },
                     },
@@ -5673,5 +5689,1717 @@ const event_t random_events[] = {
             },
         },
     },
+    {
+        .id = 60,
+        .title = "Micrometeorite Shower",
+        .description = "Your ship enters a debris field teeming with tiny, fast-moving fragments. Pings cascade across your hull like rain. Each impact alone is insignificant, but the collective bombardment could spell disaster if you don't act.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Raise shields",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your deflectors absorb the barrage. The impacts glance harmlessly away.",
+                        .name = "Your deflectors absorb the barrage. The impacts glance harmlessly away.",
+                        .chance = 70,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "Some fragments slip through the shield grid. Minor punctures scar your hull.",
+                        .name = "Some fragments slip through the shield grid. Minor punctures scar your hull.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Navigate through",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Careful piloting threads between the fragments. You emerge unscathed.",
+                        .name = "Careful piloting threads between the fragments. You emerge unscathed.",
+                        .chance = 50,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "A shower of impacts pounds your forward plating. The damage accumulates quickly.",
+                        .name = "A shower of impacts pounds your forward plating. The damage accumulates quickly.",
+                        .chance = 50,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Reverse course",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You backtrack out of the field before serious damage occurs.",
+                        .name = "You backtrack out of the field before serious damage occurs.",
+                        .chance = 80,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "Turning through the field exposes your side. Significant impacts rake your hull.",
+                        .name = "Turning through the field exposes your side. Significant impacts rake your hull.",
+                        .chance = 20,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 61,
+        .title = "Structural Fatigue Alert",
+        .description = "Engineering reports concerning news: repeated stress from jumps and maneuvers has weakened the ship's frame. Hairline fractures spider across critical support beams. The structure is compromised.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Emergency repairs",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Quick welding and bracing stabilize the most critical fractures.",
+                        .name = "Quick welding and bracing stabilize the most critical fractures.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The damage is more extensive than anticipated. Repairs are incomplete.",
+                        .name = "The damage is more extensive than anticipated. Repairs are incomplete.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Reinforce hull",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Extra plating is welded to the vulnerable sections. The structure strengthens.",
+                        .name = "Extra plating is welded to the vulnerable sections. The structure strengthens.",
+                        .chance = 70,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The reinforcement process is extensive and still leaves weak points.",
+                        .name = "The reinforcement process is extensive and still leaves weak points.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Continue carefully",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You proceed with caution. No immediate failure occurs.",
+                        .name = "You proceed with caution. No immediate failure occurs.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "A sudden maneuver causes catastrophic failure. Large sections of hull rupture.",
+                        .name = "A sudden maneuver causes catastrophic failure. Large sections of hull rupture.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -4,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 62,
+        .title = "Unstable Reactor Surge",
+        .description = "The reactor core temperature spikes wildly, and warning alarms shriek. The magnetic containment field wavers dangerously. One more surge could breach the containment and unleash catastrophic energy.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Emergency dump",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You dump excess coolant into the reactor. Temperature normalizes safely.",
+                        .name = "You dump excess coolant into the reactor. Temperature normalizes safely.",
+                        .chance = 65,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The dump creates a thermal shock. Reactor casings crack and leak radiation.",
+                        .name = "The dump creates a thermal shock. Reactor casings crack and leak radiation.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Override safeties",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Manual control allows you to bleed off excess heat gradually. The crisis passes.",
+                        .name = "Manual control allows you to bleed off excess heat gradually. The crisis passes.",
+                        .chance = 55,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "The override triggers a safety cascade. The reactor explodes outward.",
+                        .name = "The override triggers a safety cascade. The reactor explodes outward.",
+                        .chance = 45,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -4,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Eject reactor",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You cut the reactor loose. It tumbles into space, taking the danger with it.",
+                        .name = "You cut the reactor loose. It tumbles into space, taking the danger with it.",
+                        .chance = 70,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -3,
+                            },
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "Reactor ejection triggers an electromagnetic pulse that damages your hull.",
+                        .name = "Reactor ejection triggers an electromagnetic pulse that damages your hull.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 63,
+        .title = "Collision Course",
+        .description = "Your navigation officer shouts a warning: a rogue asteroid, knocked free by a recent stellar explosion, is on a direct intercept vector. There's barely time to react.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Emergency maneuver",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your pilot executes a barrel roll. The asteroid misses by meters.",
+                        .name = "Your pilot executes a barrel roll. The asteroid misses by meters.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The maneuver isn't quite enough. The asteroid clips your starboard wing.",
+                        .name = "The maneuver isn't quite enough. The asteroid clips your starboard wing.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Ram it",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You punch through the asteroid. The fragments scatter harmlessly.",
+                        .name = "You punch through the asteroid. The fragments scatter harmlessly.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The asteroid is denser than expected. The collision shatters your bow.",
+                        .name = "The asteroid is denser than expected. The collision shatters your bow.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -4,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Jump to hyperspace",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You jump away just in time. Safe passage achieved.",
+                        .name = "You jump away just in time. Safe passage achieved.",
+                        .chance = 75,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The jump initiates too late. You're clipped as hyperspace forms.",
+                        .name = "The jump initiates too late. You're clipped as hyperspace forms.",
+                        .chance = 25,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 64,
+        .title = "Pressure Vessel Leak",
+        .description = "A hissing sound echoes through the corridors. Your ship's main pressurization system is leaking, and the slow depressurization is spreading through multiple compartments. If unchecked, the crew will suffocate.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Seal compartments",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Strategic sealing contains the leak to a single section. The crew survives.",
+                        .name = "Strategic sealing contains the leak to a single section. The crew survives.",
+                        .chance = 65,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The leak spreads faster than your seals. Multiple sections are lost.",
+                        .name = "The leak spreads faster than your seals. Multiple sections are lost.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Locate and patch",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your team finds the rupture and patches it quickly. Crisis averted.",
+                        .name = "Your team finds the rupture and patches it quickly. Crisis averted.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The patch holds temporarily, but another rupture appears elsewhere.",
+                        .name = "The patch holds temporarily, but another rupture appears elsewhere.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Reinitialize systems",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "A system reset stabilizes the pressurization. Normalcy returns.",
+                        .name = "A system reset stabilizes the pressurization. Normalcy returns.",
+                        .chance = 55,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "The reset backfires, causing explosive decompression in the engineering bay.",
+                        .name = "The reset backfires, causing explosive decompression in the engineering bay.",
+                        .chance = 45,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 66,
+        .title = "Corrosive Spill",
+        .description = "A containment vessel ruptures in the cargo hold, spilling highly corrosive material across the deck plates. The substance eats through metal with terrifying speed, spreading toward critical systems.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Flood the hold",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Flooding neutralizes the corrosive with minimal damage to your ship.",
+                        .name = "Flooding neutralizes the corrosive with minimal damage to your ship.",
+                        .chance = 65,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                            {
+                                .type = EV_EFFECT_CARGO,
+                                .value = -2,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The flooding reaction is violent. Secondary explosions ripple through the hull.",
+                        .name = "The flooding reaction is violent. Secondary explosions ripple through the hull.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Deploy foam sealant",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Specialized foam contains the corrosion quickly and safely.",
+                        .name = "Specialized foam contains the corrosion quickly and safely.",
+                        .chance = 70,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The foam hardens incorrectly and cracks, allowing more corrosion.",
+                        .name = "The foam hardens incorrectly and cracks, allowing more corrosion.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Vent the hold",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Explosive decompression ejects the corrosive into space harmlessly.",
+                        .name = "Explosive decompression ejects the corrosive into space harmlessly.",
+                        .chance = 60,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                            {
+                                .type = EV_EFFECT_CARGO,
+                                .value = -4,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The venting process damages adjacent compartments severely.",
+                        .name = "The venting process damages adjacent compartments severely.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -4,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 67,
+        .title = "Solar Flare Impact",
+        .description = "A massive solar flare erupts from the nearby star without warning. Radiation and charged particles slam into your unshielded side with tremendous force. Your ship shakes like a leaf in a hurricane.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Rotate for protection",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Quick rotation positions a stronger section of hull toward the flare. Damage is mitigated.",
+                        .name = "Quick rotation positions a stronger section of hull toward the flare. Damage is mitigated.",
+                        .chance = 65,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The rotation is too slow. Your weakened hull takes the brunt of the impact.",
+                        .name = "The rotation is too slow. Your weakened hull takes the brunt of the impact.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Push engines",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Full throttle carries you out of the flare's path quickly.",
+                        .name = "Full throttle carries you out of the flare's path quickly.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The acceleration destabilizes your hull already weakened by radiation.",
+                        .name = "The acceleration destabilizes your hull already weakened by radiation.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 68,
+        .title = "Impact from Space Debris",
+        .description = "A chunk of ancient satellite tumbles silently through space on a collision course. Your sensors barely detect it before impact. There's no time for evasion.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Brace for impact",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your bracing procedures minimize the damage. You take a glancing blow.",
+                        .name = "Your bracing procedures minimize the damage. You take a glancing blow.",
+                        .chance = 65,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The impact is more violent than anticipated. Structural damage is severe.",
+                        .name = "The impact is more violent than anticipated. Structural damage is severe.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Evasive maneuvers",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your quick reflexes allow you to dodge the worst of the debris, but a fragment still strikes your hull.",
+                        .name = "Your quick reflexes allow you to dodge the worst of the debris, but a fragment still strikes your hull.",
+                        .chance = 55,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "your evasive action is too late. The debris hits a critical section of your ship.",
+                        .name = "your evasive action is too late. The debris hits a critical section of your ship.",
+                        .chance = 45,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 69,
+        .title = "Accelerated Hull Decay",
+        .description = "A rare isotope in the local space somehow accelerates corrosion on your ship's exterior. Your scanners show surface degradation at an alarming rate. The hull is literally rotting around you.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Apply protective coating",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Protective layers are applied rapidly, slowing the decay significantly.",
+                        .name = "Protective layers are applied rapidly, slowing the decay significantly.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The coating application is incomplete. Decay continues beneath the surface.",
+                        .name = "The coating application is incomplete. Decay continues beneath the surface.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Leave the system",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You flee the corrupted space and the decay stops immediately.",
+                        .name = "You flee the corrupted space and the decay stops immediately.",
+                        .chance = 75,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You depart, but not before significant structural damage accumulates.",
+                        .name = "You depart, but not before significant structural damage accumulates.",
+                        .chance = 25,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 70,
+        .title = "Tidal Forces Tear",
+        .description = "Your ship enters a region where gravitational tidal forces are extraordinarily powerful. Your vessel is caught between two massive stellar objects, each pulling on different parts of your ship with devastating force.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Reinforce internal structure",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Strategic bracing prevents rupture. You endure the forces.",
+                        .name = "Strategic bracing prevents rupture. You endure the forces.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -2,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The reinforcements are insufficient. The ship is torn partially.",
+                        .name = "The reinforcements are insufficient. The ship is torn partially.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -4,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Use full power to escape",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Maximum thrust breaks you free of the tidal forces.",
+                        .name = "Maximum thrust breaks you free of the tidal forces.",
+                        .chance = 65,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_FUEL,
+                                .value = -1,
+                            },
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -1,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The escape attempt stresses the hull beyond tolerance.",
+                        .name = "The escape attempt stresses the hull beyond tolerance.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_HULL,
+                                .value = -3,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 71,
+        .title = "Luxury Goods Auction Disaster",
+        .description = "You've secured a shipment of rare luxury goods for trade at the upcoming sector auction. But the merchant guild suddenly announces new tariffs on imported goods-50% tax on all non-essential items. Your profits evaporate instantly.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Pay the tariff",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You grudgingly pay the new tariff and proceed with reduced margins.",
+                        .name = "You grudgingly pay the new tariff and proceed with reduced margins.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -150,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The tariff is even higher than announced. You lose substantial revenue.",
+                        .name = "The tariff is even higher than announced. You lose substantial revenue.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -300,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Sell before auction",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You quickly offload the goods to avoid tariffs, taking a small loss.",
+                        .name = "You quickly offload the goods to avoid tariffs, taking a small loss.",
+                        .chance = 70,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -100,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You sell in a panic. Buyers exploit your desperation for deep discounts.",
+                        .name = "You sell in a panic. Buyers exploit your desperation for deep discounts.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Smuggle past customs",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your contraband slips through without detection. Tariffs avoided completely.",
+                        .name = "Your contraband slips through without detection. Tariffs avoided completely.",
+                        .chance = 50,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "Authorities catch your smuggling operation. Fines and penalties are severe.",
+                        .name = "Authorities catch your smuggling operation. Fines and penalties are severe.",
+                        .chance = 50,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -400,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 72,
+        .title = "Medical Emergency Supply Cost",
+        .description = "One of your crew members suffers a severe allergic reaction to something in the ship's water system. The medical supplies needed to treat them properly are expensive, and the nearest medical facility charges exorbitant prices for emergency drugs.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Buy the expensive drugs",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "The treatment works perfectly. Your crew member makes a full recovery.",
+                        .name = "The treatment works perfectly. Your crew member makes a full recovery.",
+                        .chance = 80,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -250,
+                            },
+                            {
+                                .type = EV_EFFECT_CREW,
+                                .value = 0,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You purchase the drugs, but overcharging is rampant.",
+                        .name = "You purchase the drugs, but overcharging is rampant.",
+                        .chance = 20,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -400,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Use generic medicine",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "The generic alternative works well enough. Your crew member recovers with minor complications.",
+                        .name = "The generic alternative works well enough. Your crew member recovers with minor complications.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -50,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The generic medicine is ineffective. You're forced to buy the expensive option anyway.",
+                        .name = "The generic medicine is ineffective. You're forced to buy the expensive option anyway.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -300,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 73,
+        .title = "Bribery Opportunity",
+        .description = "A dockmaster demands payment to prioritize your docking request. Without it, you'll wait days. The unofficial 'expediting fee' is steep, but time is money in this business.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Pay the bribe",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You grease the palm and dock immediately. Time and resources are saved.",
+                        .name = "You grease the palm and dock immediately. Time and resources are saved.",
+                        .chance = 80,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The dockmaster demands additional payment after already receiving the bribe.",
+                        .name = "The dockmaster demands additional payment after already receiving the bribe.",
+                        .chance = 20,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -400,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Wait your turn",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You wait patiently. Docking eventually happens, and you save the credits.",
+                        .name = "You wait patiently. Docking eventually happens, and you save the credits.",
+                        .chance = 70,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "The delay is more expensive than the bribe would have been. Penalties accrue.",
+                        .name = "The delay is more expensive than the bribe would have been. Penalties accrue.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -150,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Report corruption",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Authorities investigate and validate your report. No bribe needed.",
+                        .name = "Authorities investigate and validate your report. No bribe needed.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_REPUTATION,
+                                .value = 50,
+                            },
+                        },
+                    },
+                    {
+                        .description = "Your report angers the dockmaster. He charges you extra fees out of spite.",
+                        .name = "Your report angers the dockmaster. He charges you extra fees out of spite.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -300,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 74,
+        .title = "Cargo Damage Compensation",
+        .description = "One of your recent deliveries arrived damaged due to inadequate packaging during transport. The buyer is demanding full compensation for the loss, threatening legal action and public reputation damage.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Settle generously",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You compensate them fairly. They retract complaints and leave positive feedback.",
+                        .name = "You compensate them fairly. They retract complaints and leave positive feedback.",
+                        .chance = 70,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
+                            },
+                            {
+                                .type = EV_EFFECT_REPUTATION,
+                                .value = 50,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You compensate them, but they still leave negative reviews.",
+                        .name = "You compensate them, but they still leave negative reviews.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Negotiate",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your negotiation skills secure a partial settlement. Both sides compromise.",
+                        .name = "Your negotiation skills secure a partial settlement. Both sides compromise.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -100,
+                            },
+                        },
+                    },
+                    {
+                        .description = "They refuse to negotiate. You're forced to pay full compensation plus penalties.",
+                        .name = "They refuse to negotiate. You're forced to pay full compensation plus penalties.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -350,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 75,
+        .title = "Inflated Repair Bill",
+        .description = "Your ship needed emergency repairs at a remote station. The repair crew submits a bill that seems astronomical-well above standard rates and with mysterious 'expert surcharge' fees.",
+        .option_count = 3,
+        .options = {
+            {
+                .description = "Pay in full",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You pay the exorbitant bill and leave without complaint. The ship is repaired properly.",
+                        .name = "You pay the exorbitant bill and leave without complaint. The ship is repaired properly.",
+                        .chance = 80,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -500,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You pay the bill, but the repairs prove inadequate. More work is needed.",
+                        .name = "You pay the bill, but the repairs prove inadequate. More work is needed.",
+                        .chance = 20,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -600,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Negotiate",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your objections sway them to reduce the surcharge significantly.",
+                        .name = "Your objections sway them to reduce the surcharge significantly.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -300,
+                            },
+                        },
+                    },
+                    {
+                        .description = "They refuse to budge. The bill remains astronomically high.",
+                        .name = "They refuse to budge. The bill remains astronomically high.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -500,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Leave without paying",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You slip away before they can enforce collection. No payment made.",
+                        .name = "You slip away before they can enforce collection. No payment made.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_REPUTATION,
+                                .value = -100,
+                            },
+                        },
+                    },
+                    {
+                        .description = "They file a warrant. Legal fees and enforcement actions drain your accounts.",
+                        .name = "They file a warrant. Legal fees and enforcement actions drain your accounts.",
+                        .chance = 60,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -600,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 76,
+        .title = "Black Market Deal Gone Bad",
+        .description = "An informant offers a lucrative black market deal-but the payment is demanded upfront and the goods aren't guaranteed. You send the credits, but the delivery never happens.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Write it off",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 1,
+                .outcomes = {
+                    {
+                        .description = "You accept the loss philosophically. It's a harsh lesson in street justice.",
+                        .name = "You accept the loss philosophically. It's a harsh lesson in street justice.",
+                        .chance = 100,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -400,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Seek retaliation",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You find the scammer and recover some money through forceful negotiation.",
+                        .name = "You find the scammer and recover some money through forceful negotiation.",
+                        .chance = 50,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
+                            },
+                        },
+                    },
+                    {
+                        .description = "Your retaliation attempt escalates. You lose more money paying off angry associates.",
+                        .name = "Your retaliation attempt escalates. You lose more money paying off angry associates.",
+                        .chance = 50,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -600,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 77,
+        .title = "Insurance Fraud Investigation",
+        .description = "After filing an insurance claim for cargo loss, investigators suspect fraud. They freeze your claim while they conduct a lengthy inquiry, and you're forced to pay for the entire loss out of pocket.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Cooperate fully",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your cooperation satisfies them. The investigation clears you and the claim is paid.",
+                        .name = "Your cooperation satisfies them. The investigation clears you and the claim is paid.",
+                        .chance = 70,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -100,
+                            },
+                        },
+                    },
+                    {
+                        .description = "Despite cooperation, they deny the claim citing insufficient evidence.",
+                        .name = "Despite cooperation, they deny the claim citing insufficient evidence.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -400,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Hire legal representation",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your lawyer fights the investigation and wins the claim back, though legal fees apply.",
+                        .name = "Your lawyer fights the investigation and wins the claim back, though legal fees apply.",
+                        .chance = 65,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -150,
+                            },
+                        },
+                    },
+                    {
+                        .description = "Legal battle drags on longer than expected. Fees accumulate significantly.",
+                        .name = "Legal battle drags on longer than expected. Fees accumulate significantly.",
+                        .chance = 35,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -300,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 78,
+        .title = "Port Authority Inspection Fine",
+        .description = "A routine port authority inspection finds minor violations in your cargo manifests. The fine is steep, but the alternative is impounding your entire shipment.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Pay the fine",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You pay the fine promptly. Your cargo is released without further issues.",
+                        .name = "You pay the fine promptly. Your cargo is released without further issues.",
+                        .chance = 80,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -250,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You pay the fine, but additional violations are discovered. More fines follow.",
+                        .name = "You pay the fine, but additional violations are discovered. More fines follow.",
+                        .chance = 20,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -450,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Contest it",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "Your appeal is successful. The fine is reduced significantly.",
+                        .name = "Your appeal is successful. The fine is reduced significantly.",
+                        .chance = 50,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -80,
+                            },
+                        },
+                    },
+                    {
+                        .description = "The contest fails. You pay the full fine plus penalty surcharges.",
+                        .name = "The contest fails. You pay the full fine plus penalty surcharges.",
+                        .chance = 50,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -400,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 79,
+        .title = "Unexpected Fuel Surcharge",
+        .description = "A fuel station charges you a surprise surcharge for 'premium routing' through their controlled space. The fee is non-negotiable, and you're already committed to the purchase.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Pay it",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 1,
+                .outcomes = {
+                    {
+                        .description = "You pay the surcharge. Your fuel is dispensed and you move on.",
+                        .name = "You pay the surcharge. Your fuel is dispensed and you move on.",
+                        .chance = 100,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -150,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Refuse and seek alternative",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You refuse and find another fuel source at normal prices.",
+                        .name = "You refuse and find another fuel source at normal prices.",
+                        .chance = 60,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "No other fuel source is available nearby. You're forced to pay a higher price later.",
+                        .name = "No other fuel source is available nearby. You're forced to pay a higher price later.",
+                        .chance = 40,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -200,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        .id = 80,
+        .title = "Crew Member Debt",
+        .description = "One of your crew members confesses to accumulated gambling debts at the last port. Local creditors have tracked him to your ship and demand payment from the captain or they'll take matters into their own hands.",
+        .option_count = 2,
+        .options = {
+            {
+                .description = "Pay the debt",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You cover the debt to protect your crew and maintain peace aboard ship.",
+                        .name = "You cover the debt to protect your crew and maintain peace aboard ship.",
+                        .chance = 80,
+                        .effect_count = 2,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -300,
+                            },
+                            {
+                                .type = EV_EFFECT_CREW,
+                                .value = 0,
+                            },
+                        },
+                    },
+                    {
+                        .description = "You pay the debt, but the creditor demands future 'insurance' payments.",
+                        .name = "You pay the debt, but the creditor demands future 'insurance' payments.",
+                        .chance = 20,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -500,
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                .description = "Refuse and leave port",
+                .requirements = 0,
+                .required_count = 0,
+                .outcome_count = 2,
+                .outcomes = {
+                    {
+                        .description = "You deny responsibility and depart quickly. The crew member is troubled but safe.",
+                        .name = "You deny responsibility and depart quickly. The crew member is troubled but safe.",
+                        .chance = 70,
+                        .effect_count = 0,
+                        .effects = {
+                        },
+                    },
+                    {
+                        .description = "Local authorities intercept you before departure. Fines and complications ensue.",
+                        .name = "Local authorities intercept you before departure. Fines and complications ensue.",
+                        .chance = 30,
+                        .effect_count = 1,
+                        .effects = {
+                            {
+                                .type = EV_EFFECT_CREDITS,
+                                .value = -250,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
 };
-const int random_event_count = 47;
+const int random_event_count = 67;

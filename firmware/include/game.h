@@ -3,20 +3,13 @@
 
 #include "hexutils.h"
 #include "eventbase.h"
+#include "bsp/common.h"
 
 #define CREW_SPECIALTY_PILOT 0
 #define CREW_SPECIALTY_ENGINEER 1
 #define CREW_SPECIALTY_SCIENTIST 2
 #define CREW_SPECIALTY_SOLDIER 3
 #define CREW_SPECIALTY_MEDIC 4
-
-
-typedef struct {
-    int specialty;
-    int level;
-    uint16_t skin_tone; // RGB565 color for character skin tone
-    char name[20];
-} game_character_t;
 
 typedef struct {
     int seed;
@@ -32,8 +25,6 @@ typedef struct {
     int cargo;
     int reputation;
     int xp;
-    int crew_count;
-    game_character_t crew[5];
 } game_state_t;
 
 typedef struct {

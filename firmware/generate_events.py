@@ -18,6 +18,7 @@ EFFECT_MAP = {
     'cargo': 'EV_EFFECT_CARGO',
     'reputation': 'EV_EFFECT_REPUTATION',
     'xp': 'EV_EFFECT_XP',
+    'upgrade': 'EV_EFFECT_UPGRADE',
 }
 
 REQUIREMENT_MAP = {

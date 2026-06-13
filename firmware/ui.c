@@ -2,6 +2,7 @@
 #include "framebuffer.h"
 #include "buttons.h"
 #include <stdint.h>
+#include <string.h>
 
 static const uint16_t selected_color = RGB565(250, 250, 250);
 static const uint16_t unavailable_color = RGB565(40, 40, 40);
@@ -16,14 +17,23 @@ void gui_get_input(const char* prompt, char* buffer, int buffer_size) {
     while (true) {
         frame_clear();
         frame_draw_text(prompt, title_color, 30); // Yellow color
-        for (int i=0; i<buffer_size-1; ++i) {
-            uint16_t color = (i==buffer_index) ? selected_color : option_color;
-            frame_draw_char(10 + i * 20, 80, buffer[i] ? buffer[i] : '_', color); // Underscore for input
-        }
-        frame_fill_rect(10 + selected_index * 20, 80, 20, 30, selected_color); // Highlight selected character
+        frame_draw_text(buffer, description_color, 70); // White color
+        int sx = selected_index % 10;
+        int sy = selected_index / 10;
+        frame_fill_rect(78 + sx * 20, 102 + sy * 30, 16, 26, selected_color); // Highlight selected character
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 10; col++) {
-                frame_draw_char(col * 20 + 10, row * 30 + 80, 'A' + row * 10 + col, option_color);
+                if (row * 10 + col < 26) {
+                    frame_draw_char(col * 20 + 80, row * 30 + 120, 'A' + row * 10 + col, option_color);
+                } else if (row * 10 + col == 26) {
+                    frame_draw_char(col * 20 + 80, row * 30 + 120, '_', option_color);
+                } else if (row * 10 + col == 27) {
+                    frame_draw_char(col * 20 + 80, row * 30 + 120, ' ', option_color);
+                } else if (row * 10 + col == 28) {
+                    frame_draw_char(col * 20 + 80, row * 30 + 120, '<', option_color);
+                } else if (row * 10 + col == 29) {
+                    frame_draw_char(col * 20 + 80, row * 30 + 120, '>', option_color);
+                }
             }
         }
         frame_refresh();
@@ -55,7 +65,7 @@ void gui_get_input(const char* prompt, char* buffer, int buffer_size) {
 
                 }
                 else if (selected_index == 29) { //special case for return
-                    break; // Finish input on return
+                    return; // Finish input on return
                 }
                 buffer[buffer_index++] = selected_char;
                 buffer[buffer_index] = '\0';
@@ -63,6 +73,60 @@ void gui_get_input(const char* prompt, char* buffer, int buffer_size) {
                     buffer_index = buffer_size - 1;
                 }
             }
+            else if (selected_index == 28) { // Allow backspace if buffer is full
+                if (buffer_index > 0) { 
+                    buffer_index--;
+                    buffer[buffer_index] = '\0';
+                }            }
+            else if (selected_index == 29) { // Allow return even if buffer is
+                return; // Buffer full, finish input
+            }
         }
+    }
+}
+
+
+void gui_show_message(const char* title, const char* message) {
+    int idx=1;
+    for (const char* ptr = message; *ptr; ptr++) {
+        frame_clear();
+        frame_draw_text(title, title_color, 30); // Yellow color
+        
+        char *str = message;
+        int16_t y = LCD_HEIGHT/4;
+        int ccount=0;
+        while (ccount < idx) {
+            int line_chars = frame_calculate_text_fit(str, y);
+            char temp_str[256];
+            memcpy(temp_str, str, line_chars);
+            temp_str[line_chars] = '\0';
+            int width = frame_calculate_text_width(temp_str);
+            if (ccount + line_chars > idx) {
+                temp_str[idx - ccount] = '\0'; // Truncate to the current index if it exceeds
+            }
+            frame_draw_string((LCD_WIDTH - width) / 2, y, temp_str, description_color); // Center the text horizontally
+            y += frame_get_yadvance(); // Move to the next line (height of the font + some spacing)
+            ccount+=line_chars;
+            str += line_chars; // Move the pointer forward by the number of characters that fit
+        }
+
+        frame_refresh();
+        int delay = 30; // Base delay for each character
+        if (*ptr == '\n') {
+            delay = 200; // Longer delay for new lines
+        } else if (*ptr == '.' || *ptr == '!' || *ptr == '?') {
+            delay = 600; // Longer delay for punctuation
+        }
+        if (!(buttons_get_raw() & BUTTON_PRESS)) {
+             sleep_ms(delay); // Only delay if no button is pressed, allowing users to skip through the text faster
+        }
+        else {
+             sleep_ms(1); // Short delay to debounce button presses
+        }
+        idx++;
+    }
+    buttons_clear();
+    while (buttons_get_and_clear() == 0) {
+        sleep_ms(100);
     }
 }
