@@ -13,6 +13,8 @@
 #include <string.h>
 #include "bsp/config.h"
 #include "bsp/common.h"
+#include "bsp/base64.h"
+#include "bsp/eeprom.h"
 
 const int hex_size = 36;
 const int fuel_cost = 25; // fuel cost per unit
@@ -27,6 +29,7 @@ game_state_t state;
 int game_running = false;
 int crew_count;
 game_character_t crew[5];
+char game_stats[80];
 
 Point screen_pos;
 
@@ -77,6 +80,32 @@ enum tiletype get_hex_type(Hex hex) {
 }
 
 const char* crew_names[5] = {"Astra", "Zara", "Kai", "Luna", "Jax"};
+
+int queue_mission_results(int score) {
+    char entry[64] = {0};
+    char game_id_str[6];
+    int game_id = get_rand_32();
+
+    base64_encode((uint8_t*)&game_id, sizeof(int), game_id_str, sizeof(game_id_str));
+    snprintf(entry, sizeof(entry)-32, "$GAME %5s%5s %05d %02d ",
+    config_get_id(), game_id_str, score, state.cargo);
+    for (int i=0; i<crew_count; ++i) {
+        strcat(entry, crew[i].id);
+    }
+    strcat(entry, " ");
+    sign_message(entry, sizeof(entry));
+
+    int address=64;
+    for (int i=0; i<3; ++i) {
+        char check;
+        eeprom_readbytes(address + i*64, &check, 1);
+        if (check != '$') {
+            eeprom_writebytes(address + i*64, entry, 64);
+            return 0;
+        }
+    }
+    return -1; // no room for another entry
+}
 
 void game_init() {
     int achievements = config_get_achievement_count();
@@ -131,8 +160,13 @@ void game_init() {
     screen_pos.x = LCD_WIDTH/2 - at.x;
     screen_pos.y = LCD_HEIGHT/2 - at.y;
     for (int i = 0; i < 5; i++) {
+        char tid[7];
+        uint32_t tind = get_rand_32();
+        base64_encode((uint8_t*)&tind, sizeof(tind), tid, sizeof(tid));
+        tid[5] = '\0';
         crew[i].level = 1;
         crew[i].specialty = get_rand_32() % 5; // 0 = Pilot, 1 = Engineer, 2 = Scientist, 3 = Soldier
+        strncpy(crew[i].id, tid, sizeof(crew[i].id));
         strncpy(crew[i].name, crew_names[i], sizeof(crew[i].name));
     }
     crew_count = 5;

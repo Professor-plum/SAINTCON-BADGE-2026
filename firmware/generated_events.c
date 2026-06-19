@@ -3,8 +3,8 @@
 const event_t random_events[] = {
     {
         .id = 1,
-        .title = "Interstellar Customs Authority",
-        .description = "A sleek military vessel cuts across your path, running your transponder through stellar databases. Their message crackles over the comm: 'Merchant vessel, prepare for cargo inspection. We've flagged some irregularities in your manifest.' The customs officers await your response.",
+        .title = "Galactic Customs Authority",
+        .description = "A gleaming authority cruiser looms across your path, its polished hull reflecting distant stars. A tinny radio crackles: 'Merchant vessel, prepare for cargo inspection. We've flagged irregularities in your manifest.' The customs officers await your response.",
         .option_count = 4,
         .options = {
             {
@@ -58,8 +58,8 @@ const event_t random_events[] = {
                         },
                     },
                     {
-                        .description = "Internal affairs was monitoring. You're caught red-handed and face severe penalties.",
-                        .name = "Internal affairs was monitoring. You're caught red-handed and face severe penalties.",
+                        .description = "Galactic Review was monitoring. You're caught red-handed and face severe penalties.",
+                        .name = "Galactic Review was monitoring. You're caught red-handed and face severe penalties.",
                         .chance = 40,
                         .effect_count = 2,
                         .effects = {
@@ -114,16 +114,16 @@ const event_t random_events[] = {
                 .outcome_count = 2,
                 .outcomes = {
                     {
-                        .description = "Your scientist's forgery is masterful-flawless enough to survive computer verification.",
-                        .name = "Your scientist's forgery is masterful-flawless enough to survive computer verification.",
+                        .description = "Your scientist's forgery is masterful-flawless enough to survive the ship's math-machine verification.",
+                        .name = "Your scientist's forgery is masterful-flawless enough to survive the ship's math-machine verification.",
                         .chance = 80,
                         .effect_count = 0,
                         .effects = {
                         },
                     },
                     {
-                        .description = "The military's cryptographic analysis exposes the fake documents immediately. Legal trouble ensues.",
-                        .name = "The military's cryptographic analysis exposes the fake documents immediately. Legal trouble ensues.",
+                        .description = "The patrol's analysis exposes the fake documents immediately. Tribunal trouble ensues.",
+                        .name = "The patrol's analysis exposes the fake documents immediately. Tribunal trouble ensues.",
                         .chance = 20,
                         .effect_count = 2,
                         .effects = {
@@ -144,7 +144,7 @@ const event_t random_events[] = {
     {
         .id = 2,
         .title = "Graveyard of Lost Starships",
-        .description = "Your sensors suddenly light up with thousands of contacts. Before you lies a massive debris field-the scattered remains of an ancient space battle. Jagged hull plating and twisted metal drift silently through the void like tombstones. Your navigation computer urges caution as you approach.",
+        .description = "Your sensors suddenly light up with thousands of contacts. Before you lies a massive debris field-the scattered remains of an ancient space battle. Jagged hull plating and twisted metal drift silently through the void like tombstones, glinting in the starlight like broken chrome rockets. Your navigation computer urges caution as you approach.",
         .option_count = 4,
         .options = {
             {
@@ -154,8 +154,8 @@ const event_t random_events[] = {
                 .outcome_count = 2,
                 .outcomes = {
                     {
-                        .description = "Your pilot navigates the field with surgical precision. The crew gains valuable experience.",
-                        .name = "Your pilot navigates the field with surgical precision. The crew gains valuable experience.",
+                        .description = "Your pilot maneuvers like a rocket jockey on a golden-age flyer. The crew gains valuable experience.",
+                        .name = "Your pilot maneuvers like a rocket jockey on a golden-age flyer. The crew gains valuable experience.",
                         .chance = 75,
                         .effect_count = 1,
                         .effects = {
@@ -276,7 +276,7 @@ const event_t random_events[] = {
     {
         .id = 4,
         .title = "Raiders from the Crimson Nebula",
-        .description = "Three ships emerge from the radiation haze of the Crimson Nebula, cutting off your escape vector. A gravelly voice breaks through your comms: 'Stand down, merchant. Your cargo is confiscated. Resist and we'll take the whole ship.' Pirate raiders have found you.",
+        .description = "Three sleek cutters emerge from the radiation haze of the Crimson Nebula, cutting off your escape vector. Their ray cannons gleam like chrome pistols in the starlight. A gravelly voice breaks through your comms: 'Stand down, merchant. Your cargo is confiscated. Resist and we'll take the whole ship.' Pirate raiders have found you.",
         .option_count = 4,
         .options = {
             {
@@ -408,7 +408,7 @@ const event_t random_events[] = {
     {
         .id = 5,
         .title = "The Obsidian Monolith",
-        .description = "Deep in a forgotten asteroid field, your salvage scanner detects something: a perfectly geometric obsidian structure, pulsing with an unidentifiable energy signature. Whatever this ancient artifact is, it seems to predate any known civilization. Its origins-and purpose-remain a complete mystery.",
+        .description = "Deep in a forgotten asteroid field, your salvage scanner detects something extraordinary: a perfectly geometric obsidian structure, pulsing with an eerie, neon glow. This ancient alien artifact hums like a forgotten rocket-age dream, predating any known civilization. Its origins-and purpose-remain a complete mystery.",
         .option_count = 4,
         .options = {
             {
@@ -418,8 +418,8 @@ const event_t random_events[] = {
                 .outcome_count = 2,
                 .outcomes = {
                     {
-                        .description = "A collectors' market hungers for alien relics. You pocket a tidy sum.",
-                        .name = "A collectors' market hungers for alien relics. You pocket a tidy sum.",
+                        .description = "A retro collectors' market hungers for alien relics. You pocket a tidy sum.",
+                        .name = "A retro collectors' market hungers for alien relics. You pocket a tidy sum.",
                         .chance = 60,
                         .effect_count = 1,
                         .effects = {
@@ -536,7 +536,7 @@ const event_t random_events[] = {
     {
         .id = 6,
         .title = "The Dying Freighter",
-        .description = "A distress beacon pulls your attention toward a crippled deep-space freighter, its reactor stuttering dangerously. Through the viewscreen, you see a damaged hull and desperate crew signals. The captain's voice comes through, barely a whisper: 'Please... we're running on fumes. Can anyone help?'",
+        .description = "A distress beacon pulls your attention toward a crippled deep-space freighter, its reactor stuttering dangerously. Through the viewscreen, you see a damaged hull and desperate crew signals. The captain's voice comes through, barely a whisper: 'Please... our rocket tanks are dry. Can anyone spare a puff of fuel?'",
         .option_count = 3,
         .options = {
             {
@@ -772,7 +772,7 @@ const event_t random_events[] = {
     {
         .id = 8,
         .title = "Bio-Hazard Alert",
-        .description = "A routine scan triggers your ship's alarm system. Biohazard readings spike in the cargo bay-something in one of your containers has become contaminated with an unknown pathogen. The cargo holds 80% of your profits for this run. What do you do?",
+        .description = "A routine scan triggers your ship's alarm system. Biohazard readings spike in the cargo bay-something in one of your containers has become contaminated with an unknown, glowing pathogen. The cargo holds 80% of your profits for this run. What do you do?",
         .option_count = 4,
         .options = {
             {
@@ -814,8 +814,8 @@ const event_t random_events[] = {
                 .outcome_count = 2,
                 .outcomes = {
                     {
-                        .description = "You sell it anyway. The buyers never notice the contamination. Profit secured.",
-                        .name = "You sell it anyway. The buyers never notice the contamination. Profit secured.",
+                        .description = "You sell it anyway. The buyers are dazzled by the glow. Profit secured.",
+                        .name = "You sell it anyway. The buyers are dazzled by the glow. Profit secured.",
                         .chance = 60,
                         .effect_count = 0,
                         .effects = {
@@ -896,7 +896,7 @@ const event_t random_events[] = {
     {
         .id = 9,
         .title = "Solar Fury Descends",
-        .description = "The peaceful starfield erupts in chaos. A massive coronal mass ejection tears from the sun, invisible waves of radiation and charged particles racing toward your vessel. Your alarms wail as the solar storm engulfs your trajectory. Only your quick thinking can save the ship now.",
+        .description = "The peaceful starfield erupts in chaos. A massive solar flare tears from the sun, invisible waves of radiation and charged particles racing toward your vessel like an atomic sunburst. Your alarms wail as the storm engulfs your trajectory. Only your quick thinking can save the ship now.",
         .option_count = 4,
         .options = {
             {
@@ -1008,7 +1008,7 @@ const event_t random_events[] = {
     {
         .id = 10,
         .title = "Dysentery Outbreak",
-        .description = "As you ford a treacherous asteroid field, contaminated water from a cracked recycler spreads through the crew. Symptoms of dysentery begin to manifest-fever, dehydration, and weakness. The old trail disease has found its way to the stars.",
+        .description = "As you glide through a treacherous asteroid belt, contaminated water from a cracked recycler spreads through the crew. Symptoms of dysentery begin to manifest-fever, dehydration, and weakness. Even the old frontier diseases have found their way to the stars.",
         .option_count = 3,
         .options = {
             {
@@ -1358,8 +1358,8 @@ const event_t random_events[] = {
                         },
                     },
                     {
-                        .description = "The bureaucratic process drags on. Your schedule crumbles.",
-                        .name = "The bureaucratic process drags on. Your schedule crumbles.",
+                        .description = "The paperwork drags on. Your schedule crumbles.",
+                        .name = "The paperwork drags on. Your schedule crumbles.",
                         .chance = 40,
                         .effect_count = 0,
                         .effects = {
@@ -1579,7 +1579,7 @@ const event_t random_events[] = {
     },
     {
         .id = 19,
-        .title = "When Systems Fail",
+        .title = "Sparks in the Engine Room",
         .description = "A shower of sparks erupts from the engine compartment. Your second engineer limps out, blackened and shaken. 'Captain, we've got a critical failure in the main turbine assembly. It's holding for now, barely, but if it gives way completely...'",
         .option_count = 4,
         .options = {
@@ -1699,7 +1699,7 @@ const event_t random_events[] = {
     },
     {
         .id = 20,
-        .title = "Plague Among Your People",
+        .title = "Space Plague Strikes",
         .description = "Your best navigator collapses on the bridge. Fever. Chills. An illness spreading through your ranks with disturbing speed. The medical officer looks grim: 'Captain, I've never seen anything like this before. Whatever this is, it could incapacitate the crew.'",
         .option_count = 3,
         .options = {
@@ -1912,7 +1912,7 @@ const event_t random_events[] = {
     {
         .id = 22,
         .title = "Giant Spider Infestation",
-        .description = "Boarding a derelict freighter for salvage, your team discovers a nightmare: massive, genetically engineered spiders that have overrun the ship. Their webs clog corridors, and their venomous bites threaten your crew.",
+        .description = "Boarding a derelict freighter for salvage, your team discovers a nightmare straight out of a pulp serial: massive, genetically engineered spiders that have overrun the ship. Their webs clog corridors, and their venomous bites threaten your crew.",
         .option_count = 3,
         .options = {
             {
@@ -2124,7 +2124,7 @@ const event_t random_events[] = {
     {
         .id = 25,
         .title = "Relics of the First Builders",
-        .description = "Planetary sensors reveal something extraordinary: monumental structures beneath the world's crust. Architecture that predates any known species, with purpose and scale that makes your crew catch their breath. Could this be the legendary home of the First Builders? A discovery that could rewrite history itself.",
+        .description = "Planetary sensors reveal monumental structures beneath the world's crust. Architecture that predates any known species, with purpose and scale that makes crew catch their breath. Could this be the legendary home of the First Builders? A discovery that could rewrite history itself.",
         .option_count = 4,
         .options = {
             {
@@ -2652,7 +2652,7 @@ const event_t random_events[] = {
     {
         .id = 35,
         .title = "The Calling",
-        .description = "Your comms array picks up an eerie pulse-a signal so elegant, so perfectly structured, that it can't possibly be natural. It repeats in a measured cadence, almost like morse code, but in no language your translators recognize. It pulls at your curiosity like nothing you've felt before.",
+        .description = "Your comms array picks up an eerie pulse-a signal so elegant, so perfectly structured, that it can't possibly be natural. It repeats in a measured cadence, almost like morse code from a long-lost rocket-age beacon, but in no language your translators recognize. It pulls at your curiosity like nothing you've felt before.",
         .option_count = 4,
         .options = {
             {
@@ -4579,7 +4579,7 @@ const event_t random_events[] = {
     },
     {
         .id = 55,
-        .title = "Crew Mutiny",
+        .title = "Mutiny at Starboard",
         .description = "Whispers spread through the crew. Some demand action, others bristle at leadership. If this standoff explodes, your voyage may end in blood.",
         .option_count = 4,
         .options = {
@@ -4711,7 +4711,7 @@ const event_t random_events[] = {
     },
     {
         .id = 56,
-        .title = "Alien Parasite",
+        .title = "Venom of the Void",
         .description = "A crewman collapses with wet, black tendrils moving under their skin. The ship's biohazard sensors scream. This parasite is not from any known biology.",
         .option_count = 4,
         .options = {
@@ -4839,7 +4839,7 @@ const event_t random_events[] = {
     },
     {
         .id = 58,
-        .title = "High-Speed Maneuver",
+        .title = "Daring Rocket Run",
         .description = "An opening appears in asteroid traffic, but it's narrow and uncharted. You must choose between careful pacing and a dangerous sprint. Heroics or catastrophe await.",
         .option_count = 3,
         .options = {
@@ -4943,7 +4943,7 @@ const event_t random_events[] = {
     },
     {
         .id = 59,
-        .title = "Explosive Cargo",
+        .title = "Cargo Bomb in the Hold",
         .description = "A dull thump turns into a heartbeat. Your cargo being starts to hiss and glow. One wrong move and your hold becomes a warhead.",
         .option_count = 4,
         .options = {
@@ -5560,7 +5560,7 @@ const event_t random_events[] = {
     {
         .id = 65,
         .title = "Experimental Tech Failure",
-        .description = "Alarms shriek through engineering as the experimental quantum flux module overloads. Containment fields flicker erratically, casting eerie blue glows while sparks explode from consoles. The air reeks of burning circuits. This promised breakthrough has become a catastrophic threat.",
+        .description = "Alarms shriek through engineering as the experimental flux module overloads. Containment fields flicker, casting eerie blue glows while sparks explode from consoles. The air reeks of burning circuits. This promised breakthrough has become a catastrophic threat.",
         .option_count = 4,
         .options = {
             {

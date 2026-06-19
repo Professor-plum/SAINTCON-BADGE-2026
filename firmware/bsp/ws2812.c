@@ -13,10 +13,16 @@ static uint ws2812_offset;
 
 struct repeating_timer led_timer = {0};
 
+#ifdef VERSION_01
+const uint16_t led_pattern[5] = {0x100, 0x81, 0x42, 0x24, 0x18}; 
+#else
+const uint16_t led_pattern[5] = {0x80, 0x140, 0x21, 0x12, 0x0C}; 
+#endif
+
+
 ws2812_rgb_t led_pattern_buffer[WS2812_NUM_LEDS];
 uint8_t led_pattern_index = 0;
-uint16_t led_pattern[5] = {0x100, 0x81, 0x42, 0x24, 0x18}; 
-ws2812_rgb_t led_color;
+ws2812_rgb_t led_color = (ws2812_rgb_t){16, 0, 16};
 ws2812_rgb_t alert_color;
 int alert=0;
 
@@ -83,6 +89,9 @@ void ws2812_clear(void) {
     }
 }
 
+void ws2812_set_pattern_color(ws2812_rgb_t color) {
+    led_color = color;
+}
 
 void ws2812_pattern_update(void) {
     for (uint i = 0; i < WS2812_NUM_LEDS; i++) {
@@ -96,7 +105,7 @@ void ws2812_pattern_update(void) {
         }
         else {
             if (led_pattern[led_pattern_index%5] & (1 << i)) {
-                led_pattern_buffer[i] = (ws2812_rgb_t){16, 0, 16}; 
+                led_pattern_buffer[i] = led_color; 
             } else {
                 led_pattern_buffer[i] = (ws2812_rgb_t){0, 0, 0};
             }

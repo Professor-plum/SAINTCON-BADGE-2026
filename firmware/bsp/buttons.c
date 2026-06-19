@@ -4,6 +4,7 @@
 #include "pico/time.h"
 #include "hardware/irq.h"
 #include <stdint.h>
+#include "config.h"
 
 #define BUTTON_DEBOUNCE_MS 50
 
@@ -37,7 +38,7 @@ static int gpio_to_button_mask(uint gpio) {
     }
 }
 
-int konima = 0;
+int konami_seq = 0;
 
 static bool should_accept_event(uint gpio) {
     int index = gpio_to_button_index(gpio);
@@ -61,6 +62,40 @@ void gpio_callback(uint gpio, uint32_t events) {
     int mask = gpio_to_button_mask(gpio);
     if (mask) {
         b_state |= mask;
+        switch (konami_seq) {
+        case 0: 
+        case 1:
+            if (gpio == GPIO_JOY_UP) konami_seq++;
+            else konami_seq = 0;
+            break;
+        case 2:
+        case 3:
+            if (gpio == GPIO_JOY_DOWN) konami_seq++;
+            else konami_seq = 0;
+            break;
+        case 4:
+        case 6:
+            if (gpio == GPIO_JOY_LEFT) konami_seq++;
+            else konami_seq = 0;
+            break;
+        case 5:
+        case 7:
+            if (gpio == GPIO_JOY_RIGHT) konami_seq++;
+            else konami_seq = 0;
+            break;
+        case 8:
+            if (gpio == GPIO_BTN1) konami_seq++;
+            else konami_seq = 0;
+            break;
+        case 9:
+            if (gpio == GPIO_BTN2) {
+                konami_seq++;
+            }
+            else konami_seq = 0;
+            break;
+        default:
+            break;
+        }
     }
 }
 
@@ -145,5 +180,9 @@ int buttons_get_raw() {
 }
 
 uint64_t buttons_get_last_activity_us() {
+    if (konami_seq == 10) {
+        konami_seq = 0;
+        config_get_achievement_name(konami);
+    }
     return last_button_activity_us;
 }

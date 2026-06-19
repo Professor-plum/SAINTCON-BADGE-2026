@@ -8172,6 +8172,12 @@
 		(uuid "66c41360-174e-442d-9843-3859c0bff2b4")
 	)
 	(junction
+		(at 233.68 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6ae10dfe-f751-4b0e-81e7-e4507a13f7ae")
+	)
+	(junction
 		(at 134.62 87.63)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8444,10 +8450,6 @@
 		(uuid "b42b3af0-6e6f-4ca3-9e6f-5d76b7c9fc29")
 	)
 	(no_connect
-		(at 243.84 53.34)
-		(uuid "e8240aae-bf75-4300-b08f-d01129c4d66d")
-	)
-	(no_connect
 		(at 199.39 130.81)
 		(uuid "ee55738a-e807-4e04-a464-8ffcfbfec3a6")
 	)
@@ -8640,6 +8642,16 @@
 			(type default)
 		)
 		(uuid "1c07d700-d0ed-4aa3-8302-b4d94941b894")
+	)
+	(wire
+		(pts
+			(xy 243.84 58.42) (xy 233.68 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d361394-8abe-4f60-bedd-a3ea469792c3")
 	)
 	(wire
 		(pts
@@ -10630,6 +10642,16 @@
 			(type default)
 		)
 		(uuid "eb6d4e57-3b0b-4a24-9d74-fdae882b9257")
+	)
+	(wire
+		(pts
+			(xy 243.84 53.34) (xy 243.84 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec571ef9-c65f-4d24-981d-5c842bfc50a6")
 	)
 	(wire
 		(pts
@@ -19764,7 +19786,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:CONN-SMD_16P-P0.50_5034801600_1"
+		(property "Footprint" "easyeda2kicad:FPC-SMD_16P-P0.50_KH-FPC0.5-H1.0SMT-16P"
 			(at 270.51 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -19797,7 +19819,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C2856801"
+		(property "LCSC Part" "C3250117"
 			(at 270.51 138.43 0)
 			(hide yes)
 			(show_name no)

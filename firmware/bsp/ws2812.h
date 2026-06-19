@@ -1,11 +1,22 @@
 #ifndef WS2812_H
 #define WS2812_H
+#pragma once
 
 #include <stdint.h>
 #include "hardware/pio.h"
 
-#define WS2812_NUM_LEDS 9
+//#define VERSION_01
+
+#ifdef VERSION_01
 #define WS2812_PIN 18
+#define MB_CLK_PIN 6
+#else
+#define WS2812_PIN 24 
+#define MB_CLK_PIN 18
+#endif
+
+
+#define WS2812_NUM_LEDS 9
 
 // RGB color structure
 typedef struct {
@@ -25,6 +36,7 @@ void ws2812_set_led(uint index, uint8_t r, uint8_t g, uint8_t b);
 void ws2812_clear(void);
 
 void ws2812_pattern_update(void);
+void ws2812_set_pattern_color(ws2812_rgb_t color);
 
 void ws2812_show_alert(ws2812_rgb_t color);
 

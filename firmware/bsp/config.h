@@ -2,10 +2,13 @@
 #define UNLOCKS_H
 #include <stdint.h>
 
+
+#define CONFIG_ADDR     16
+
 extern int game_running;
 
 enum achievement {
-    konima = 0,         //Obtained by entering the "Konima" unlock code (up up down down left right left right) 
+    konami = 0,         //Obtained by entering the "konami" unlock code (up up down down left right left right) 
     one_game,           //Obtained by completing your first mission
     game_quota,         //Obtained by reaching 5000 total score
     game_event1,        //Obtained by encountering "Relics of the First Builders" random event in the game
@@ -33,6 +36,7 @@ enum achievement {
 int config_load();
 void config_clear();
 void config_set_handle(const char* name);
+void config_generate_handle(void);
 int config_submit(const char* key);
 int config_achievement(enum achievement id);
 int config_get_achievement_count();
@@ -43,7 +47,7 @@ char* config_get_handle();
 char config_get_class();
 char* config_get_class_name();
 char* config_get_achievement_name(enum achievement id);
-void config_get_id(char* out);
+char* config_get_id();
 
 
 #endif

@@ -1,4 +1,5 @@
-aux_source_directory(. DIR_BSP_SRCS)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/*.c")
+file(GLOB DIR_BSP_SRCS "${CMAKE_CURRENT_LIST_DIR}/*.c")
 
 add_library(bsp ${DIR_BSP_SRCS})
 
@@ -14,6 +15,7 @@ pico_generate_pio_header(bsp ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio)
 target_link_libraries(bsp PUBLIC 
     pico_stdlib 
     pico_stdio_usb
+    pico_rand
     hardware_spi 
     hardware_i2c 
     hardware_pwm 
