@@ -1493,6 +1493,17 @@
 			(uuid "9cceb45c-9313-4ed7-9c94-3f15f2ae2564")
 		)
 		(embedded_fonts no)
+		(model "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/CONN-TH_6P-P2.54_ER06BGFBK.wrl"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1.2 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "easyeda2kicad:RJ45-TH_RRCH-52014P4C"
 		(layer "B.Cu")

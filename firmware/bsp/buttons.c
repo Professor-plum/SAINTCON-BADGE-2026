@@ -182,7 +182,7 @@ int buttons_get_raw() {
 uint64_t buttons_get_last_activity_us() {
     if (konami_seq == 10) {
         konami_seq = 0;
-        config_get_achievement_name(konami);
+        config_achievement(konami);
     }
     return last_button_activity_us;
 }

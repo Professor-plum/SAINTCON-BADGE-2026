@@ -13,6 +13,8 @@
 #include "common.h"
 #include "base64.h"
 #include "bsp_komihash.h"
+#include "bsp_gost28147.h"
+#include "eeprom.h"
 
 #define CONSOLE_BUFFER_SIZE 128
 #define UART_BUFFER_SIZE 512
@@ -21,6 +23,8 @@
 
 static char console_buffer[CONSOLE_BUFFER_SIZE];
 static size_t console_index = 0;
+static char pending_console_command[CONSOLE_BUFFER_SIZE];
+static volatile bool pending_console_command_ready = false;
 bool usb_banner_printed = false;
     
 static char uart_buffer[UART_BUFFER_SIZE];
@@ -36,8 +40,19 @@ static size_t docking_command_count = 0;
 
 static void uart_poll(void);
 static bool terminal_enqueue_docking_command(const char *command);
+static void console_handle_command(char *command);
 
 extern uint16_t pending_score;
+
+char gost_key[32] = {
+    0x4e, 0x8b, 0x67, 0x8d, 0xc1, 0xac, 0xbf, 0x60, 0x7a, 0x83, 0xa8, 0xbb, 0x04, 0xd7, 0x96, 0x10,
+    0xfd, 0xdd, 0xa2, 0x30, 0xcb, 0xd7, 0x74, 0xf7, 0x16, 0xbc, 0x1d, 0x0c, 0x84, 0xab, 0x17, 0xaf};
+
+const char gost_enc[] = {
+    0x22, 0x2f, 0x55, 0x91, 0xde, 0x66, 0x43, 0x11,
+    0x0f, 0xd9, 0xa3, 0x3d, 0xb4, 0xb6, 0x74, 0x15,
+    0x13, 0x41, 0xd4, 0x47, 0x10, 0xf1, 0x0d, 0x58
+};
 
 void uart_poll() {
     uint32_t irq_state = save_and_disable_interrupts();
@@ -79,14 +94,25 @@ void uart_poll() {
     }
     // The rest of these commands are only valid when the game is running, so ignore them otherwise
     if (game_running) {
+        printf("Game running, skipping docking command: %s\n", uart_input_buffer);
         return;
     }
 
     terminal_enqueue_docking_command(uart_input_buffer);
 }
 
+static void console_process_pending_command(void) {
+    if (!pending_console_command_ready) {
+        return;
+    }
+
+    pending_console_command_ready = false;
+    console_handle_command(pending_console_command);
+}
+
 static bool uart_timer_callback(struct repeating_timer *t) {
     (void)t;
+    console_process_pending_command();
     uart_poll();
     if (stdio_usb_connected()) {
         if (!usb_banner_printed) {
@@ -108,7 +134,7 @@ static bool uart_timer_callback(struct repeating_timer *t) {
 static void uart_irq(void) {
     while (uart_is_readable(UART_ID)) {
         int ch = uart_getc(UART_ID);
-        uart_putc(UART_ID, ch);
+        //uart_putc(UART_ID, ch);
         if (ch == '\r' || ch == '\n') {
             if (uart_index == 0) {
                 continue;
@@ -155,6 +181,21 @@ void terminal_send(const char* command) {
     uart_write_blocking(UART_ID, (const uint8_t *)"\r\n", 2);
 }
 
+static void terminal_print_hex_bytes(const unsigned char *data, size_t len) {
+    static const char hex[] = "0123456789abcdef";
+    for (size_t i = 0; i < len; ++i) {
+        unsigned char value = data[i];
+        stdio_putchar(hex[(value >> 4) & 0x0F]);
+        stdio_putchar(hex[value & 0x0F]);
+        if ((i & 0x1F) == 0x1F) {
+            sleep_ms(5);
+        }
+    }
+    stdio_puts("\r\n");
+}
+
+int flag_unlock = 1;
+
 static void console_handle_command(char *command) {
     char cmd[CONSOLE_BUFFER_SIZE];
     size_t len = strlen(command);
@@ -186,12 +227,93 @@ static void console_handle_command(char *command) {
         }
     } else if (strcmp(cmd, "UNLOCK") == 0) {
         stdio_puts("UNLOCK: requires unlock code argument. Usage: UNLOCK <code>\r\n");
+    } else if (strncmp(cmd, "HANDLE ", 7) == 0) {
+        const char *name = cmd + 7;
+        while (*name == ' ') name++;
+        int name_len = strlen(name);
+        if (name_len < 3) {
+            stdio_puts("Handle too short.\r\n");
+        }
+        else if (name_len > 14) {
+            stdio_puts("Handle too long.\r\n");
+        }
+        else {
+            int valid = true;
+            for (int i=0; i<name_len; ++i) {
+                char at = name[i];
+                if (at==' ') continue;
+                else if (at == '_') continue;
+                else if ((at >= '-') && (at <= '9')) continue;
+                else if ((at >= '@') && (at <= 'Z')) continue;
+                else if ((at >= 'a') && (at <= 'z')) continue;
+                else {
+                    valid = false;
+                    stdio_puts("Handle contains invalid characters.\r\n");
+                }
+            }
+            if (valid) {
+                config_set_handle(name);
+                stdio_printf("Your new handle is \"%s\"\r\n", config_get_handle());
+            }
+        }
+    } else if (strcmp(cmd, "HANDLE") == 0) {
+        stdio_puts("HANDLE: requires new handle argument. Usage: HANDLE <new_handle>\r\n");
     } else if (strcmp(cmd, "HELP") == 0) {
-        stdio_puts("Commands: UNLOCK <code>, HELP\r\n");
+        stdio_puts("Commands: HANDLE <new_handle>, UNLOCK <code>\r\n");
     } else if (strcmp(cmd, "CLEAR") == 0) {
         stdio_puts("\x1b[2J\x1b[H"); // ANSI escape code to clear screen and move cursor to home
+    } else if (strncmp(cmd, "FLAG ", 5) == 0) {
+        char flag[24] = "{Rusty_C0d3_1s_4w3s0m3}";
+        if (cmd[5] == '3') {
+            //{Fly1ng_C4r_Pr0m1s3}
+
+            memcpy(flag, gost_enc, 24);
+            gost28147_set_key(gost_key);
+            gost28147_decrypt(flag);
+            gost28147_decrypt(flag+8);
+            gost28147_decrypt(flag+16);
+            for (int i=0;i<23;++i) {
+                flag[i] = '*';
+            }
+        } else if (cmd[5] == '2') {
+                char eedata[8];
+                eeprom_readbytes(0, eedata, 8);
+                if (strncmp(eedata, "PLUM", 4) == 0) {
+                    // obfuscated bytes for "{R4ygun_G0th1c_Ph4s3}" 
+                    const unsigned char enc[] = {
+                        0xCA,0xE3,0x27,0x80,0x41,0x3F,0x18,0x74,0x7D,0x47,0xDF,
+                        0x42,0xAB,0x97,0x6A,0x77,0x68,0xE7,0x8F,0x9B,0xC2
+                    };
+                    int enc_len = (int)sizeof(enc);
+                    for (int i = 0; i < enc_len; ++i) {
+                        uint8_t e = enc[i];
+                        uint8_t step1 = e ^ (uint8_t)(0xA5 ^ (uint8_t)i);
+                        uint8_t step2 = (uint8_t)(step1 + (uint8_t)(i * 3));
+                        uint8_t step3 = (uint8_t)((step2 << 3) | (step2 >> 5));
+                        flag[i] = (char)step3;
+                    }
+                    if (enc_len < (int)sizeof(flag)) {
+                        flag[enc_len] = '\0';
+                        if (enc_len + 1 < (int)sizeof(flag))
+                            memset(flag + enc_len + 1, 0, sizeof(flag) - (enc_len + 1));
+                    }
+                }   
+                else {
+                    strncpy(flag, "INVALID", sizeof(flag));
+                }
+            } else if (cmd[5] == '1') {
+            //{At0m1c_Ut0p1a_1955}
+            const char flag1[] = {
+                0xb7, 0x8d, 0xb8, 0xfc, 0xa1, 0xfd, 0xaf, 0x93, 0x99, 0xb8, 0xfc, 0xbc,
+                0xfd, 0xad, 0x93, 0xfd, 0xf5, 0xf9, 0xf9, 0xb1, 0xcc};
+            for (int i=0;i<sizeof(flag1);++i) {
+                flag[i] = flag1[i] ^ 0xcc;
+            }
+        }
+        flag[23] = '\0';
+        printf("Flag: %s", flag);
     } else if (strcmp(cmd, "FLAG") == 0) {
-        stdio_puts("FLAG: FLAG{UART1_TERMINAL_ENABLED}\r\n");
+        stdio_puts("Flag: requires argument\r\n");
     } else {
         stdio_puts("Unknown command. Type HELP for commands.\r\n");
     }
@@ -225,6 +347,9 @@ static bool terminal_enqueue_docking_command(const char *command) {
         docking_command_count++;
         queued = true;
     }
+    else {
+        printf("Docking command queue full, dropping command: %s\n", command);
+    }
     restore_interrupts(irq_state);
     return queued;
 }
@@ -237,7 +362,10 @@ void on_usb_rx(void *v) {
                 stdio_putchar('\r');
                 stdio_putchar('\n');
                 console_buffer[console_index] = '\0';
-                console_handle_command(console_buffer);
+                if (console_index + 1 < sizeof(pending_console_command)) {
+                    memcpy(pending_console_command, console_buffer, console_index + 1);
+                    pending_console_command_ready = true;
+                }
                 console_index = 0;
             }
         } else if (ch == '\b' || ch == 0x7F) {

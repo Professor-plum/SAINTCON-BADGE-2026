@@ -85,12 +85,21 @@ void parse_crew_string(char* str) {
     }
 }
 
+void replace_char(char *str, char old_char, char new_char) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == old_char) {
+            str[i] = new_char;
+        }
+    }
+}
+
 int process_docking_commands() {
     char command[512];
     int processed = 0;
 
     while (terminal_pop_docking_command(command, sizeof(command))) {
-        if (strcmp(command, "$STATION") == 0) {
+        printf("Processing docking command: %s\n", command);
+        if (strncmp(command, "$STATION", 8) == 0) {
             printf("station command recieved\n");
             vote_options_count = 0;
             if (dock_state != syncing) {
@@ -98,7 +107,8 @@ int process_docking_commands() {
                 dock_time = get_absolute_time();
             }
             strncpy(message_buffer, command+9, sizeof(message_buffer));
-            snprintf(command, sizeof(command), "$ID %c%s-14.14s%08X ", config_get_class(), config_get_id(), config_get_handle(), config_get_achievements());
+            replace_char(message_buffer, '|', '\n');
+            snprintf(command, sizeof(command), "$ID %c%5s%-14s%08X ", config_get_class(), config_get_id(), config_get_handle(), config_get_achievements());
             sign_message(command, sizeof(command));
             terminal_send(command);
             for (int i=0;i<3;++i) {
@@ -108,7 +118,7 @@ int process_docking_commands() {
                     terminal_send(line);
                 }
             }
-        } else if (strcmp(command, "$GAME") == 0) {
+        } else if (strncmp(command, "$GAME", 5) == 0) {
             for (int i=0;i<3;++i) {
                 char line[65]={0};
                 eeprom_readbytes(64*(i+1),line, 64);
@@ -117,11 +127,11 @@ int process_docking_commands() {
                     eeprom_readbytes(64*(i+1),line, 64);
                 }
             }
-        } else if (strcmp(command, "$DIALOG") == 0) {
+        } else if (strncmp(command, "$DIALOG", 7) == 0) {
             strncpy(message_buffer, command+8, sizeof(message_buffer));
             printf("recieved DIALOG");
             //should we confirm reception?
-        } else if (strcmp(command, "$OPTIONS") == 0) {
+        } else if (strncmp(command, "$OPTIONS", 8) == 0) {
             printf("recieved OPTIONS\n");
             vote_id[0] = *(command + 9);
             vote_id[1] = *(command + 10);
@@ -135,7 +145,7 @@ int process_docking_commands() {
                 strncpy(vote_options[vote_options_count++], at, sizeof(vote_options[0]));
             } while (next);
             //should we confirm reception?
-        } else if (strcmp(command, "$EOL") == 0) {
+        } else if (strncmp(command, "$EOL", 4) == 0) {
             printf("Docking complete\n");
             dock_state = welcome;
         } else if (strncmp(command, "$CREW", 5) == 0) {
@@ -317,6 +327,10 @@ void run_main_loop() {
         break;
     case complete:
         run_docking_complete();
+        break;
+    default:
+        printf("Unknown docking state: %d\n", dock_state);
+        dock_state = none;
         break;
     }
 }

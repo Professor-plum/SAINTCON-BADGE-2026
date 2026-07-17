@@ -3401,7 +3401,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C98220"
+		(property "LCSC Part" "C25804"
 			(at 217.17 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -6790,7 +6790,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C98220"
+		(property "LCSC Part" "C25804"
 			(at 217.17 100.33 0)
 			(hide yes)
 			(show_name no)

@@ -6804,34 +6804,14 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "easyeda2kicad:K1-1507SA-03"
+		(symbol "easyeda2kicad:LCK-TKLYABE0G1"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "SW"
-				(at 0 8.89 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "K1-1507SA-03"
-				(at 0 -11.43 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "easyeda2kicad:KEY-SMD_K1-1507SA-03"
-				(at 0 -13.97 0)
+				(at 0 10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -6841,8 +6821,30 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://lcsc.com/product-detail/5-way-Tactile-Switchs_K1-1507SA-03_C145909.html"
-				(at 0 -16.51 0)
+			(property "Value" "LCK-TKLYABE0G1"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda2kicad:SW-SMD_10P-L10.6-W10.0_SKLYABE010"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C54769749.pdf"
+				(at 0 -15.24 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -6863,8 +6865,8 @@
 					)
 				)
 			)
-			(property "Manufacturer" "韩国韩荣"
-				(at 0 -19.05 0)
+			(property "Manufacturer" "LCKELEC(联晟欣)"
+				(at 0 -17.78 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -6874,8 +6876,8 @@
 					)
 				)
 			)
-			(property "MPN" "K1-1507SA-03"
-				(at 0 -21.59 0)
+			(property "MPN" "LCK-TKLYABE0G1"
+				(at 0 -20.32 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -6885,8 +6887,8 @@
 					)
 				)
 			)
-			(property "LCSC Part" "C145909"
-				(at 0 -24.13 0)
+			(property "LCSC Part" "C54769749"
+				(at 0 -22.86 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -6896,18 +6898,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "Multi-Directional Switches"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "K1-1507SA-03_0_1"
+			(symbol "LCK-TKLYABE0G1_0_1"
 				(polyline
 					(pts
 						(xy -5.08 3.81) (xy -0.76 3.81) (xy -1.78 2.54) (xy -2.54 3.81)
@@ -10913,7 +10904,7 @@
 	)
 	(global_label "JOY_B"
 		(shape input)
-		(at 154.94 160.02 0)
+		(at 154.94 157.48 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10923,7 +10914,7 @@
 		)
 		(uuid "0db099ac-072d-4654-8ba8-88b5921e3144")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 163.5495 160.02 0)
+			(at 163.5495 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10961,7 +10952,7 @@
 	)
 	(global_label "JOY_L"
 		(shape input)
-		(at 154.94 154.94 0)
+		(at 154.94 162.56 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10971,7 +10962,7 @@
 		)
 		(uuid "13b30eaf-b235-4d43-b61e-2a3ecedd87e1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 163.3076 154.94 0)
+			(at 163.3076 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11393,7 +11384,7 @@
 	)
 	(global_label "JOY_D"
 		(shape input)
-		(at 154.94 157.48 0)
+		(at 154.94 160.02 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11403,7 +11394,7 @@
 		)
 		(uuid "732f2f51-6a01-4d03-b319-8319a79111ef")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 163.5495 157.48 0)
+			(at 163.5495 160.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11921,7 +11912,7 @@
 	)
 	(global_label "JOY_R"
 		(shape input)
-		(at 154.94 162.56 0)
+		(at 154.94 154.94 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11931,7 +11922,7 @@
 		)
 		(uuid "cb18c9d3-6888-48f0-bd60-5792157ca79a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 163.5495 162.56 0)
+			(at 163.5495 154.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12750,7 +12741,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14675"
+		(property "LCSC Part" "C25803"
 			(at 81.28 27.94 0)
 			(hide yes)
 			(show_name no)
@@ -12842,7 +12833,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 139.7 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -13121,7 +13112,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -13339,7 +13330,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C395022"
+		(property "LCSC Part" "C167745"
 			(at 153.67 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -13431,7 +13422,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 134.62 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -13523,7 +13514,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 149.86 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -15635,7 +15626,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 24.13 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -15804,7 +15795,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 83.82 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -16164,7 +16155,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 129.54 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -16213,7 +16204,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "24CS02"
+		(property "Value" "24CS08"
 			(at 224.79 52.0699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16246,7 +16237,7 @@
 				)
 			)
 		)
-		(property "Description" "I2C Serial EEPROM, 2Kb (256x8) with Unique Serial Number, SOT-23-5"
+		(property "Description" "I2C Serial EEPROM, 8Kb (1024x8) with Unique Serial Number, SOT-23-5"
 			(at 233.68 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -16257,7 +16248,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C18723540"
+		(property "LCSC Part" "C41408502"
 			(at 233.68 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -16358,7 +16349,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C19666"
+		(property "LCSC Part" "C1590"
 			(at 148.59 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -16621,7 +16612,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 90.17 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -17950,7 +17941,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C99782"
+		(property "LCSC Part" "C23162"
 			(at 247.65 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -18058,7 +18049,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -18218,6 +18209,145 @@
 			(project "Apollo"
 				(path "/2d6dc0fd-a107-4172-919d-4fd101d8d77d/b4195d13-9cae-47b3-bf32-e6f8fa421cf5"
 					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "easyeda2kicad:LCK-TKLYABE0G1")
+		(at 260.35 92.71 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9b1d856f-3423-473b-a762-96da6e805242")
+		(property "Reference" "SW4"
+			(at 260.35 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LCK-TKLYABE0G1"
+			(at 260.35 102.87 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:SW-SMD_10P-L10.6-W10.0_SKLYABE010"
+			(at 260.35 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C54769749.pdf"
+			(at 260.35 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 260.35 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "LCKELEC(联晟欣)"
+			(at 260.35 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "LCK-TKLYABE0G1"
+			(at 260.35 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C54769749"
+			(at 260.35 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "5"
+			(uuid "6816bc93-e6b0-4a4a-8386-63480c24c4c1")
+		)
+		(pin "2"
+			(uuid "f0697532-2909-4105-aa1c-212cce08753e")
+		)
+		(pin "4"
+			(uuid "3c936ba8-564e-47a9-937a-8cbf2ed89d75")
+		)
+		(pin "1"
+			(uuid "05ef3d03-7e95-4046-b208-d9f613bbaad9")
+		)
+		(pin "7"
+			(uuid "c7a152d3-8dd7-4245-9e02-cf706e22660a")
+		)
+		(pin "3"
+			(uuid "b72818b2-2cad-4af7-ad8e-64c6823a6acb")
+		)
+		(pin "8"
+			(uuid "58f0421d-6927-4fef-aa93-71da0e7769af")
+		)
+		(pin "9"
+			(uuid "75295a78-1f7d-43a6-bf2b-7e9fa2d16a70")
+		)
+		(pin "10"
+			(uuid "72483207-98b9-4436-b912-d01ffd88e00b")
+		)
+		(pin "6"
+			(uuid "a6af5efd-103f-481c-8598-8d6b6e840313")
+		)
+		(instances
+			(project "Apollo"
+				(path "/2d6dc0fd-a107-4172-919d-4fd101d8d77d/b4195d13-9cae-47b3-bf32-e6f8fa421cf5"
+					(reference "SW4")
 					(unit 1)
 				)
 			)
@@ -19151,7 +19281,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C108661"
+		(property "LCSC Part" "C23140"
 			(at 73.66 88.9 0)
 			(hide yes)
 			(show_name no)
@@ -19388,7 +19518,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C99782"
+		(property "LCSC Part" "C23162"
 			(at 256.54 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -20156,7 +20286,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -20684,7 +20814,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 154.94 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -20776,7 +20906,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 160.02 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -21024,7 +21154,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C14663"
+		(property "LCSC Part" "C1590"
 			(at 144.78 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -21277,143 +21407,6 @@
 			(project "Apollo"
 				(path "/2d6dc0fd-a107-4172-919d-4fd101d8d77d/b4195d13-9cae-47b3-bf32-e6f8fa421cf5"
 					(reference "#PWR02")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "easyeda2kicad:K1-1507SA-03")
-		(at 260.35 92.71 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e432477a-8a44-4808-81ce-2a713f9ee5d6")
-		(property "Reference" "SW4"
-			(at 260.35 83.82 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "K1-1507SA-03"
-			(at 260.35 86.36 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "easyeda2kicad:KEY-SMD_K1-1507SA-03"
-			(at 260.35 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://lcsc.com/product-detail/5-way-Tactile-Switchs_K1-1507SA-03_C145909.html"
-			(at 260.35 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 260.35 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "韩国韩荣"
-			(at 260.35 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "K1-1507SA-03"
-			(at 260.35 114.3 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part" "C145909"
-			(at 260.35 116.84 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "6"
-			(uuid "d67b3fd5-26b6-4a77-898b-1e3df66a5b29")
-		)
-		(pin "5"
-			(uuid "aa269474-4722-4e78-bbce-ab593d434b67")
-		)
-		(pin "9"
-			(uuid "5016ba6e-0e09-4d43-b32a-9f732e1c2ce3")
-		)
-		(pin "1"
-			(uuid "1f40c6ad-df1a-4321-99b7-1b06515bc55f")
-		)
-		(pin "8"
-			(uuid "23f8b222-c212-4212-8954-9fa17640bd90")
-		)
-		(pin "4"
-			(uuid "6319eb74-f738-4dbe-94bd-6e03fb338015")
-		)
-		(pin "10"
-			(uuid "0720623c-e927-4f5b-bcbe-baab3df325fa")
-		)
-		(pin "7"
-			(uuid "5daebf8f-5551-42f1-b8bf-2915487974ac")
-		)
-		(pin "2"
-			(uuid "0f7e0901-7d2e-4ff4-a992-11dd8de6bbc0")
-		)
-		(pin "3"
-			(uuid "6e43e1ea-259b-45a9-85e5-0adde6acd57a")
-		)
-		(instances
-			(project "Apollo"
-				(path "/2d6dc0fd-a107-4172-919d-4fd101d8d77d/b4195d13-9cae-47b3-bf32-e6f8fa421cf5"
-					(reference "SW4")
 					(unit 1)
 				)
 			)
@@ -21739,7 +21732,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C98220"
+		(property "LCSC Part" "C25804"
 			(at 44.45 133.35 0)
 			(hide yes)
 			(show_name no)

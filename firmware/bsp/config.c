@@ -22,7 +22,7 @@ typedef struct _config_t {
 config_t g_config={0};
 uint16_t pending_score = 0;
 char* achieve_str = NULL;
-char my_id[12] = {0};
+char my_id[13] = {0};
 
 uint64_t achievement_hashes[32] = {
     0,
@@ -37,7 +37,7 @@ uint64_t achievement_hashes[32] = {
     0xd1ff3ce39c469e68ULL, // SC_ORBIT_DECAY
     0x3c317b15e7c1e29dULL, // SC_THRUST_LOSS        - RE flash
     0xa1d4a114f76211b7ULL, // SC_SIGNAL_GHOST       - EEPROM
-    0x95c911db5174adaeULL, // SC_ECHO_ORBIT         - Hardware //TODO
+    0x95c911db5174adaeULL, // SC_ECHO_ORBIT         - Hardcoded //TODO
     0x236c4a02f5b53468ULL, // SC_DUST_FLUX          - USB UART
     0xca5d48f6551e91a6ULL, // SC_PHASE_DRIFT        - USB DOCK
     0x3b21dd157c302499ULL, // SC_GRAV_SHIFT         - Crypto //TODO
@@ -84,12 +84,17 @@ char *achievement_names[32] = {
     "UNKNOWN"
 };
 
-int config_load() {
+void config_set_id() {
     pico_unique_board_id_t id;
     pico_get_unique_board_id (&id);
     base64_encode((uint8_t*)&id, sizeof(id), my_id, sizeof(my_id));
+    my_id[6] = '\0';
     printf("Board ID: %llX my_id:%s\n", *(uint64_t*)(&id), my_id);
 
+}
+
+int config_load() {
+    config_set_id();
     memset(&g_config, 0, sizeof(g_config));
     int ret = eeprom_readbytes(CONFIG_ADDR, (uint8_t*)&g_config, sizeof(g_config));
     printf("eeprom_read returned %d\n", ret);
@@ -202,7 +207,7 @@ void config_generate_handle(void) {
 
 int config_submit(const char* key) {
     uint64_t hash = komihash(key, strlen(key), KOMISEED);
-    for (int i=0; i<30; ++i) {
+    for (int i=0; i<32; ++i) {
         if (hash == achievement_hashes[i]) {
             return config_achievement(i);
         }

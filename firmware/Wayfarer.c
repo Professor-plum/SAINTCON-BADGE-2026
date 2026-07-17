@@ -13,7 +13,6 @@
 #include "blink.pio.h"
 
 const char unlock_code[] = "SC_THRUST_LOSS";
-
 void run_main_loop();
 
 void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
@@ -55,9 +54,7 @@ int main()
     buttons_init();
     frame_init();
 
-    sleep_ms(3 * 1000);
-
-    config_clear();
+    //config_clear();
     if (!config_load()) { //Inital setup
         char line[512];
         

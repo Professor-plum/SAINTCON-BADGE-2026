@@ -12,11 +12,11 @@
 
 #define GPIO_BTN1       16
 #define GPIO_BTN2       17
-#define GPIO_JOY_PRESS  19
-#define GPIO_JOY_DOWN   20
-#define GPIO_JOY_UP     21
-#define GPIO_JOY_RIGHT  22
-#define GPIO_JOY_LEFT   23
+#define GPIO_JOY_PRESS  20
+#define GPIO_JOY_DOWN   21
+#define GPIO_JOY_UP     23
+#define GPIO_JOY_RIGHT  19
+#define GPIO_JOY_LEFT   22
 
 void buttons_init();
 void buttons_clear();

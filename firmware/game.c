@@ -536,7 +536,10 @@ int game_run_map() {
             frame_draw_text("Press A to abandon game.", RGB565(200,200,200), 185);
             frame_refresh();
             while ((buttons = buttons_get_and_clear()) == 0) {};
-            if (buttons & BUTTON_A) return -1;
+            if (buttons & BUTTON_A) {
+                game_running = false;
+                return -1;
+            }
         }
     }
 }
