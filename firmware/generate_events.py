@@ -71,12 +71,15 @@ def parse_effect(effect_entry):
 def build_effects(effects):
     parsed = []
     if effects is None:
+        print('Warning: effects list is None, returning empty list.', file=sys.stderr)
         effects = []
     for effect in effects:
         if len(parsed) >= MAX_EFFECTS:
+            print(f'Warning: maximum number of effects ({MAX_EFFECTS}) reached, skipping remaining effects.', file=sys.stderr)
             break
         parsed_effect = parse_effect(effect)
         if parsed_effect is None:
+            print(f'Warning: skipping invalid effect entry: {effect}', file=sys.stderr)
             continue
         parsed.append(parsed_effect)
     return parsed, len(parsed)
@@ -182,6 +185,7 @@ def main():
     if not isinstance(data, dict) or 'events' not in data:
         raise ValueError('YAML file must contain a top-level "events" key.')
 
+    print(f'Loaded {len(data["events"])} events from {args.input}.')
     events = [build_event(e) for e in data['events']]
     generate_c(events, args.output)
     print(f'Generated {args.output} with {len(events)} events.')

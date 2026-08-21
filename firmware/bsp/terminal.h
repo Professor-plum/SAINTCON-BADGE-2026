@@ -16,4 +16,6 @@ void console_init(void);
 
 bool terminal_pop_docking_command(char *command, size_t max_len);
 void terminal_send(const char* command);
+
+void terminal_update();
 #endif

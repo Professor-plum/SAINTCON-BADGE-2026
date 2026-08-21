@@ -37,8 +37,8 @@ struct bsp_display_interface_t {
 
    void (*set_window)(bsp_display_area_t *area);
    
-   void (*get_rotation)(uint16_t *rotation);
-   void (*get_brightness)(uint8_t *brightness);
+   uint16_t (*get_rotation)();
+   uint8_t (*get_brightness)();
 
    void (*flush)(bsp_display_area_t *area, uint16_t *color_p);
    void (*flush_dma)(bsp_display_area_t *area, uint16_t *color_p);

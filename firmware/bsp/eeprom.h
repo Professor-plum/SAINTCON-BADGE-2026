@@ -13,11 +13,13 @@ extern "C" {
 #define I2C_SDA 4
 #define I2C_SCL 5
 
-#define EEPROM_24C02_I2C_ADDRESS 0x50
-#define EEPROM_24C02_PAGE_SIZE   16
-#define EEPROM_24C02_SIZE_BYTES  256
+#define EEPROM_I2C_ADDRESS 0x50
+#define EEPROM_PAGE_SIZE   16
+#define EEPROM_SIZE_BYTES  1024
+#define EEPROM_SLOTS       15
 
 void eeprom_init();
+int eeprom_test();
 int eeprom_readbytes(uint16_t address, uint8_t *buffer, size_t length);
 int eeprom_writebytes(uint16_t address, const uint8_t *buffer, size_t length);
 

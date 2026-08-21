@@ -3,12 +3,11 @@
 #include "buttons.h"
 #include <stdint.h>
 #include <string.h>
-
-static const uint16_t selected_color = RGB565(250, 250, 250);
-static const uint16_t unavailable_color = RGB565(40, 40, 40);
-static const uint16_t title_color = RGB565(255, 255, 0);
-static const uint16_t description_color = RGB565(150, 150, 150);
-static const uint16_t option_color = RGB565(150, 150, 150);
+#include "img/crew.h"
+#include "config.h"
+#include "terminal.h"
+#include "img/message.h"
+#include <stdio.h>
 
 void gui_get_input(const char* prompt, char* buffer, int buffer_size) {
 
@@ -86,17 +85,20 @@ void gui_get_input(const char* prompt, char* buffer, int buffer_size) {
 }
 
 
-void gui_show_message(const char* title, const char* message) {
+void gui_show_message(const char* message) {
     int idx=1;
     for (const char* ptr = message; *ptr; ptr++) {
         frame_clear();
-        frame_draw_text(title, title_color, 30); // Yellow color
+        frame_draw_image(174, 2, radio_image_data, 31, 30);
+        frame_draw_image(78, 38, incoming_image_data, 204, 12);
+        frame_draw_image(123, 300, secure_image_data, 110, 8);
+        frame_draw_rounded_rect(30, 80, 300, 200, title_color);
         
-        char *str = message;
-        int16_t y = LCD_HEIGHT/4;
+        const char *str = message;
+        int16_t y = 99;
         int ccount=0;
         while (ccount < idx) {
-            int line_chars = frame_calculate_text_fit(str, y);
+            int line_chars = frame_calculate_text_fit(str, 292);
             char temp_str[256];
             memcpy(temp_str, str, line_chars);
             temp_str[line_chars] = '\0';
@@ -104,10 +106,29 @@ void gui_show_message(const char* title, const char* message) {
             if (ccount + line_chars > idx) {
                 temp_str[idx - ccount] = '\0'; // Truncate to the current index if it exceeds
             }
-            frame_draw_string((LCD_WIDTH - width) / 2, y, temp_str, description_color); // Center the text horizontally
+            //Dirty hack!
+            uint16_t color = description_color;
+            char c = config_get_class();
+            char* pat=strstr(temp_str, get_class_name(c));
+            if (pat) {
+                color = get_crew_color(c);
+            }
+            pat = strstr(temp_str, config_get_handle());
+            if (pat) {
+                char t2[20];
+                *pat = '\0';
+                int dx = frame_calculate_text_width(temp_str);
+                snprintf(t2, sizeof(t2), "%s.", config_get_handle());
+                frame_draw_string(34 + dx, y, t2, RGB565(250,0,250));
+            }
+            frame_draw_string(34, y, temp_str, color); 
             y += frame_get_yadvance(); // Move to the next line (height of the font + some spacing)
             ccount+=line_chars;
             str += line_chars; // Move the pointer forward by the number of characters that fit
+        }
+
+        if (message[++idx] == '\0') {
+            frame_draw_image(112, 326, pressa_image_data, 133, 8);
         }
 
         frame_refresh();
@@ -117,16 +138,50 @@ void gui_show_message(const char* title, const char* message) {
         } else if (*ptr == '.' || *ptr == '!' || *ptr == '?') {
             delay = 600; // Longer delay for punctuation
         }
-        if (!(buttons_get_raw() & BUTTON_PRESS)) {
+        terminal_update();
+        if (!(buttons_get_raw() & (BUTTON_A | BUTTON_B))) {
+
              sleep_ms(delay); // Only delay if no button is pressed, allowing users to skip through the text faster
         }
         else {
-             sleep_ms(1); // Short delay to debounce button presses
+             //sleep_ms(1); // Short delay to debounce button presses
         }
-        idx++;
     }
     buttons_clear();
     while (buttons_get_and_clear() == 0) {
+        terminal_update();
         sleep_ms(100);
     }
+}
+
+void gui_show_crew(const char* name, const char class, int y) {
+    frame_draw_rounded_rect(80, y, 200, 44, border_color);
+    if (name) {
+        const char* pclass = get_class_name(class);
+        frame_draw_text(name, description_color, y + 18);
+        int xoff = frame_calculate_text_width(pclass) + 20;
+        frame_draw_string((LCD_WIDTH - xoff)/2 + 20, y + 38 , pclass, get_crew_color(class));
+        frame_draw_image((LCD_WIDTH - xoff)/2, y + 22, player_img_data[class - 'A'], 15, 16);
+    }
+    else {
+        frame_draw_text("Vacant", unavailable_color, y + 28);
+    }
+}
+
+void ui_draw_popup(const char* str) {
+    int pad = 5;
+    int h = frame_calculate_text_height(str) + 2*pad;
+    int w = frame_calculate_text_width(str) + 2*pad;
+    int cx = LCD_WIDTH / 2;
+    int cy = LCD_HEIGHT /2;
+
+    int x = cx - w/2;
+    int y = cy - h/2;
+
+    int y0 = frame_get_yadvance();
+    frame_fill_rect(x+2, y+2, w-4, h-4, background_color);
+    frame_draw_rounded_rect(x, y, w, h, border_color);
+    frame_draw_text(str, selected_color, y + y0 + pad -2);
+    sleep_ms(5);
+    frame_refresh();
 }

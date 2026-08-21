@@ -14,4 +14,10 @@ typedef struct {
     char name[15];
 } game_character_t;
 
+#define CREW_SPECIALTY_PILOT 'A'
+#define CREW_SPECIALTY_ENGINEER 'B'
+#define CREW_SPECIALTY_SCIENTIST 'C'
+#define CREW_SPECIALTY_SOLDIER 'D'
+#define CREW_SPECIALTY_MEDIC 'E'
+
 #endif //COMMON_H

@@ -11,9 +11,11 @@
 #include "bsp/config.h"
 #include "bsp/eeprom.h"
 #include "blink.pio.h"
+#include "img/boot.h"
 
-const char unlock_code[] = "SC_THRUST_LOSS";
+const char unlock_code[] = "\0SC_THRUST_LOSS";
 void run_main_loop();
+extern bool offline_mode;
 
 void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
     blink_program_init(pio, sm, offset, pin);
@@ -26,22 +28,66 @@ void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
     pio->txf[sm] = (125000000 / (2 * freq)) - 3;
 }
 
-const char boot_message[] = 
-"Out there you'll find opportunity, adventure, and occasionally cargo that absolutely should not be opened during transit.\n"
-"Complete supply runs, support station construction, and help guide humanity's expansion into the stars.\n"
-"Remember: every great civilization started with someone willing to haul boxes.";
+void show_bootscreen(int valid) {
+    int eret = eeprom_test();
+    uint64_t starthold = 0;
+    ws2812_set_pattern_color((ws2812_rgb_t){16, 0, 16});    //Purple  
+    
+    while (true) {
+        frame_fill_rect(0, 0, LCD_WIDTH, LCD_HEIGHT, RGB565(118, 66, 138));
+        if (eret)   {
+            frame_draw_text("SELF TEST PASSED", RGB565(0,200,0), 60);
+        }
+        else {
+            frame_draw_text("EEPROM FAILED!", RGB565(200,0,0), 60);
+        }
+        if (valid) {
+            frame_draw_text("EEPROM DATA VALID", RGB565(0,200,0), 90);
+        }
+        else {
+            frame_draw_text("EEPROM DATA INVALID!", RGB565(200,0,0), 90);
+        }
+        int buttons = buttons_get_raw();
+        int coords[7][2] = {{132,156}, {132,188}, {116,172}, {148,172}, {132,172}, {204,172}, {220,172}};
+        for (int i=0; i<7; ++i) {
+            if (buttons & (1<<i)) {
+                frame_fill_rect(coords[i][0], coords[i][1], 16, 16, RGB565(63, 204, 172));
+            }
+            frame_draw_image(coords[i][0], coords[i][1], btn_icons[i], 16, 16);
+        }
 
-const char intro2_message[] = 
-"After careful analysis of your profile, mission records, and several factors we are not at liberty to discuss, you will be assigned the roll of\n"
-"%s\n"
-"One final question before launch:\n"
-"What name should history remember you by?";
-
+        frame_draw_rect(104, 259, 152, 16, RGB565(255,255,255));
+        frame_draw_text("HOLD A TO RESET EEPROM DATA", RGB565(255,190,190), 250);
+        uint64_t now = time_us_64();
+        if (buttons & BUTTON_A) {
+            if (starthold == 0) {
+                starthold = now;
+            }
+        }
+        else {
+            starthold = 0;
+        }
+        if (starthold > 0) {
+            uint64_t elapsed_ms = (now - starthold) / 1000;
+            int w = elapsed_ms / 20;
+            frame_fill_rect(105, 260, w, 14, RGB565(255, 100, 0));
+            if (elapsed_ms > 3000) {
+                frame_fill_rect(0, 0, LCD_WIDTH, LCD_HEIGHT, RGB565(128, 0, 0));
+                frame_refresh();
+                config_clear();
+                return;
+            }
+        }
+        frame_draw_image(108, 300, boot_code_image_data, 144, 13);
+        frame_refresh();
+    }
+}
 
 int main()
 {
     //stdio_uart_init_full(uart0, 9600, 0, 1); 
     stdio_usb_init();
+    stdio_puts(unlock_code);
     //stdio_init_all();
     terminal_init();
     console_init();
@@ -53,23 +99,21 @@ int main()
     
     buttons_init();
     frame_init();
+    
+    offline_mode = gpio_get(GPIO_OFFLINE) == 0;
 
-    //config_clear();
-    if (!config_load()) { //Inital setup
-        char line[512];
-        
-        gui_show_message("WELCOME TO PROJECT WAYFARER",boot_message);
-        config_clear();
-        snprintf(line, sizeof(line), intro2_message, config_get_class_name());
-        gui_show_message("", line);
-        for (int i=0; i<10; ++i) {
-            frame_fill_rect_alpha(0, 0, LCD_WIDTH, LCD_HEIGHT, RGB565(0, 0, 0), 25);
-            frame_refresh();
-            sleep_ms(20);
-        }
+    int valid_config = config_load();
+    ws2812_init(pio0, 1, WS2812_PIN);
+
+    if ((!valid_config) || (buttons_get_and_clear() & BUTTON_B)) { //Inital setup
+        show_bootscreen(valid_config);
     }
 
-    ws2812_init(pio0, 1, WS2812_PIN);
+    if (offline_mode) {
+        printf("Offline mode enabled\n");
+        config_achievement(offline);
+    }
+
     switch(config_get_class()) {
         case 'A': ws2812_set_pattern_color((ws2812_rgb_t){0, 0, 16});break;   //Pilot = Blue
         case 'B': ws2812_set_pattern_color((ws2812_rgb_t){16, 6, 0});break;  //Engineer = Orange

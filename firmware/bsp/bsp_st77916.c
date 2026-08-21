@@ -123,14 +123,14 @@ static void bsp_st77916_set_rotation(uint16_t rotation)
     bsp_st77916_tx_param(&cmd, 1);
 }
 
-static void bsp_st77916_get_rotation(uint16_t *rotation)
+static uint16_t bsp_st77916_get_rotation()
 {
-    *rotation = g_display_info->rotation;
+    return g_display_info->rotation;
 }
 
-static void bsp_lcd_get_brightness(uint8_t *brightness)
+static uint8_t bsp_lcd_get_brightness()
 {
-    *brightness = g_display_info->brightness;
+    return g_display_info->brightness;
 }
 
 static void bsp_st77916_flush(bsp_display_area_t *area, uint16_t *color_p)

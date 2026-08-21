@@ -3,6 +3,7 @@
 //#include "GothiksRoundFont.h"
 #include "gfxfont.h"
 #include "CCRegeneration8pt7b.h"
+//#include "Nasalization_Rg8pt7b.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,7 +24,7 @@ bool flush_done_flag = true;
 bsp_display_interface_t *display_if;
 
 #define BACKLIGHT_IDLE_TIMEOUT_MS 30000
-#define BACKLIGHT_IDLE_FADE_MS 2000
+#define BACKLIGHT_IDLE_FADE_MS 3000
 #define BACKLIGHT_IDLE_TIMER_MS 100
 
 static uint8_t idle_backlight_brightness = 100;
@@ -32,18 +33,14 @@ const GFXfont* font = &CCRegeneration8pt7b;
 
 extern char* achieve_str;
 
-bool alarm_callback(__unused struct repeating_timer *t) {
-    fps = framecounter;
-    framecounter = 0;
-    return true; // Return true to repeat the alarm, false to cancel it
-}
-
 static void set_backlight_brightness(uint8_t brightness) {
     if (brightness != idle_backlight_brightness) {
         idle_backlight_brightness = brightness;
         display_if->set_brightness(brightness);
     }
 }
+
+int timer_ticks=0;
 
 bool backlight_timer_callback(__unused struct repeating_timer *t) {
     uint64_t now = time_us_64();
@@ -54,6 +51,9 @@ bool backlight_timer_callback(__unused struct repeating_timer *t) {
     uint64_t elapsed_ms = (now - last_activity) / 1000;
 
     if (elapsed_ms < BACKLIGHT_IDLE_TIMEOUT_MS) {
+        if (display_if->get_brightness() != idle_backlight_brightness) {
+            buttons_clear(); // eat the button press used to wake the display
+        }
         set_backlight_brightness(100);
     } else if (elapsed_ms < BACKLIGHT_IDLE_TIMEOUT_MS + BACKLIGHT_IDLE_FADE_MS) {
         uint32_t fade_elapsed = elapsed_ms - BACKLIGHT_IDLE_TIMEOUT_MS;
@@ -61,6 +61,12 @@ bool backlight_timer_callback(__unused struct repeating_timer *t) {
         set_backlight_brightness(target);
     } else {
         set_backlight_brightness(0);
+    }
+
+    if (++timer_ticks >= 10) {
+        timer_ticks = 0;
+        fps = framecounter;
+        framecounter = 0;
     }
 
     return true;
@@ -84,7 +90,6 @@ void frame_init() {
     bsp_display_new_st77916(&display_if, &display_info);
     display_if->init();
     idle_backlight_brightness = display_info.brightness;
-    add_repeating_timer_ms(-1000, alarm_callback, NULL, &timer1);
     add_repeating_timer_ms(-BACKLIGHT_IDLE_TIMER_MS, backlight_timer_callback, NULL, &backlight_timer);
 }
 
@@ -151,6 +156,9 @@ void frame_fill_rect_alpha(int16_t x, int16_t y, uint16_t width, uint16_t height
 }
 
 int frame_draw_char(int16_t x, int16_t y, char c, uint16_t color) {
+    if (c < font->first || c > font->last) {
+        return 0;
+    }
     const GFXglyph* glyph = &font->glyph[c - font->first];
     const uint8_t* bitmap = &font->bitmap[glyph->bitmapOffset];
 
@@ -208,8 +216,7 @@ int frame_calculate_text_width(const char* str) {
     return width;
 }
 
-int frame_calculate_text_fit(const char* str, int y) {
-    int max_width = frame_calculate_max_width(y); // Maximum width of the display
+int frame_calculate_text_fit(const char* str, int max_width) {
     int width = 0;
     int count = 1;
     int last_space_index = 0;
@@ -283,6 +290,10 @@ char* frame_string_find_fit(char* str, uint16_t y) {
         if ((*str == ' ') || *str == '\0') {
             last_fit = str; // Update last fit to the last space
         }
+        if (*str == '\n') {
+            last_fit = str; // If there's a newline, break at that point
+            break;
+        }
     }
 
     if (last_fit == start) {
@@ -323,14 +334,14 @@ void frame_draw_long_string(int16_t x, int16_t y, const char* str, uint16_t colo
         const char* start = str;
         const char* last_fit = str;
 
-        while (*str) {
+        while ((*str != '\0') && (*str != '\n')) {
             const GFXglyph* glyph = &font->glyph[*str - font->first];
             if (current_width + glyph->xAdvance > max_width) {
                 break; // Stop if adding the next character exceeds max width
             }
             current_width += glyph->xAdvance;
             str++;
-            if (*str == ' ') {
+            if ((*str == ' ') || (*str == '\n') || (*str == '\0')) {
                 last_fit = str; // Update last fit to the last space
             }
         }
@@ -348,6 +359,7 @@ void frame_draw_long_string(int16_t x, int16_t y, const char* str, uint16_t colo
         frame_draw_string(x, y, temp_str, color);
         y += font->yAdvance; // Move to the next line (height of the font + some spacing)
         str = last_fit; // Move to the next part of the string for the next iteration
+        if (*str) ++str;
     }
 }
 
@@ -401,6 +413,28 @@ void frame_draw_line(int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t co
     }
 }
 
+int frame_draw_dashed_line(int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, int offset) {
+    // Bresenham's line algorithm
+    int dx = abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
+    int dy = -abs(y2 - y1), sy = y1 < y2 ? 1 : -1;
+    int err = dx + dy, e2; /* error value e_xy */  
+    int loc = offset%18;
+    while (1) {
+        if (loc++ < 10) {
+            frame_draw_pixel(x1, y1, color);
+        } else if (loc > 18)
+        {
+            loc = 0;
+        }
+        
+        if (x1 == x2 && y1 == y2) break;
+        e2 = 2 * err;
+        if (e2 >= dy) { err += dy; x1 += sx; } /* e_xy+e_x > 0 */
+        if (e2 <= dx) { err += dx; y1 += sy; } /* e_xy+e_y < 0 */
+    }
+    return loc-1;
+}
+
 void frame_draw_image(int16_t x, int16_t y, const uint16_t* image_data, uint16_t width, uint16_t height) {
     int16_t x0 = x;
     int16_t y0 = y;
@@ -416,6 +450,33 @@ void frame_draw_image(int16_t x, int16_t y, const uint16_t* image_data, uint16_t
 
     for (int16_t j = y_start; j < y_end; j++) {
         const uint16_t *src = image_data + j * width + x_start;
+        uint16_t *dst = framebuffer + (y0 + j) * LCD_WIDTH + (x0 + x_start);
+
+        int16_t len = x_end - x_start;
+        for (int16_t i = 0; i < len; i++) {
+            uint16_t color = src[i];
+            if (color != 0x0000) {
+                dst[i] = __builtin_bswap16(color);
+            }
+        }
+    }
+}
+
+void frame_draw_sprite(int16_t x, int16_t y, const uint16_t* image_data, uint16_t width, uint16_t height, uint16_t img_x, uint16_t img_y, uint16_t img_pitch) {
+    int16_t x0 = x;
+    int16_t y0 = y;
+
+    int16_t x_start = x0 < 0 ? -x0 : 0;
+    int16_t y_start = y0 < 0 ? -y0 : 0;
+    int16_t x_end = x0 + width > LCD_WIDTH ? LCD_WIDTH - x0 : width;
+    int16_t y_end = y0 + height > LCD_HEIGHT ? LCD_HEIGHT - y0 : height;
+
+    if (x_start >= x_end || y_start >= y_end) {
+        return;
+    }
+
+    for (int16_t j = y_start; j < y_end; j++) {
+        const uint16_t *src = image_data + (j+img_y) * img_pitch + (x_start+img_x);
         uint16_t *dst = framebuffer + (y0 + j) * LCD_WIDTH + (x0 + x_start);
 
         int16_t len = x_end - x_start;
@@ -478,17 +539,46 @@ void frame_draw_hexagon_grid(int16_t x, int16_t y, uint16_t size, uint16_t color
     }
 }
 
+void frame_draw_circle(int16_t x, int16_t y, uint16_t r, uint16_t color) {
+    int16_t cx = x;
+    int16_t cy = y;
+    int16_t rr = (int16_t)r;
+    int16_t dx = 0;
+    int16_t dy = rr;
+    int16_t d = 3 - (2 * rr);
+
+    while (dy >= dx) {
+        frame_draw_pixel(cx + dx, cy + dy, color);
+        frame_draw_pixel(cx + dy, cy + dx, color);
+        frame_draw_pixel(cx + dy, cy - dx, color);
+        frame_draw_pixel(cx + dx, cy - dy, color);
+        frame_draw_pixel(cx - dx, cy - dy, color);
+        frame_draw_pixel(cx - dy, cy - dx, color);
+        frame_draw_pixel(cx - dy, cy + dx, color);
+        frame_draw_pixel(cx - dx, cy + dy, color);
+
+        if (d <= 0) {
+            d += (4 * dx) + 6;
+        } else {
+            d += (4 * (dx - dy)) + 10;
+            dy--;
+        }
+        dx++;
+    }
+}
+
 
 void frame_refresh() {
 
-    if (fps/100) {
+    /*if (fps/100) {
         frame_draw_char(270, 312, '0' + (fps/100), RGB565(0,200,0));
     }
     frame_draw_char(280, 312, '0' + (fps/10)%10, RGB565(0,200,0));
-    frame_draw_char(290, 312, '0' + (fps%10), RGB565(0,200,0));
+    frame_draw_char(290, 312, '0' + (fps%10), RGB565(0,200,0));*/
     //Dirty Hack for achievement overlay
     if (achieve_str) {
-        frame_fill_rect(80, 120, 200, 120, RGB565(30,30,30));
+        frame_fill_rect(80, 120, 200, 80, RGB565(30,30,30));
+        frame_draw_rounded_rect(78, 118, 204, 84, RGB565(198,150,69));
         frame_draw_text("Achievement Unlock!", RGB565(200,200,0), 150);
         frame_draw_text(achieve_str, RGB565(150,150,150), 180);
     }
@@ -503,71 +593,17 @@ void frame_refresh() {
 }
 
 void frame_draw_rounded_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t color) {
-    uint16_t corner_radius = 10;  // Radius of the corner rounding
-    uint16_t stroke_width = 1;
 
-    // Draw horizontal edge segments
-    for (int16_t i = x + corner_radius; i < x + width - corner_radius; i++) {
-        frame_draw_pixel(i, y, color);
-        frame_draw_pixel(i, y + height - 1, color);
-    }
-
-    // Draw vertical edge segments
-    for (int16_t j = y + corner_radius; j < y + height - corner_radius; j++) {
-        frame_draw_pixel(x, j, color);
-        frame_draw_pixel(x + width - 1, j, color);
-    }
-
-    // Draw the rounded corners
-    for (int j = 0; j < corner_radius; j++) {
-        for (int i = 0; i < corner_radius; i++) {
-            if (i * i + j * j <= corner_radius * corner_radius) {
-                // Top-left corner
-                frame_draw_pixel(x + i, y + j, color);
-                // Top-right corner
-                frame_draw_pixel(x + width - 1 - i, y + j, color);
-                // Bottom-left corner
-                frame_draw_pixel(x + i, y + height - 1 - j, color);
-                // Bottom-right corner
-                frame_draw_pixel(x + width - 1 - i, y + height - 1 - j, color);
-            }
-        }
-    }
-}
-
-
-void frame_draw_glowing_rounded_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t color) {
-    uint16_t corner_radius = 10;  // Radius of the corner rounding
-    uint16_t stroke_width = 2;   // Width of the outline
-
-    // Draw the outline of the rounded rectangle
-    for (int j = 0; j < height; j++) {
-        for (int i = 0; i < width; i++) {
-            // Check if pixel is on the border
-            bool on_border = (i < stroke_width || i >= width - stroke_width || 
-                             j < stroke_width || j >= height - stroke_width);
-            
-            if (!on_border) {
-                continue; // Skip interior pixels
-            }
-            
-            int16_t px = x + i;
-            int16_t py = y + j;
-
-            // Check if the pixel is within the rounded corners
-            if ((i < corner_radius && j < corner_radius) || (i >= width - corner_radius && j < corner_radius) ||
-                (i < corner_radius && j >= height - corner_radius) || (i >= width - corner_radius && j >= height - corner_radius)) {
-                // Calculate distance from the corner
-                int16_t dx = (i < corner_radius) ? (corner_radius - i) : (i - (width - corner_radius - 1));
-                int16_t dy = (j < corner_radius) ? (corner_radius - j) : (j - (height - corner_radius - 1));
-                if (dx * dx + dy * dy <= corner_radius * corner_radius) {
-                    frame_draw_pixel(px, py, color); // Draw the main color
-                } else {
-                    frame_draw_pixel_alpha(px, py, color, 128); // Draw the glow color at corners
-                }
-            } else {
-                frame_draw_pixel(px, py, color); // Draw the main color
-            }
-        }
-    }
+    frame_draw_line(x, y+1, x+width, y+1, color); //Top1
+    frame_draw_line(x+1, y, x+width-1, y, color); //Top2
+    frame_draw_line(x+1, y, x+1, y+height-1, color); //Left1
+    frame_draw_line(x, y+1, x, y+height-2, color); //Left2
+    frame_draw_line(x+width-1, y, x+width-1, y+height-1, color); //Right1
+    frame_draw_line(x+width, y+1, x+width, y+height-2, color); //Right2
+    frame_draw_line(x, y+height-2, x+width, y+height-2, color); //Bottom1
+    frame_draw_line(x+1, y+height-1, x+width-1, y+height-1, color); //Bottom2
+    frame_draw_pixel(x+2, y+2, color);
+    frame_draw_pixel(x+width-2, y+2, color);
+    frame_draw_pixel(x+2, y+height-3, color);
+    frame_draw_pixel(x+width-2, y+height-3, color);
 }

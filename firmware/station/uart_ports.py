@@ -30,7 +30,7 @@ class UARTPortBase:
         self.detect_pin.irq(trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING, handler=self._detect_changed)
         
     def _detect_changed(self, pin):
-        print(f"Detect pin changed for {self.name}: {pin.value()} {pin}")
+        #print(f"Detect pin changed for {self.name}: {pin.value()} {pin}")
         self.connected = pin.value() == 0
 
     def update_connection(self):
@@ -70,7 +70,10 @@ class HardwareUARTPort(UARTPortBase):
 
     def write(self, data):
         if data:
-            self.uart.write(data)
+            #print (f"{self.name} TX: {data}")
+            l = self.uart.write(data)
+            if l is None:
+                print(f"Warning: {self.name} UART write returned None, data may not have been sent.")
 
 
 class PIOUARTPort(UARTPortBase):
@@ -103,6 +106,7 @@ class PIOUARTPort(UARTPortBase):
     def write(self, data):
         if not data:
             return
+        #print (f"{self.name} TX: {data}")
         for byte in data:
             self.tx_sm.put(byte)
 

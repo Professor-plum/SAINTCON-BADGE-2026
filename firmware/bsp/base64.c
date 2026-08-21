@@ -1,5 +1,6 @@
 #include "base64.h"
 #include <string.h>
+#include <stdio.h>
 
 static const char base64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -18,6 +19,7 @@ int base64_encode(const uint8_t *src, size_t src_len, char *dst, size_t dst_size
 
     size_t required_size = base64_encode_len(src_len);
     if (dst_size < required_size) {
+        printf("base64 %d<%d (%d)\r\n", dst_size, required_size, src_len);
         return -1;
     }
 

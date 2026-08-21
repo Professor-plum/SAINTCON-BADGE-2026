@@ -6,15 +6,17 @@ import rp2
 def _ws2812():
     wrap_target()
     label("bitloop")
-    out(x, 1) .side(0) [2]
-    jmp(not_x, "do_zero") .side(1) [4]
-    label("do_one")
-    nop() .side(1) [2]
-    jmp("bitloop")
+    out(x, 1)               .side(0) [2]  # High for 0, Low for 1 (T0H / T1H start)
+    jmp(not_x, "do_zero")   .side(1) [4]  # Driven High for both bits here
+    
+    # --- Code for a ONE bit ---
+    jmp("bitloop")          .side(1) [4]  # Keep High longer for '1', wrap back to side(0)
+    
+    # --- Code for a ZERO bit ---
     label("do_zero")
-    nop() .side(0) [2]
-    jmp("bitloop")
+    nop()                   .side(0) [4]  # Drop Low early for '0', hold, wrap back
     wrap()
+
 
 
 class WS2812:

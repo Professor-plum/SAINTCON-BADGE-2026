@@ -5,16 +5,12 @@
 #include "eventbase.h"
 #include "bsp/common.h"
 
-#define CREW_SPECIALTY_PILOT 0
-#define CREW_SPECIALTY_ENGINEER 1
-#define CREW_SPECIALTY_SCIENTIST 2
-#define CREW_SPECIALTY_SOLDIER 3
-#define CREW_SPECIALTY_MEDIC 4
+#define POI_COUNT       9
 
 typedef struct {
     int seed;
-    int poi_market_rate[10];
-    Hex poi[10];
+    int poi_market_rate[POI_COUNT];
+    Hex poi[POI_COUNT];
     Hex nebula;
     Hex astroids[6];
     Hex player;
@@ -37,6 +33,7 @@ typedef struct {
     int max_fuel;
     int max_hull;
     int max_cargo;
+    int starting_credits;
 } game_config_t;
 
 enum tiletype {

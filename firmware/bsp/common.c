@@ -20,13 +20,33 @@ int psuedo_random() {
 }
 
 void sign_message(char* message, size_t msg_size) {
-    char sig[12];
+    char sig[13];
     if (signkey == 0) {
-        base64_decode(config_get_id(), (uint8_t*)&signkey, sizeof(uint64_t));
+        char* id = config_get_id();
+        signkey = ((uint32_t)id[0] << 0)  |
+                  ((uint32_t)id[1] << 8)  |
+                  ((uint32_t)id[2] << 16) |
+                  ((uint32_t)id[3] << 24) |
+                  ((uint64_t)id[4] << 32) |
+                  ((uint64_t)id[5] << 40);
+        //printf("Sign key initialized: %016llx\n", signkey);
     }
-    
-    size_t len = strlen(message);
+
+    if (msg_size == 0 || message == NULL) {
+        return;
+    }
+
+    size_t len = strnlen(message, msg_size);
+    if (len >= msg_size - 1) {
+        return;
+    }
+
     uint64_t hash = komihash(message, len, signkey);
     base64_encode((uint8_t*)&hash, sizeof(hash), sig, sizeof(sig));
-    strncat(message, sig, 4);
+    size_t append_len = 4;
+    size_t available = msg_size - len - 1;
+    if (append_len > available) {
+        append_len = available;
+    }
+    strncat(message, sig, append_len);
 }

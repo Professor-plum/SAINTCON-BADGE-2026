@@ -17,10 +17,11 @@
 #define GPIO_JOY_UP     23
 #define GPIO_JOY_RIGHT  19
 #define GPIO_JOY_LEFT   22
+#define GPIO_OFFLINE    29
 
 void buttons_init();
 void buttons_clear();
-int buttons_get();
+//int buttons_get();
 int buttons_get_and_clear();
 int buttons_get_raw();
 uint64_t buttons_get_last_activity_us();

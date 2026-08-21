@@ -91,6 +91,7 @@ void ws2812_clear(void) {
 
 void ws2812_set_pattern_color(ws2812_rgb_t color) {
     led_color = color;
+    set_led_speed();
 }
 
 void ws2812_pattern_update(void) {
@@ -115,14 +116,18 @@ void ws2812_pattern_update(void) {
     led_pattern_index++;
     if (led_pattern_index >= 5) {
         led_pattern_index = 0;
-        alert=0;
-        achieve_str = NULL;
+        if (alert > 0) {
+            alert--;
+        }
+        else {
+            achieve_str = NULL;
+        }
     }
 }
 
 void ws2812_show_alert(ws2812_rgb_t color) {
     set_led_speed();
     alert_color = color;
-    alert=1;
+    alert=3;
     led_pattern_index=0;
 }

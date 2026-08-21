@@ -66,39 +66,48 @@ void uart_poll() {
         return;
     }
 
-    if (uart_input_buffer[0] == '\0') {
+    char input_buffer[UART_BUFFER_SIZE];
+    memset(input_buffer, 0, sizeof(input_buffer));
+    size_t input_len = strnlen(uart_input_buffer, sizeof(input_buffer) - 1);
+    if (input_len == 0) {
+        uart_input_buffer[0] = '\0';
         return;
     }
-    if (uart_input_buffer[0] != '$') {
-        char dock_unlock[] = {4, 20, 8, 7, 31, 22, 4, 28, 8, 19, 5, 30, 17, 3, 0x57};
+    memcpy(input_buffer, uart_input_buffer, input_len);
+    input_buffer[input_len] = '\0';
+    uart_input_buffer[0] = '\0';
+
+    if (input_buffer[0] != '$') {
+        volatile char dock_unlock[] = {4, 20, 8, 7, 31, 22, 4, 18, 8, 19, 5, 30, 17, 3, 0x57}; //SC_PHASE_DRIFT
         for (int i=0;i<sizeof(dock_unlock); ++i) {
             dock_unlock[i] ^= 0x57;
         }
+        printf("Bad RX: %s\r\n", input_buffer);
         terminal_send(dock_unlock);
         return;
     }
-    if (strncmp(uart_input_buffer, "$UNLOCK ", 8) == 0) {
-        const char *unlock_code = uart_input_buffer + 8;
+    if (strncmp(input_buffer, "$UNLOCK ", 8) == 0) {
+        const char *unlock_code = input_buffer + 8;
         int result = config_submit(unlock_code);
         if (result == 1) {
-            stdio_puts("$UNLOCK OK\r\n");
+            stdio_puts("$UNLOCK OK");
         } else if (result == 0) {
-            stdio_puts("$UNLOCK ALREADY UNLOCKED\r\n");
+            stdio_puts("$UNLOCK ALREADY UNLOCKED");
         } else {
-            stdio_puts("$UNLOCK: INVALID\r\n");
+            stdio_puts("$UNLOCK: INVALID");
         }
         return;
-    } else if (strcmp(uart_input_buffer, "$UNLOCK") == 0) {
-        stdio_puts("$UNLOCK: requires unlock code argument. Usage: $UNLOCK <code>\r\n");
+    } else if (strcmp(input_buffer, "$UNLOCK") == 0) {
+        stdio_puts("$UNLOCK: requires unlock code argument. Usage: $UNLOCK <code>");
         return;
     }
     // The rest of these commands are only valid when the game is running, so ignore them otherwise
     if (game_running) {
-        printf("Game running, skipping docking command: %s\n", uart_input_buffer);
+        printf("Game running, please undock\r\n");
         return;
     }
-
-    terminal_enqueue_docking_command(uart_input_buffer);
+    //printf("RX: %s", input_buffer);
+    terminal_enqueue_docking_command(input_buffer);
 }
 
 static void console_process_pending_command(void) {
@@ -110,24 +119,29 @@ static void console_process_pending_command(void) {
     console_handle_command(pending_console_command);
 }
 
-static bool uart_timer_callback(struct repeating_timer *t) {
-    (void)t;
+void terminal_update() {
     console_process_pending_command();
-    uart_poll();
     if (stdio_usb_connected()) {
         if (!usb_banner_printed) {
-            stdio_puts("\r\n=== USB CDC connected ===\r\n");
-            char cdc_unlock[] = {6, 22, 10, 17, 0, 6, 1, 10, 19, 25, 0, 13, 0x55};
-            for (int i=0;i<sizeof(cdc_unlock); ++i) {
-                cdc_unlock[i] ^= 0x55;
-            }
-            stdio_puts(cdc_unlock);
-            stdio_puts("\r\n>   ");
+            stdio_puts("\r\n");
+            stdio_puts("============================== terminal connected ==============================\r\n");
+            stdio_puts("                +                           D                       Y           \r\n");
+            stdio_puts("     D                   T                          J                           \r\n");
+            stdio_puts("                             S                               G                  \r\n");
+            stdio_puts("           V                            +                                       \r\n");
+            stdio_puts("                    H             B                     O                       \r\n");
+            stdio_puts("================================================================================\r\n");
+            stdio_printf("> ");
             usb_banner_printed = true;
         }
     } else {
         usb_banner_printed = false;
     }
+}
+
+static bool uart_timer_callback(struct repeating_timer *t) {
+    (void)t;
+    uart_poll();
     return true;
 }
 
@@ -139,19 +153,30 @@ static void uart_irq(void) {
             if (uart_index == 0) {
                 continue;
             }
-            size_t len = uart_index < UART_BUFFER_SIZE ? uart_index : UART_BUFFER_SIZE - 1;
+            size_t len = uart_index;
+            if (len >= UART_BUFFER_SIZE) {
+                len = UART_BUFFER_SIZE - 1;
+            }
             memcpy(uart_input_buffer, uart_buffer, len);
             uart_input_buffer[len] = '\0';
             uart_input_ready = true;
+            memset(uart_buffer, 0, sizeof(uart_buffer));
             uart_index = 0;
         } else if (ch == '\b' || ch == 0x7F) {
             if (uart_index > 0) {
                 uart_index--;
+                uart_buffer[uart_index] = '\0';
             }
         } else {
-            if (uart_index + 1 < UART_BUFFER_SIZE) {
-                uart_buffer[uart_index++] = (char)ch;
+            if (uart_index >= UART_BUFFER_SIZE - 1) {
+                /* Drop the rest of the current line instead of overflowing the buffer. */
+                uart_index = 0;
+                memset(uart_buffer, 0, sizeof(uart_buffer));
+                uart_input_buffer[0] = '\0';
+                continue;
             }
+            uart_buffer[uart_index++] = (char)ch;
+            uart_buffer[uart_index] = '\0';
         }
     }
 }
@@ -168,7 +193,7 @@ void terminal_init() {
     irq_set_exclusive_handler(UART0_IRQ, uart_irq);
     irq_set_enabled(UART0_IRQ, true);
 
-    add_repeating_timer_ms(10, uart_timer_callback, NULL, &uart_timer);
+    add_repeating_timer_ms(1, uart_timer_callback, NULL, &uart_timer);
 }
 
 void terminal_send(const char* command) {
@@ -205,37 +230,40 @@ static void console_handle_command(char *command) {
         len--;
     }
 
-    for (size_t i = 0; i < len && out < sizeof(cmd) - 1; ++i) {
-        cmd[out++] = toupper((unsigned char)command[i]);
-    }
-    cmd[out] = '\0';
+    strncpy(cmd,command, sizeof(cmd)-1);
+    out = strlen(cmd);
 
     if (out == 0) {
-        stdio_puts(">   ");
+        stdio_printf("> ");
         return;
     }
 
-    if (strncmp(cmd, "UNLOCK ", 7) == 0) {
+    if (strncasecmp(cmd, "UNLOCK ", 7) == 0) {
         const char *unlock_code = cmd + 7;
+        for (size_t i = 0; i < out; ++i) {
+            cmd[i] = toupper((unsigned char)cmd[i]);
+        }
         int result = config_submit(unlock_code);
         if (result == 1) {
-            stdio_puts("UNLOCK: OK\r\n");
+            stdio_puts("UNLOCK: OK");
         } else if (result == 0) {
-            stdio_puts("UNLOCK: ALREADY UNLOCKED\r\n");
+            stdio_puts("UNLOCK: ALREADY UNLOCKED");
         } else {
-            stdio_puts("UNLOCK: INVALID\r\n");
+            stdio_puts("UNLOCK: INVALID");
         }
-    } else if (strcmp(cmd, "UNLOCK") == 0) {
-        stdio_puts("UNLOCK: requires unlock code argument. Usage: UNLOCK <code>\r\n");
-    } else if (strncmp(cmd, "HANDLE ", 7) == 0) {
+    } else if (strncasecmp(cmd, "UNLOCK", 6) == 0) {
+        stdio_puts("UNLOCK: requires unlock code argument. Usage: UNLOCK <code>");
+    } else if (strncasecmp(cmd, "IDENT", 5) == 0) {
+        stdio_printf("IDENT \"%s\"\r\n", config_get_handle());
+    } else if (strncasecmp(cmd, "HANDLE ", 7) == 0) {
         const char *name = cmd + 7;
         while (*name == ' ') name++;
         int name_len = strlen(name);
         if (name_len < 3) {
-            stdio_puts("Handle too short.\r\n");
+            stdio_puts("Handle too short.");
         }
         else if (name_len > 14) {
-            stdio_puts("Handle too long.\r\n");
+            stdio_puts("Handle too long.");
         }
         else {
             int valid = true;
@@ -248,7 +276,8 @@ static void console_handle_command(char *command) {
                 else if ((at >= 'a') && (at <= 'z')) continue;
                 else {
                     valid = false;
-                    stdio_puts("Handle contains invalid characters.\r\n");
+                    stdio_puts("Handle contains invalid characters.");
+                    break;
                 }
             }
             if (valid) {
@@ -256,17 +285,21 @@ static void console_handle_command(char *command) {
                 stdio_printf("Your new handle is \"%s\"\r\n", config_get_handle());
             }
         }
-    } else if (strcmp(cmd, "HANDLE") == 0) {
-        stdio_puts("HANDLE: requires new handle argument. Usage: HANDLE <new_handle>\r\n");
-    } else if (strcmp(cmd, "HELP") == 0) {
-        stdio_puts("Commands: HANDLE <new_handle>, UNLOCK <code>\r\n");
-    } else if (strcmp(cmd, "CLEAR") == 0) {
+    } else if (strncasecmp(cmd, "HANDLE", 6) == 0) {
+        stdio_puts("HANDLE: requires new handle argument. Usage: HANDLE <new_handle>");
+    } else if (strncasecmp(cmd, "HELP", 4) == 0) {
+        stdio_puts("Commands: HANDLE <new_handle>, UNLOCK <code>, IDENT");
+        volatile char cdc_unlock[] = {6, 22, 10, 17, 0, 6, 1, 10, 19, 25, 0, 13, 0x55}; //SC_DUST_FLUX
+        for (int i=0;i<sizeof(cdc_unlock); ++i) {
+            cdc_unlock[i] ^= 0x55;
+        }
+        stdio_puts(cdc_unlock);
+    } else if (strncasecmp(cmd, "CLEAR", 5) == 0) {
         stdio_puts("\x1b[2J\x1b[H"); // ANSI escape code to clear screen and move cursor to home
-    } else if (strncmp(cmd, "FLAG ", 5) == 0) {
+    } else if (strncasecmp(cmd, "FLAG ", 5) == 0) {
         char flag[24] = "{Rusty_C0d3_1s_4w3s0m3}";
         if (cmd[5] == '3') {
             //{Fly1ng_C4r_Pr0m1s3}
-
             memcpy(flag, gost_enc, 24);
             gost28147_set_key(gost_key);
             gost28147_decrypt(flag);
@@ -276,49 +309,51 @@ static void console_handle_command(char *command) {
                 flag[i] = '*';
             }
         } else if (cmd[5] == '2') {
-                char eedata[8];
-                eeprom_readbytes(0, eedata, 8);
-                if (strncmp(eedata, "PLUM", 4) == 0) {
-                    // obfuscated bytes for "{R4ygun_G0th1c_Ph4s3}" 
-                    const unsigned char enc[] = {
-                        0xCA,0xE3,0x27,0x80,0x41,0x3F,0x18,0x74,0x7D,0x47,0xDF,
-                        0x42,0xAB,0x97,0x6A,0x77,0x68,0xE7,0x8F,0x9B,0xC2
-                    };
-                    int enc_len = (int)sizeof(enc);
-                    for (int i = 0; i < enc_len; ++i) {
-                        uint8_t e = enc[i];
-                        uint8_t step1 = e ^ (uint8_t)(0xA5 ^ (uint8_t)i);
-                        uint8_t step2 = (uint8_t)(step1 + (uint8_t)(i * 3));
-                        uint8_t step3 = (uint8_t)((step2 << 3) | (step2 >> 5));
-                        flag[i] = (char)step3;
-                    }
-                    if (enc_len < (int)sizeof(flag)) {
-                        flag[enc_len] = '\0';
-                        if (enc_len + 1 < (int)sizeof(flag))
-                            memset(flag + enc_len + 1, 0, sizeof(flag) - (enc_len + 1));
-                    }
-                }   
-                else {
-                    strncpy(flag, "INVALID", sizeof(flag));
+            char eedata[8];
+            eeprom_readbytes(0, eedata, 8);
+            if (strncmp(eedata, "PLUM", 4) == 0) {
+                // obfuscated bytes for "{R4ygun_G0th1c_Ph4s3}" 
+                const unsigned char enc[] = {
+                    0xCA,0xE3,0x27,0x80,0x41,0x3F,0x18,0x74,0x7D,0x47,0xDF,
+                    0x42,0xAB,0x97,0x6A,0x77,0x68,0xE7,0x8F,0x9B,0xC2
+                };
+                int enc_len = (int)sizeof(enc);
+                for (int i = 0; i < enc_len; ++i) {
+                    uint8_t e = enc[i];
+                    uint8_t step1 = e ^ (uint8_t)(0xA5 ^ (uint8_t)i);
+                    uint8_t step2 = (uint8_t)(step1 + (uint8_t)(i * 3));
+                    uint8_t step3 = (uint8_t)((step2 << 3) | (step2 >> 5));
+                    flag[i] = (char)step3;
                 }
-            } else if (cmd[5] == '1') {
+                if (enc_len < (int)sizeof(flag)) {
+                    flag[enc_len] = '\0';
+                    if (enc_len + 1 < (int)sizeof(flag))
+                        memset(flag + enc_len + 1, 0, sizeof(flag) - (enc_len + 1));
+                }
+            }   
+            else {
+                strncpy(flag, "INVALID", sizeof(flag));
+            }
+        } else if (cmd[5] == '1') {
             //{At0m1c_Ut0p1a_1955}
-            const char flag1[] = {
+            const char volatile flag1[] = {
                 0xb7, 0x8d, 0xb8, 0xfc, 0xa1, 0xfd, 0xaf, 0x93, 0x99, 0xb8, 0xfc, 0xbc,
                 0xfd, 0xad, 0x93, 0xfd, 0xf5, 0xf9, 0xf9, 0xb1, 0xcc};
             for (int i=0;i<sizeof(flag1);++i) {
                 flag[i] = flag1[i] ^ 0xcc;
             }
+        } else {
+            strcpy(flag, "INVALID ARGUMENT");
         }
         flag[23] = '\0';
-        printf("Flag: %s", flag);
-    } else if (strcmp(cmd, "FLAG") == 0) {
-        stdio_puts("Flag: requires argument\r\n");
+        printf("Flag: %s\r\n", flag);
+    } else if (strncasecmp(cmd, "FLAG", 4) == 0) {
+        stdio_puts("Flag: requires argument");
     } else {
-        stdio_puts("Unknown command. Type HELP for commands.\r\n");
+        stdio_puts("Unknown command. Type HELP for commands.");
     }
 
-    stdio_puts(">   ");
+    stdio_printf("> ");
 }
 
 bool terminal_pop_docking_command(char *command, size_t max_len) {

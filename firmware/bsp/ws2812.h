@@ -34,6 +34,7 @@ void ws2812_set_led(uint index, uint8_t r, uint8_t g, uint8_t b);
 
 // Clear all LEDs
 void ws2812_clear(void);
+void ws2812_reset(void);
 
 void ws2812_pattern_update(void);
 void ws2812_set_pattern_color(ws2812_rgb_t color);
