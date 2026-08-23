@@ -50,6 +50,10 @@ pico_set_program_version(Wayfarer "0.1")
 # Generate PIO header
 pico_generate_pio_header(Wayfarer ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
 
+target_compile_definitions(Wayfarer PRIVATE 
+    PICO_XOSC_STARTUP_DELAY_MULTIPLIER=64
+)
+
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(Wayfarer 0)
 pico_enable_stdio_usb(Wayfarer 1)

@@ -33,7 +33,7 @@ char topplayer[16];
 char topclass;
 int topscore;
 char *title_buffer = "Unknown Station";
-char message_buffer[200];
+char message_buffer[300];
 char vote_options[4][32];
 int vote_count;
 int vote_percent[4];
@@ -123,17 +123,17 @@ int process_docking_commands() {
                 dock_state = syncing;
                 dock_time = get_absolute_time();
             }
-            sscanf(command, "$STATION %d|%c%d|%15[^|]|%199[^\\0]", &stationId, &topclass, &topscore, topplayer, message_buffer);
+            sscanf(command, "$STATION %d|%c%d|%15[^|]|%299[^\\0]", &stationId, &topclass, &topscore, topplayer, message_buffer);
             //printf("station command recieved %d %c %d %s \"%10s\"\n", stationId, topclass, topscore, topplayer, message_buffer);
             if (stationId == 1) {
-                title_buffer = "Frontier Station";
+                title_buffer = "HORIZON STATION";
             } else if (stationId == 2) {
-                title_buffer = "Home Station";
+                title_buffer = "MERIDIAN STATION";
             } else if (stationId == 3) {
-                title_buffer = "Research Station";
+                title_buffer = "NEXUS STATION";
             } else {
                 stationId = 0;
-                title_buffer = "Unknown Station";
+                title_buffer = "FRONTIER STATION";
             }
             snprintf(command, sizeof(command), "$ID %c%5.5s%-14.14s%08X ", config_get_class(), config_get_id(), config_get_handle(), config_get_achievements());
             sign_message(command, sizeof(command));
