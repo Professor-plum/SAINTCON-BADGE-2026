@@ -417,7 +417,7 @@ int frame_draw_dashed_line(int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint1
     // Bresenham's line algorithm
     int dx = abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
     int dy = -abs(y2 - y1), sy = y1 < y2 ? 1 : -1;
-    int err = dx + dy, e2; /* error value e_xy */  
+    int err = dx + dy, e2; // error value e_xy 
     int loc = offset%18;
     while (1) {
         if (loc++ < 10) {
@@ -429,8 +429,8 @@ int frame_draw_dashed_line(int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint1
         
         if (x1 == x2 && y1 == y2) break;
         e2 = 2 * err;
-        if (e2 >= dy) { err += dy; x1 += sx; } /* e_xy+e_x > 0 */
-        if (e2 <= dx) { err += dx; y1 += sy; } /* e_xy+e_y < 0 */
+        if (e2 >= dy) { err += dy; x1 += sx; } // e_xy+e_x > 0 
+        if (e2 <= dx) { err += dx; y1 += sy; } // e_xy+e_y < 0 
     }
     return loc-1;
 }

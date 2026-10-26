@@ -1,7 +1,8 @@
 from machine import Pin, UART, Timer
 import rp2
 
-@rp2.asm_pio(sideset_init=rp2.PIO.OUT_HIGH, out_init=rp2.PIO.OUT_HIGH, out_shiftdir=rp2.PIO.SHIFT_RIGHT)
+
+@rp2.asm_pio(sideset_init=(rp2.PIO.OUT_HIGH,), out_init=(rp2.PIO.OUT_HIGH,), out_shiftdir=rp2.PIO.SHIFT_RIGHT)
 def _pio_uart_tx():
     pull()
     set(x, 7).side(0) [7] # Start bit
@@ -55,7 +56,7 @@ class UARTPortBase:
 class HardwareUARTPort(UARTPortBase):
     def __init__(self, name, uart_id, tx_pin, rx_pin, detect_pin, baud=9600):
         super().__init__(name, detect_pin)
-        self.uart = UART(uart_id, baud, tx=Pin(tx_pin), rx=Pin(rx_pin))
+        self.uart = UART(uart_id, baud, tx=Pin(tx_pin), rx=Pin(rx_pin), txbuf=1024, rxbuf=1024)
         self.uart.init(baud, bits=8, parity=None, stop=1)
 
     def read(self):
@@ -75,14 +76,14 @@ class HardwareUARTPort(UARTPortBase):
             if l is None:
                 print(f"Warning: {self.name} UART write returned None, data may not have been sent.")
 
-
 class PIOUARTPort(UARTPortBase):
     def __init__(self, name, sm_base, tx_pin, rx_pin, detect_pin, baud=9600):
         super().__init__(name, detect_pin)
         self.tx_pin_obj = Pin(tx_pin, Pin.OUT, value=1)
         self.rx_pin_obj = Pin(rx_pin, Pin.IN, Pin.PULL_UP)
+        print("Initing", name)
         self.tx_sm = rp2.StateMachine(sm_base, _pio_uart_tx, freq=baud * 8, out_base=tx_pin, sideset_base=tx_pin)
-        self.rx_sm = rp2.StateMachine(sm_base + 1, _pio_uart_rx, freq=baud * 8, in_base=rx_pin, jmp_pin=rx_pin)
+        self.rx_sm = rp2.StateMachine(sm_base +1, _pio_uart_rx, freq=baud * 8, in_base=rx_pin, jmp_pin=rx_pin)
         self.tx_sm.active(1)
         self.rx_sm.active(1)
         # Set up timer to drain FIFO frequently
@@ -112,6 +113,7 @@ class PIOUARTPort(UARTPortBase):
 
 
 def build_ports(port_configs):
+
     ports = []
     for config in port_configs:
         if config["type"] == "hw":

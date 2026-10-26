@@ -97,3 +97,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Device-local Wi-Fi credentials
+/firmware/station/wifi.json

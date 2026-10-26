@@ -46,18 +46,18 @@ uint64_t achievement_hashes[32] = {
     0x73d4fbc7ac29b3ffULL, // SC_LAGRANGE_LOCK      - Badge Art 5 bit
     0x187b1fcf223c7378ULL, // SC_PULSE_FIELD        - Badge art Contelations
     0x1d3ba22e7f078e03ULL, // SC_FIELD_ECHO         - Committee
-    0x5d0f1b55a201937eULL, // SC_QUANTUM_WAKE
-    0x3260bcce868c358cULL, // SC_DEEP_PARALLAX
-    0xa3ffa1442b62a8b9ULL, // SC_RADIAL_DRIFT
-    0xfd4dcde6773030f5ULL, // SC_COSMIC_BIAS
-    0x72b59e0887bae55cULL, // SC_FLUX_VECTOR
-    0xbd21f31f1860e478ULL, // SC_ORBIT_TRACE
-    0x5bb3c9f2243bcbddULL, // SC_ASTRA_SHIFT
-    0x36ee9016f26b3c8dULL, // SC_ZENITH_DRIFT
-    0x70dd514041fafbf3ULL, // SC_ECHO_VECTOR
-    0xb377e54b5a08a833ULL, // SC_DRIFT_LOCK
-    0x6c01b05f902d9e09ULL, // SC_APOGEE_DRIFT
-    0xfccc75461d4f2fe2ULL, // SC_PERIGEE_SHIFT
+    0x5d0f1b55a201937eULL, // SC_QUANTUM_WAKE       - AI Community
+    0x3260bcce868c358cULL, // SC_DEEP_PARALLAX      - AppSec
+    0xa3ffa1442b62a8b9ULL, // SC_RADIAL_DRIFT       - Bitstream
+    0xfd4dcde6773030f5ULL, // SC_COSMIC_BIAS        - Blue Team
+    0x72b59e0887bae55cULL, // SC_FLUX_VECTOR        - Hardware hacking
+    0xbd21f31f1860e478ULL, // SC_ORBIT_TRACE        - Healthcare hacking
+    0x5bb3c9f2243bcbddULL, // SC_ASTRA_SHIFT        - Homelabs
+    0x36ee9016f26b3c8dULL, // SC_ZENITH_DRIFT       - ID/IOT
+    0x70dd514041fafbf3ULL, // SC_ECHO_VECTOR        - Lockpicking
+    0xb377e54b5a08a833ULL, // SC_DRIFT_LOCK         - Privacy
+    0x6c01b05f902d9e09ULL, // SC_APOGEE_DRIFT       - Tamper evident
+    0xfccc75461d4f2fe2ULL, // SC_PERIGEE_SHIFT      - The keep
 };
 
 char *achievement_names[32] = {
